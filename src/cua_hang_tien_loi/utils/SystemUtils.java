@@ -1,5 +1,6 @@
 package cua_hang_tien_loi.utils;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
@@ -11,8 +12,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
-public class KeyboardUtils {
+public class SystemUtils {
 
+	//key f1
 	public static void setF1ToKey(JPanel pnMain, String keyStroke, JMenuItem menuItem) {
 		// Tạo KeyStroke cho phím
 		KeyStroke key = KeyStroke.getKeyStroke(keyStroke);
@@ -31,5 +33,15 @@ public class KeyboardUtils {
 		inputMap.put(key, keyStroke); // Đặt phím tắt vào InputMap
 		actionMap.put(keyStroke, action); // Đặt hành động vào ActionMap
 	}
+	
+	
 
+	//mo file tro giup
+	public static void openFile(String filePath) {
+	    try {
+	        Desktop.getDesktop().browse(new java.net.URI("file:///" + filePath));
+	    } catch (Exception ex) {
+	        ex.printStackTrace();
+	    }
+	}
 }

@@ -29,7 +29,7 @@ import javax.swing.JTextField;
 import cua_hang_tien_loi.controller.SanPhamController;
 import cua_hang_tien_loi.entity.SanPham;
 import cua_hang_tien_loi.ui.DangNhap;
-import cua_hang_tien_loi.utils.KeyboardUtils;
+import cua_hang_tien_loi.utils.SystemUtils;
 import cua_hang_tien_loi.utils.StyleUtils;
 
 public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
@@ -401,7 +401,7 @@ public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 		btnImg.addActionListener(this);
 
 		// key f1
-		KeyboardUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
+		SystemUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
 	}
 
 	public static void main(String[] args) {
@@ -415,7 +415,7 @@ public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 		if (source.equals(itemTaiKhoan)) {
 			new ThongTinTaiKhoanQuanLy().setVisible(true);
 		} else if (source.equals(itemTroGiup)) {
-
+			SystemUtils.openFile("/Users/lethoa/Documents/giaykhamsuckhoe.pdf"); 
 		} else if (source.equals(itemDangXuat)) {
 			this.dangXuat();
 		} else if (source.equals(itemThemSP)) {

@@ -8,7 +8,6 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -19,11 +18,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
 
 import cua_hang_tien_loi.ui.DangNhap;
-import cua_hang_tien_loi.utils.KeyboardUtils;
 import cua_hang_tien_loi.utils.StyleUtils;
+import cua_hang_tien_loi.utils.SystemUtils;
 
 public class TrangChuQuanLy extends JFrame implements ActionListener {
 
@@ -229,7 +227,7 @@ public class TrangChuQuanLy extends JFrame implements ActionListener {
 		itemQuayLai.addActionListener(this);
 		
 		//key f1
-		KeyboardUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
+		SystemUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
 
 
 	}
@@ -242,8 +240,7 @@ public class TrangChuQuanLy extends JFrame implements ActionListener {
 		if (source.equals(itemTaiKhoan)) {
 			new ThongTinTaiKhoanQuanLy().setVisible(true);
 		} else if (source.equals(itemTroGiup)) {
-			this.setVisible(false);
-			new TraCuuSanPhamQuanLy().setVisible(true);
+			SystemUtils.openFile("/Users/lethoa/Documents/giaykhamsuckhoe.pdf"); 
 		} else if (source.equals(itemDangXuat)) {
 			this.dangXuat();
 		} else if (source.equals(itemThemSP)) {
