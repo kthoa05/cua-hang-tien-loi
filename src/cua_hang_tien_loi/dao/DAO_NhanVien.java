@@ -157,4 +157,37 @@ public class DAO_NhanVien {
 		}
 		return listNhanVien;
 	}
+
+	// auth
+	public NhanVien getTaiKhoan(String sdt, String mk) {
+		ConnectDB.getInstance();
+		Connection conn = ConnectDB.getConnection();
+		NhanVien nv = null;
+		String sql = "SELECT * FROM NhanVien WHERE sdt = ? AND mk = ?";
+		PreparedStatement s = null;
+		try {
+			s = conn.prepareStatement(sql);
+			s.setString(1, sdt);
+			s.setString(2, mk);
+			ResultSet rs = s.executeQuery(sql);
+			while (rs.next()) {
+				String maNhanVien = rs.getString(1);
+				String hoVaTen = rs.getString(2);
+				boolean gioiTinh = rs.getBoolean(3);
+				LocalDate ngaySinh = rs.getDate(4).toLocalDate();
+				String soDT = rs.getString(5);
+				String email = rs.getString(6);
+				String cmnd = rs.getString(7);
+				String matKhau = rs.getString(8);
+				boolean isAdmin = rs.getBoolean(9);
+				boolean ttlv = rs.getBoolean(10);
+				nv = new NhanVien(maNhanVien, hoVaTen, gioiTinh, ngaySinh, soDT, email, cmnd, matKhau, isAdmin, ttlv);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return nv;
+	}
 }

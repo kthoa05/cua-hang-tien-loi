@@ -10,4 +10,10 @@ public class NhanVienController {
 	public boolean themNhanVien(NhanVien nv) {
 		return daoNV.addNhanVien(nv);
 	}
+
+	// auth
+	public boolean isAdmin(String sdt, String mk) {
+		NhanVien nv = daoNV.getTaiKhoan(sdt, mk);
+		return nv.isAdmin();
+	}
 }

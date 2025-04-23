@@ -23,6 +23,10 @@ public class NhanVien {
 		return finalId;
 	}
 
+	public NhanVien() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public NhanVien(String maNV, String hoTen, boolean phai, LocalDate ngaySinh, String sdt, String email, String cmnd,
 			String mk, boolean isAdmin, boolean trangThaiLamViec) {
 		super();

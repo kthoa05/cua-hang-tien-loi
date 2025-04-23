@@ -6,13 +6,16 @@ import java.util.concurrent.Flow;
 
 import javax.swing.*;
 
+import cua_hang_tien_loi.controller.NhanVienController;
 import cua_hang_tien_loi.ui.admin.TrangChuQuanLy;
+import cua_hang_tien_loi.ui.nv.TrangChuDangNhapNhanVien;
 
 public class DangNhap extends JFrame implements ActionListener {
 	private JTextField txtTaiKhoan;
 	private JPasswordField txtMatKhau;
 	private JButton btnDangNhap, btnThoat, btnQuenMK;
 	private JToggleButton btnHienMatKhau;
+	private NhanVienController nvController;
 
 	public DangNhap() {
 		setTitle("Quản lý cửa hàng tiện lợi - Đăng nhập");
@@ -95,7 +98,6 @@ public class DangNhap extends JFrame implements ActionListener {
 
 		pnForm.add(pnMatKhau);
 
-
 		// quen mat khau
 		btnQuenMK = new JButton("Quên Mật Khẩu?");
 		btnQuenMK.setBorderPainted(false);
@@ -131,19 +133,25 @@ public class DangNhap extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		if (source == btnDangNhap) {
-			dangNhap();
+			this.dangNhap();
 		} else if (source == btnThoat) {
 			System.exit(0);
 		} else if (source == btnHienMatKhau) {
-			anHienMatKhau();
+			this.anHienMatKhau();
 		} else if (source == btnQuenMK) {
 			JOptionPane.showMessageDialog(this, "Vui lòng liên hệ quản trị viên!");
 		}
 	}
 
 	private void dangNhap() {
-		this.setVisible(false);
-		new TrangChuQuanLy().setVisible(true);
+		if (nvController.isAdmin(txtTaiKhoan.getText(), txtMatKhau.toString())) {
+			this.setVisible(false);
+			new TrangChuQuanLy().setVisible(true);
+		} else {
+			this.setVisible(false);
+			new TrangChuDangNhapNhanVien().setVisible(true);
+		}
+
 	}
 
 	private void anHienMatKhau() {
