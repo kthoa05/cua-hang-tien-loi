@@ -39,8 +39,6 @@ public class TrangChuDangNhapNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemDTTheoNgay;
 	private JMenuItem itemDTTheoThang;
 	private JMenuItem itemDTTheoNam;
-	private JMenuItem itemDTKhachHang;
-	private JMenuItem itemDTSanPham;
 	private JMenuItem itemQuayLai;
 
 	public TrangChuDangNhapNhanVien() {
@@ -131,14 +129,7 @@ public class TrangChuDangNhapNhanVien extends JFrame implements ActionListener {
 		itemDoanhThu.addSeparator();
 		itemDoanhThu.add(itemDTTheoNam);
 
-		itemDTKhachHang = MenuUtils.createItemMenu("Khách hàng", "src/cua_hang_tien_loi/icon/customer.png");
-		itemDTSanPham = MenuUtils.createItemMenu("Sản phẩm", "src/cua_hang_tien_loi/icon/product.png");
-
 		menuThongKe.add(itemDoanhThu);
-		menuThongKe.addSeparator();
-		menuThongKe.add(itemDTKhachHang);
-		menuThongKe.addSeparator();
-		menuThongKe.add(itemDTSanPham);
 
 		menuBar.add(menuThongKe);
 		menuBar.add(Box.createHorizontalStrut(25));
@@ -186,8 +177,6 @@ public class TrangChuDangNhapNhanVien extends JFrame implements ActionListener {
 		itemDTTheoNgay.addActionListener(this);
 		itemDTTheoThang.addActionListener(this);
 		itemDTTheoNam.addActionListener(this);
-		itemDTKhachHang.addActionListener(this);
-		itemDTSanPham.addActionListener(this);
 
 		// quay lai
 		itemQuayLai.addActionListener(this);
