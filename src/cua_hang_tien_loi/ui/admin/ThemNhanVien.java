@@ -4,18 +4,30 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.time.LocalDate;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
+import cua_hang_tien_loi.entity.SanPham;
+import cua_hang_tien_loi.ui.DangNhap;
 import cua_hang_tien_loi.utils.MenuUtils;
 
 public class ThemNhanVien extends JFrame implements ActionListener {
@@ -38,6 +50,18 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemDTTheoThang;
 	private JMenuItem itemDTTheoNam;
 	private JMenuItem itemQuayLai;
+	private JLabel lblImage;
+	private JButton btnImg;
+	private JTextField txtMaNV;
+	private JTextField txtHoTen;
+	private JComboBox<String> txtGioiTinh;
+	private JTextField txtNgaySinh;
+	private JTextField txtSdt;
+	private JTextField txtEmail;
+	private JTextField txtMatKhau;
+	private JButton btnLamMoi;
+	private JButton btnThem;
+	private String pathImg;
 
 	public ThemNhanVien() {
 		// TODO Auto-generated constructor stub
@@ -157,7 +181,7 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		itemDoanhThu.add(itemDTTheoThang);
 		itemDoanhThu.addSeparator();
 		itemDoanhThu.add(itemDTTheoNam);
-		
+
 		menuThongKe.add(itemDoanhThu);
 
 		menuBar.add(menuThongKe);
@@ -173,9 +197,122 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 
 		pnMain.add(pnNorth, BorderLayout.NORTH);
 
-		// cen CAN LAM
+		// cen
 		JPanel pnCen = new JPanel();
+		pnCen.setLayout(new BorderLayout());
 
+		// left of cen
+		JPanel pnLeftOfCen = new JPanel();
+		pnLeftOfCen.setLayout(new BorderLayout());
+
+		lblImage = new JLabel("Ảnh chưa chọn", JLabel.CENTER);
+		lblImage.setPreferredSize(new Dimension(100, 100));
+		lblImage.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		pnLeftOfCen.add(lblImage, BorderLayout.CENTER);
+
+		btnImg = new JButton("Chọn ảnh");
+		pnLeftOfCen.add(btnImg, BorderLayout.SOUTH);
+
+		pnCen.add(pnLeftOfCen, BorderLayout.WEST);
+
+		// form input
+		JPanel pnFormOfCen = new JPanel();
+		pnFormOfCen.setLayout(new BoxLayout(pnFormOfCen, BoxLayout.Y_AXIS));
+		pnFormOfCen.setBorder(BorderFactory.createTitledBorder("Thông tin nhân viên"));
+
+		// ma nv
+		JPanel pnMaNV = new JPanel();
+		pnMaNV.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+		JLabel lblMaNV = MenuUtils.createLabel("Mã nhân viên:", 100, 80);
+		txtMaNV = MenuUtils.createTextField(250, 80, 300, 30);
+
+		pnMaNV.add(lblMaNV);
+		pnMaNV.add(txtMaNV);
+
+		pnFormOfCen.add(pnMaNV);
+
+		// ho ten gioi tinh
+		JPanel pnHoTenGT = new JPanel();
+		pnHoTenGT.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+		// ho ten
+		JLabel lblHoTen = MenuUtils.createLabel("Họ tên:", 100, 130);
+		txtHoTen = MenuUtils.createTextField(250, 130, 300, 30);
+
+		// gioi tinh
+		JLabel lblGioiTinh = MenuUtils.createLabel("Giới tính:", 100, 180);
+		txtGioiTinh = MenuUtils.createComboBox(new String[] { "Nam", "Nữ", "Khác" }, 250, 180, 100, 30);
+
+		// add ho ten gt vo pn
+		pnHoTenGT.add(lblHoTen);
+		pnHoTenGT.add(txtHoTen);
+		pnHoTenGT.add(lblGioiTinh);
+		pnHoTenGT.add(txtGioiTinh);
+
+		pnFormOfCen.add(pnHoTenGT);
+
+		// ngay sinh
+		JPanel pnNgaySinh = new JPanel();
+		pnNgaySinh.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+		JLabel lblNgaySinh = MenuUtils.createLabel("Ngày sinh:", 100, 230);
+		txtNgaySinh = MenuUtils.createTextField(250, 230, 300, 30);
+
+		pnNgaySinh.add(lblNgaySinh);
+		pnNgaySinh.add(txtNgaySinh);
+
+		pnFormOfCen.add(pnNgaySinh);
+
+		// so dien thoai
+		JPanel pnSDT = new JPanel();
+		pnSDT.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+		JLabel lblSdt = MenuUtils.createLabel("Số điện thoại:", 100, 280);
+		txtSdt = MenuUtils.createTextField(250, 280, 300, 30);
+
+		pnSDT.add(lblSdt);
+		pnSDT.add(txtSdt);
+
+		pnFormOfCen.add(pnSDT);
+
+		// email
+		JPanel pnEmail = new JPanel();
+		pnEmail.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+		JLabel lblEmail = MenuUtils.createLabel("Email:", 100, 330);
+		txtEmail = MenuUtils.createTextField(250, 330, 300, 30);
+
+		pnEmail.add(lblEmail);
+		pnEmail.add(txtEmail);
+
+		pnFormOfCen.add(pnEmail);
+
+		// mat khau
+		JPanel pnMatKhau = new JPanel();
+		pnMatKhau.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+		JLabel lblMatKhau = MenuUtils.createLabel("Mật khẩu:", 100, 330);
+		txtMatKhau = MenuUtils.createTextField(250, 330, 300, 30);
+
+		pnMatKhau.add(lblMatKhau);
+		pnMatKhau.add(txtMatKhau);
+
+		pnFormOfCen.add(pnMatKhau);
+
+		pnCen.add(pnFormOfCen, BorderLayout.CENTER);
+
+		// btn
+		JPanel pnBtn = new JPanel();
+		pnBtn.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+		btnLamMoi = new JButton("Làm mới", new ImageIcon("src/cua_hang_tien_loi/icon/lammoi.png"));
+		btnThem = new JButton("Thêm", new ImageIcon("src/cua_hang_tien_loi/icon/add.png"));
+
+		pnBtn.add(btnLamMoi);
+		pnBtn.add(btnThem);
+
+		pnCen.add(pnBtn, BorderLayout.SOUTH);
 		pnMain.add(pnCen, BorderLayout.CENTER);
 
 		add(pnMain);
@@ -214,6 +351,11 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		// quay lai
 		itemQuayLai.addActionListener(this);
 
+		// btn
+		btnThem.addActionListener(this);
+		btnLamMoi.addActionListener(this);
+		btnImg.addActionListener(this);
+
 	}
 
 	public static void main(String[] args) {
@@ -223,7 +365,67 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		Object source = e.getSource();
+		if (source.equals(itemTaiKhoan)) {
+			this.thongTinTaiKhoan();
+		} else if (source.equals(itemTroGiup)) {
+
+		} else if (source.equals(itemDangXuat)) {
+			this.dangXuat();
+		} else if (source.equals(itemThemSP)) {
+			this.setVisible(false);
+			new FormThemSanPhamQuanLy().setVisible(true);
+		} else if (source.equals(itemCapNhatSp)) {
+			this.setVisible(true);
+			new CapNhatSanPhamQuanLy().setVisible(true);
+		} else if (source.equals(btnImg)) {
+			this.chonAnhNhanVien();
+		} else if (source.equals(btnLamMoi)) {
+			this.clearTxtField();
+		} else if (source.equals(btnThem)) {
+			this.themSanPham();
+		}
+	}
+
+	private void thongTinTaiKhoan() {
 
 	}
 
+	// btn them
+	private void themSanPham() {
+
+	}
+
+	// btn them anh
+	private void chonAnhNhanVien() {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Chọn ảnh sản phẩm");
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		int result = fileChooser.showOpenDialog(null);
+
+		if (result == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = fileChooser.getSelectedFile();
+			String imagePath = selectedFile.getAbsolutePath();
+
+			lblImage.setText("");
+			lblImage.setIcon(
+					new ImageIcon(new ImageIcon(imagePath).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
+
+			pathImg = imagePath;
+		}
+	}
+
+	private void dangXuat() {
+		int choice = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Thông báo",
+				JOptionPane.YES_NO_OPTION);
+		if (choice == JOptionPane.YES_OPTION) {
+			this.setVisible(false);
+			new DangNhap().setVisible(true);
+		}
+	}
+
+//	// btn lam moi
+	private void clearTxtField() {
+
+	}
 }
