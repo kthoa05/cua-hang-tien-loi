@@ -37,9 +37,8 @@ public class ThemKhachHangQuanLy extends JFrame implements ActionListener {
 	private JMenuItem itemDTTheoNgay;
 	private JMenuItem itemDTTheoThang;
 	private JMenuItem itemDTTheoNam;
-	private JMenuItem itemDTKhachHang;
-	private JMenuItem itemDTSanPham;
 	private JMenuItem itemQuayLai;
+	private JMenuItem itemTraCuuSP;
 
 	public ThemKhachHangQuanLy() {
 		// TODO Auto-generated constructor stub
@@ -85,9 +84,12 @@ public class ThemKhachHangQuanLy extends JFrame implements ActionListener {
 		// san pham
 		JMenu menuSanPham = new JMenu("Sản phẩm");
 		menuSanPham.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/product.png"));
+		itemTraCuuSP = MenuUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
 		itemThemSP = MenuUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
 		itemCapNhatSp = MenuUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
+		menuSanPham.add(itemTraCuuSP);
+		menuSanPham.addSeparator();
 		menuSanPham.add(itemThemSP);
 		menuSanPham.addSeparator();
 		menuSanPham.add(itemCapNhatSp);
@@ -156,14 +158,7 @@ public class ThemKhachHangQuanLy extends JFrame implements ActionListener {
 		itemDoanhThu.addSeparator();
 		itemDoanhThu.add(itemDTTheoNam);
 
-		itemDTKhachHang = MenuUtils.createItemMenu("Khách hàng", "src/cua_hang_tien_loi/icon/customer.png");
-		itemDTSanPham = MenuUtils.createItemMenu("Sản phẩm", "src/cua_hang_tien_loi/icon/product.png");
-
 		menuThongKe.add(itemDoanhThu);
-		menuThongKe.addSeparator();
-		menuThongKe.add(itemDTKhachHang);
-		menuThongKe.addSeparator();
-		menuThongKe.add(itemDTSanPham);
 
 		menuBar.add(menuThongKe);
 		menuBar.add(Box.createHorizontalStrut(25));
@@ -193,6 +188,7 @@ public class ThemKhachHangQuanLy extends JFrame implements ActionListener {
 		itemDangXuat.addActionListener(this);
 
 		// san pham
+		itemTraCuuSP.addActionListener(this);
 		itemCapNhatSp.addActionListener(this);
 		itemThemSP.addActionListener(this);
 
@@ -214,8 +210,6 @@ public class ThemKhachHangQuanLy extends JFrame implements ActionListener {
 		itemDTTheoNgay.addActionListener(this);
 		itemDTTheoThang.addActionListener(this);
 		itemDTTheoNam.addActionListener(this);
-		itemDTKhachHang.addActionListener(this);
-		itemDTSanPham.addActionListener(this);
 
 		// quay lai
 		itemQuayLai.addActionListener(this);
