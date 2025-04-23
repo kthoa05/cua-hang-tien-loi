@@ -19,6 +19,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import cua_hang_tien_loi.utils.KeyboardUtils;
 import cua_hang_tien_loi.utils.StyleUtils;
 
 public class TraCuuKhachHangQuanLy extends JFrame implements ActionListener {
@@ -215,7 +216,9 @@ public class TraCuuKhachHangQuanLy extends JFrame implements ActionListener {
 
 		// quay lai
 		itemQuayLai.addActionListener(this);
-
+		
+		// key f1
+		KeyboardUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
 	}
 
 	public static void main(String[] args) {

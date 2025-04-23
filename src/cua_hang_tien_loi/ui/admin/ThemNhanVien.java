@@ -29,6 +29,7 @@ import javax.swing.JTextField;
 import cua_hang_tien_loi.controller.NhanVienController;
 import cua_hang_tien_loi.entity.NhanVien;
 import cua_hang_tien_loi.ui.DangNhap;
+import cua_hang_tien_loi.utils.KeyboardUtils;
 import cua_hang_tien_loi.utils.StyleUtils;
 
 public class ThemNhanVien extends JFrame implements ActionListener {
@@ -371,6 +372,8 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		btnLamMoi.addActionListener(this);
 		btnImg.addActionListener(this);
 
+		// key f1
+		KeyboardUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
 	}
 
 	public static void main(String[] args) {

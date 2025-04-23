@@ -30,6 +30,7 @@ import javax.swing.JTextField;
 import cua_hang_tien_loi.controller.SanPhamController;
 import cua_hang_tien_loi.entity.SanPham;
 import cua_hang_tien_loi.ui.DangNhap;
+import cua_hang_tien_loi.utils.KeyboardUtils;
 import cua_hang_tien_loi.utils.StyleUtils;
 
 public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
@@ -414,6 +415,9 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 		btnLamMoi.addActionListener(this);
 		btnImg.addActionListener(this);
 		btnTimKiem.addActionListener(this);
+
+		// key f1
+		KeyboardUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
 	}
 
 	public static void main(String[] args) {

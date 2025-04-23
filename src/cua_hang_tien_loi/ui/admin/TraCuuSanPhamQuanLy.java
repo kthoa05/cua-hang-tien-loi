@@ -4,14 +4,16 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -19,13 +21,15 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
+import cua_hang_tien_loi.controller.SanPhamController;
 import cua_hang_tien_loi.ui.DangNhap;
 import cua_hang_tien_loi.utils.KeyboardUtils;
 import cua_hang_tien_loi.utils.StyleUtils;
 
-public class TrangChuQuanLy extends JFrame implements ActionListener {
+public class TraCuuSanPhamQuanLy extends JFrame implements ActionListener {
 
 	private JMenuItem itemTaiKhoan;
 	private JMenuItem itemTroGiup;
@@ -47,17 +51,16 @@ public class TrangChuQuanLy extends JFrame implements ActionListener {
 	private JMenuItem itemDTTheoNam;
 	private JMenuItem itemQuayLai;
 
-	public TrangChuQuanLy() {
+	public TraCuuSanPhamQuanLy() {
 		// TODO Auto-generated constructor stub
-		this.initUITrangChu();
+		this.UITraCuuSanPhamQuanLy();
 	}
 
-	// giao dien
-	private void initUITrangChu() {
-		setTitle("Quản lý cửa hàng tiện lợi - Trang chủ");
-		setSize(1000, 600);
+	private void UITraCuuSanPhamQuanLy() {
+		setTitle("Quản lý cửa hàng tiện lợi - Thêm sản phẩm");
+		setSize(1000, 500);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// main
 		JPanel pnMain = new JPanel();
@@ -66,7 +69,6 @@ public class TrangChuQuanLy extends JFrame implements ActionListener {
 		// north
 		JPanel pnNorth = new JPanel();
 		pnNorth.setLayout(new FlowLayout(FlowLayout.LEFT));
-//		pnNorth.setBackground(Color.decode("#FAFAFA"));
 		pnNorth.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
 		pnNorth.setPreferredSize(new Dimension(750, 40));
 
@@ -184,12 +186,9 @@ public class TrangChuQuanLy extends JFrame implements ActionListener {
 
 		// cen
 		JPanel pnCen = new JPanel();
-		ImageIcon originalIcon = new ImageIcon("src/cua_hang_tien_loi/icon/home.jpg");
-		Image scaledImage = originalIcon.getImage().getScaledInstance(1000, 900, Image.SCALE_SMOOTH);
-		ImageIcon scaledIcon = new ImageIcon(scaledImage);
-		JLabel lblCen = new JLabel(scaledIcon);
 
-		pnCen.add(lblCen);
+		pnCen.setLayout(new BoxLayout(pnCen, BoxLayout.X_AXIS));
+
 		pnMain.add(pnCen, BorderLayout.CENTER);
 
 		add(pnMain);
@@ -227,11 +226,11 @@ public class TrangChuQuanLy extends JFrame implements ActionListener {
 
 		// quay lai
 		itemQuayLai.addActionListener(this);
-		
-		//key f1
+
+		// btn
+
+		// key f1
 		KeyboardUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
-
-
 	}
 
 	@Override
@@ -306,6 +305,6 @@ public class TrangChuQuanLy extends JFrame implements ActionListener {
 	}
 
 	public static void main(String[] args) {
-		new TrangChuQuanLy().setVisible(true);
+		new TraCuuSanPhamQuanLy().setVisible(true);
 	}
 }

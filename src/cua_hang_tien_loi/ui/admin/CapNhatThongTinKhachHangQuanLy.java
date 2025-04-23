@@ -16,6 +16,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import cua_hang_tien_loi.utils.KeyboardUtils;
 import cua_hang_tien_loi.utils.StyleUtils;
 
 public class CapNhatThongTinKhachHangQuanLy extends JFrame implements ActionListener {
@@ -157,9 +158,9 @@ public class CapNhatThongTinKhachHangQuanLy extends JFrame implements ActionList
 		itemDoanhThu.add(itemDTTheoThang);
 		itemDoanhThu.addSeparator();
 		itemDoanhThu.add(itemDTTheoNam);
-		
+
 		menuThongKe.add(itemDoanhThu);
-		
+
 		menuBar.add(menuThongKe);
 		menuBar.add(Box.createHorizontalStrut(25));
 
@@ -214,6 +215,8 @@ public class CapNhatThongTinKhachHangQuanLy extends JFrame implements ActionList
 		// quay lai
 		itemQuayLai.addActionListener(this);
 
+		// key f1
+		KeyboardUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
 	}
 
 	public static void main(String[] args) {
