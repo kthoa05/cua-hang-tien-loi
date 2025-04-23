@@ -17,7 +17,7 @@ public class SanPhamController {
 		return daoSp.updateSanPham(sp);
 	}
 
-	public List<SanPham> timKiemSanPham(SanPham sp) {
-		return daoSp.findSanPham(sp.getMaSP(), sp.getTenSP(), sp.isTTKD());
+	public List<SanPham> timKiemSanPham(String maSp, String tenSp, boolean ttkd) {
+		return daoSp.findSanPham(maSp, tenSp, ttkd);
 	}
 }
