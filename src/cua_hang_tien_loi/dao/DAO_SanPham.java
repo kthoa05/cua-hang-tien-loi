@@ -76,6 +76,7 @@ public class DAO_SanPham {
 			s.setDouble(5, sp.getPhanTramKM());
 			s.setDate(6, Date.valueOf(sp.getNgayBDKM()));
 			s.setDate(7, Date.valueOf(sp.getNgayKTKM()));
+			s.setString(9, sp.getMaSP());
 			s.executeUpdate();
 			return true;
 		} catch (SQLException e) {

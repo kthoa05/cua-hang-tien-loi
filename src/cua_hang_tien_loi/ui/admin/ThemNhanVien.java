@@ -26,7 +26,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import cua_hang_tien_loi.entity.SanPham;
+import cua_hang_tien_loi.controller.NhanVienController;
+import cua_hang_tien_loi.entity.NhanVien;
 import cua_hang_tien_loi.ui.DangNhap;
 import cua_hang_tien_loi.utils.MenuUtils;
 
@@ -62,6 +63,8 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 	private JButton btnLamMoi;
 	private JButton btnThem;
 	private String pathImg;
+	private JTextField txtCmnd;
+	private NhanVienController nvController;
 
 	public ThemNhanVien() {
 		// TODO Auto-generated constructor stub
@@ -288,6 +291,18 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 
 		pnFormOfCen.add(pnEmail);
 
+		// cmnd
+		JPanel pnCmnd = new JPanel();
+		pnCmnd.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+		JLabel lblCmnd = MenuUtils.createLabel("CCCD:", 100, 330);
+		txtCmnd = MenuUtils.createTextField(250, 330, 300, 30);
+
+		pnCmnd.add(lblCmnd);
+		pnCmnd.add(txtCmnd);
+
+		pnFormOfCen.add(pnCmnd);
+
 		// mat khau
 		JPanel pnMatKhau = new JPanel();
 		pnMatKhau.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -383,7 +398,7 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		} else if (source.equals(btnLamMoi)) {
 			this.clearTxtField();
 		} else if (source.equals(btnThem)) {
-			this.themSanPham();
+			this.themNhanVien();
 		}
 	}
 
@@ -392,8 +407,29 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 	}
 
 	// btn them
-	private void themSanPham() {
+	private void themNhanVien() {
+		String ma = txtMaNV.getText();
+		String ten = txtHoTen.getText();
+		String phai = txtGioiTinh.getSelectedItem().toString();
+		String ngaySinh = txtNgaySinh.getText();
+		String sdt = txtSdt.getText();
+		String email = txtEmail.getText();
+		String cmnd = txtCmnd.getText();
+		String mk = txtMatKhau.getText();
 
+		LocalDate ns = LocalDate.parse(ngaySinh);
+		boolean gt = phai.equals("Nam") ? false : true;
+
+		NhanVien nv = new NhanVien(ma, ten, gt, ns, sdt, email, cmnd, mk, false, true);
+
+		boolean statusThemNV = nvController.themNhanVien(nv);
+		if (!statusThemNV) {
+			JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công", "Thông báo",
+					JOptionPane.INFORMATION_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(this, "Thêm nhân viên thất bại", "Thông báo",
+					JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 
 	// btn them anh
@@ -424,8 +460,16 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		}
 	}
 
-//	// btn lam moi
+	// btn lam moi
 	private void clearTxtField() {
-
+		lblImage.setText("");
+		lblImage.setIcon(null);
+		pathImg = "";
+		txtHoTen.setText("");
+		txtNgaySinh.setText("");
+		txtSdt.setText("");
+		txtEmail.setText("");
+		txtCmnd.setText("");
+		txtMatKhau.setText("");
 	}
 }
