@@ -1,4 +1,4 @@
-package cua_hang_tien_loi.ui;
+package cua_hang_tien_loi.ui.admin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

@@ -1,4 +1,4 @@
-package cua_hang_tien_loi.ui;
+package cua_hang_tien_loi.ui.admin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,20 +10,23 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import cua_hang_tien_loi.utils.MenuUtils;
 
-public class ThemNhanVien extends JFrame implements ActionListener {
+public class TraCuuKhachHangQuanLy extends JFrame implements ActionListener {
+
 	private JMenuItem itemTaiKhoan;
 	private JMenuItem itemTroGiup;
 	private JMenuItem itemDangXuat;
 	private JMenuItem itemThemSP;
-	private JMenuItem itemTraCuuSP;
 	private JMenuItem itemCapNhatSp;
 	private JMenuItem itemTraCuuKH;
 	private JMenuItem itemThemKH;
@@ -34,26 +37,21 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemTraCuuNV;
 	private JMenuItem itemThemNV;
 	private JMenuItem itemCapNhatNV;
-	private JMenuItem itemDoanhThu;
-	private JMenuItem itemKhachHang;
-	private JMenuItem itemSanPham;
 	private JMenuItem itemDTTheoNgay;
 	private JMenuItem itemDTTheoThang;
 	private JMenuItem itemDTTheoNam;
-	private JMenuItem menuQuayLai;
 	private JMenuItem itemDTKhachHang;
 	private JMenuItem itemDTSanPham;
 	private JMenuItem itemQuayLai;
 
-	public ThemNhanVien() {
+	public TraCuuKhachHangQuanLy() {
 		// TODO Auto-generated constructor stub
-		this.UIThemNhanVien();
+		this.UITraCuuKhachHangQuanLy();
 	}
 
-	// giao dien
-	private void UIThemNhanVien() {
-		setTitle("Quản lý cửa hàng tiện lợi - Trang chủ");
-		setSize(1000, 750);
+	private void UITraCuuKhachHangQuanLy() {
+		setTitle("Quản lý cửa hàng tiện lợi - Tra cứu khách hàng");
+		setSize(1000, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -183,7 +181,7 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 
 		pnMain.add(pnNorth, BorderLayout.NORTH);
 
-		// cen CAN LAM
+		// cen
 		JPanel pnCen = new JPanel();
 
 		pnMain.add(pnCen, BorderLayout.CENTER);
@@ -228,7 +226,7 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 	}
 
 	public static void main(String[] args) {
-		new ThemNhanVien().setVisible(true);
+		new TraCuuKhachHangQuanLy().setVisible(true);
 	}
 
 	@Override
@@ -236,5 +234,4 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 
 	}
-
 }

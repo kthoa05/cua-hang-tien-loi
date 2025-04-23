@@ -1,4 +1,4 @@
-package cua_hang_tien_loi.ui;
+package cua_hang_tien_loi.ui.admin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -9,27 +9,21 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import cua_hang_tien_loi.utils.MenuUtils;
 
-public class FormThemSanPham extends JFrame implements ActionListener {
+public class ThemKhachHangQuanLy extends JFrame implements ActionListener {
 
 	private JMenuItem itemTaiKhoan;
 	private JMenuItem itemTroGiup;
 	private JMenuItem itemDangXuat;
 	private JMenuItem itemThemSP;
-	private JMenuItem itemTraCuuSP;
 	private JMenuItem itemCapNhatSp;
 	private JMenuItem itemTraCuuKH;
 	private JMenuItem itemThemKH;
@@ -40,37 +34,21 @@ public class FormThemSanPham extends JFrame implements ActionListener {
 	private JMenuItem itemTraCuuNV;
 	private JMenuItem itemThemNV;
 	private JMenuItem itemCapNhatNV;
-	private JMenuItem itemDoanhThu;
-	private JMenuItem itemKhachHang;
-	private JMenuItem itemSanPham;
 	private JMenuItem itemDTTheoNgay;
 	private JMenuItem itemDTTheoThang;
 	private JMenuItem itemDTTheoNam;
-	private JMenuItem menuQuayLai;
 	private JMenuItem itemDTKhachHang;
 	private JMenuItem itemDTSanPham;
 	private JMenuItem itemQuayLai;
-	private JButton btnImg;
-	private JTextField txtMaSanPham;
-	private JTextField txtTenSanPham;
-	private JComboBox cboLoaiSanPham;
-	private JComboBox cboTrangThai;
-	private JTextField txtChatLieu;
-	private JTextField txtKhuyenMai;
-	private JTextField txtNgayBatDau;
-	private JTextField txtNgayKetThuc;
-	private JButton btnLamMoi;
-	private JButton btnThem;
-	private JTextField txtDonGia;
 
-	public FormThemSanPham() {
+	public ThemKhachHangQuanLy() {
 		// TODO Auto-generated constructor stub
-		this.UIFormThemSanPham();
+		this.UIThemKhachHangQuanLy();
 	}
 
-	private void UIFormThemSanPham() {
-		setTitle("Quản lý cửa hàng tiện lợi - Thêm sản phẩm");
-		setSize(1000, 500);
+	private void UIThemKhachHangQuanLy() {
+		setTitle("Quản lý cửa hàng tiện lợi - Tra cứu khách hàng");
+		setSize(1000, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -203,137 +181,6 @@ public class FormThemSanPham extends JFrame implements ActionListener {
 		// cen
 		JPanel pnCen = new JPanel();
 
-		pnCen.setLayout(new BoxLayout(pnCen, BoxLayout.X_AXIS));
-
-		// left of cen
-		JPanel pnLeftOfCen = new JPanel();
-		pnLeftOfCen.setLayout(new BorderLayout());
-		pnLeftOfCen.setPreferredSize(new Dimension(200, 200));
-
-		JLabel lblImage = new JLabel("Ảnh chưa chọn", JLabel.CENTER);
-		lblImage.setPreferredSize(new Dimension(100, 100));
-		lblImage.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		pnLeftOfCen.add(lblImage, BorderLayout.CENTER);
-
-		btnImg = new JButton("Chọn ảnh");
-		pnLeftOfCen.add(btnImg, BorderLayout.SOUTH);
-
-		pnCen.add(pnLeftOfCen);
-
-		// center of cen
-
-		JPanel pnCenterOfCen = new JPanel();
-		pnCenterOfCen.setLayout(new BoxLayout(pnCenterOfCen, BoxLayout.Y_AXIS));
-		pnCenterOfCen.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-		// ma sp
-		JPanel pnMaSanPham = new JPanel();
-		pnMaSanPham.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel lblMaSanPham = new JLabel("Mã sản phẩm:");
-		txtMaSanPham = new JTextField(20);
-		pnMaSanPham.add(lblMaSanPham);
-		pnMaSanPham.add(txtMaSanPham);
-
-		// ten sp
-		JPanel pnTenSanPham = new JPanel();
-		pnTenSanPham.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel lblTenSanPham = new JLabel("Tên sản phẩm:");
-		txtTenSanPham = new JTextField(19);
-		pnTenSanPham.add(lblTenSanPham);
-		pnTenSanPham.add(txtTenSanPham);
-
-		// loai sp
-		JPanel pnLoaiSanPham = new JPanel();
-		pnLoaiSanPham.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel lblLoaiSanPham = new JLabel("Loại sản phẩm:");
-		String[] loaiSanPham = { "Điện thoại", "Máy tính", "Tivi", "Máy ảnh" };
-		cboLoaiSanPham = new JComboBox<>(loaiSanPham);
-		pnLoaiSanPham.add(lblLoaiSanPham);
-		pnLoaiSanPham.add(cboLoaiSanPham);
-
-		// trang thai kinh doanh
-		JPanel pnTrangThai = new JPanel();
-		pnTrangThai.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel lblTrangThai = new JLabel("TTKD:");
-		String[] trangThai = { "Còn hàng", "Hết hàng", "Sắp ra mắt" };
-		cboTrangThai = new JComboBox<>(trangThai);
-		pnTrangThai.add(lblTrangThai);
-		pnTrangThai.add(cboTrangThai);
-
-		// don gia
-		JPanel pnDonGia = new JPanel();
-		pnDonGia.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel lblDonGia = new JLabel("Đơn giá:");
-		txtDonGia = new JTextField(20);
-		pnDonGia.add(lblDonGia);
-		pnDonGia.add(txtDonGia);
-
-		// add vo pn
-		pnCenterOfCen.add(pnMaSanPham);
-		pnCenterOfCen.add(pnTenSanPham);
-		pnCenterOfCen.add(pnLoaiSanPham);
-		pnCenterOfCen.add(pnTrangThai);
-		pnCenterOfCen.add(pnDonGia);
-
-		pnCen.add(pnCenterOfCen);
-
-		// right of cen
-
-		JPanel pnRightOfCen = new JPanel();
-		pnRightOfCen.setLayout(new BoxLayout(pnRightOfCen, BoxLayout.Y_AXIS));
-		pnRightOfCen.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-		// chat lieu
-		JPanel pnChatLieu = new JPanel();
-		pnChatLieu.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel lblChatLieu = new JLabel("Chất liệu:");
-		txtChatLieu = new JTextField(20);
-		pnChatLieu.add(lblChatLieu);
-		pnChatLieu.add(txtChatLieu);
-
-		// % km
-		JPanel pnKhuyenMai = new JPanel();
-		pnKhuyenMai.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel lblKhuyenMai = new JLabel("% Khuyến mãi:");
-		txtKhuyenMai = new JTextField(20);
-		pnKhuyenMai.add(lblKhuyenMai);
-		pnKhuyenMai.add(txtKhuyenMai);
-
-		// ngay bd km
-		JPanel pnNgayBatDau = new JPanel();
-		pnNgayBatDau.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel lblNgayBatDau = new JLabel("Ngày bắt đầu KM:");
-		txtNgayBatDau = new JTextField(20);
-		pnNgayBatDau.add(lblNgayBatDau);
-		pnNgayBatDau.add(txtNgayBatDau);
-
-		// ngay ket thuc km
-		JPanel pnNgayKetThuc = new JPanel();
-		pnNgayKetThuc.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel lblNgayKetThuc = new JLabel("Ngày kết thúc KM:");
-		txtNgayKetThuc = new JTextField(20);
-		pnNgayKetThuc.add(lblNgayKetThuc);
-		pnNgayKetThuc.add(txtNgayKetThuc);
-
-		// button
-		JPanel pnBtn = new JPanel();
-		pnBtn.setLayout(new FlowLayout(FlowLayout.LEFT));
-
-		btnLamMoi = new JButton("Làm mới", new ImageIcon("src/cua_hang_tien_loi/icon/lammoi.png"));
-		btnThem = new JButton("Thêm", new ImageIcon("src/cua_hang_tien_loi/icon/add.png"));
-
-		pnBtn.add(btnLamMoi);
-		pnBtn.add(btnThem);
-
-		// add vo pnRight
-		pnRightOfCen.add(pnChatLieu);
-		pnRightOfCen.add(pnKhuyenMai);
-		pnRightOfCen.add(pnNgayBatDau);
-		pnRightOfCen.add(pnNgayKetThuc);
-		pnRightOfCen.add(pnBtn);
-
-		pnCen.add(pnRightOfCen);
-
 		pnMain.add(pnCen, BorderLayout.CENTER);
 
 		add(pnMain);
@@ -373,29 +220,15 @@ public class FormThemSanPham extends JFrame implements ActionListener {
 		// quay lai
 		itemQuayLai.addActionListener(this);
 
-		// btn
-		btnThem.addActionListener(this);
-		btnLamMoi.addActionListener(this);
 	}
 
 	public static void main(String[] args) {
-		new FormThemSanPham().setVisible(true);
+		new ThemKhachHangQuanLy().setVisible(true);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 
-	}
-
-	// btn lam moi
-	private void clearTxtField() {
-		txtMaSanPham.setText("");
-		txtTenSanPham.setText("");
-		txtDonGia.setText("");
-		txtChatLieu.setText("");
-		txtKhuyenMai.setText("");
-		txtNgayBatDau.setText("");
-		txtNgayKetThuc.setText("");
 	}
 }

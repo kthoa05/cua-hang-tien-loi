@@ -1,4 +1,4 @@
-package cua_hang_tien_loi.ui;
+package cua_hang_tien_loi.ui.admin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -23,7 +23,7 @@ import javax.swing.JTextField;
 
 import cua_hang_tien_loi.utils.MenuUtils;
 
-public class CapNhatSanPham extends JFrame implements ActionListener {
+public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 
 	private JMenuItem itemTaiKhoan;
 	private JMenuItem itemTroGiup;
@@ -63,12 +63,13 @@ public class CapNhatSanPham extends JFrame implements ActionListener {
 	private JButton btnThem;
 	private JTextField txtDonGia;
 
-	public CapNhatSanPham() {
+	public FormThemSanPhamQuanLy() {
 		// TODO Auto-generated constructor stub
+		this.UIFormThemSanPham();
 	}
 
-	private void UICapNhatSanPham() {
-		setTitle("Quản lý cửa hàng tiện lợi - Cập nhật sản phẩm");
+	private void UIFormThemSanPham() {
+		setTitle("Quản lý cửa hàng tiện lợi - Thêm sản phẩm");
 		setSize(1000, 500);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -378,7 +379,7 @@ public class CapNhatSanPham extends JFrame implements ActionListener {
 	}
 
 	public static void main(String[] args) {
-		new CapNhatSanPham().setVisible(true);
+		new FormThemSanPhamQuanLy().setVisible(true);
 	}
 
 	@Override
@@ -387,4 +388,14 @@ public class CapNhatSanPham extends JFrame implements ActionListener {
 
 	}
 
+	// btn lam moi
+	private void clearTxtField() {
+		txtMaSanPham.setText("");
+		txtTenSanPham.setText("");
+		txtDonGia.setText("");
+		txtChatLieu.setText("");
+		txtKhuyenMai.setText("");
+		txtNgayBatDau.setText("");
+		txtNgayKetThuc.setText("");
+	}
 }

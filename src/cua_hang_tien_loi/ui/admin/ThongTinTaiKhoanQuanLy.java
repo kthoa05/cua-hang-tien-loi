@@ -1,16 +1,19 @@
-package cua_hang_tien_loi.ui;
+package cua_hang_tien_loi.ui.admin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class ThongTinTaiKhoan extends JFrame {
+public class ThongTinTaiKhoanQuanLy extends JFrame {
 
-	public ThongTinTaiKhoan() {
+	public ThongTinTaiKhoanQuanLy() {
 		// TODO Auto-generated constructor stub
 		this.UIThongTinTaiKhoan();
 	}
@@ -35,23 +38,27 @@ public class ThongTinTaiKhoan extends JFrame {
 		pnNorth.add(lblTieuDe);
 
 		pnMain.add(pnNorth, BorderLayout.NORTH);
-		
+
 		// west
 		JPanel pnWest = new JPanel();
-		
+		pnWest.setLayout(new BorderLayout());
+		pnWest.setPreferredSize(new Dimension(200, 200));
+
+		JLabel lblImage = new JLabel();
+		lblImage.setPreferredSize(new Dimension(100, 100));
+		lblImage.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 		pnMain.add(pnWest, BorderLayout.WEST);
 
 		// cen
 		JPanel pnCen = new JPanel();
-		
-		
+
 		pnMain.add(pnCen, BorderLayout.CENTER);
 
 		add(pnMain);
 	}
 
 	public static void main(String[] args) {
-		new ThongTinTaiKhoan().setVisible(true);
+		new ThongTinTaiKhoanQuanLy().setVisible(true);
 	}
 }

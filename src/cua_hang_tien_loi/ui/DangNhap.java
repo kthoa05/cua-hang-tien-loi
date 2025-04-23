@@ -6,6 +6,8 @@ import java.util.concurrent.Flow;
 
 import javax.swing.*;
 
+import cua_hang_tien_loi.ui.admin.TrangChuQuanLy;
+
 public class DangNhap extends JFrame implements ActionListener {
 	private JTextField txtTaiKhoan;
 	private JPasswordField txtMatKhau;
@@ -141,7 +143,7 @@ public class DangNhap extends JFrame implements ActionListener {
 
 	private void dangNhap() {
 		this.setVisible(false);
-		new TrangChu().setVisible(true);
+		new TrangChuQuanLy().setVisible(true);
 	}
 
 	private void anHienMatKhau() {

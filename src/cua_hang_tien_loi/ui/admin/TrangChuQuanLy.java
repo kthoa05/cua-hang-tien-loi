@@ -1,9 +1,10 @@
-package cua_hang_tien_loi.ui;
+package cua_hang_tien_loi.ui.admin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,11 +17,14 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import cua_hang_tien_loi.ui.DangNhap;
 import cua_hang_tien_loi.utils.MenuUtils;
 
-public class TraCuuNhanVien extends JFrame implements ActionListener {
+public class TrangChuQuanLy extends JFrame implements ActionListener {
+
 	private JMenuItem itemTaiKhoan;
 	private JMenuItem itemTroGiup;
 	private JMenuItem itemDangXuat;
@@ -47,15 +51,15 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemDTSanPham;
 	private JMenuItem itemQuayLai;
 
-	public TraCuuNhanVien() {
+	public TrangChuQuanLy() {
 		// TODO Auto-generated constructor stub
-		this.UITraCuuNhanVien();
+		this.initUITrangChu();
 	}
 
-	// giao diện
-	private void UITraCuuNhanVien() {
+	// giao dien
+	private void initUITrangChu() {
 		setTitle("Quản lý cửa hàng tiện lợi - Trang chủ");
-		setSize(1000, 750);
+		setSize(1000, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -66,6 +70,7 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 		// north
 		JPanel pnNorth = new JPanel();
 		pnNorth.setLayout(new FlowLayout(FlowLayout.LEFT));
+//		pnNorth.setBackground(Color.decode("#FAFAFA"));
 		pnNorth.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
 		pnNorth.setPreferredSize(new Dimension(750, 40));
 
@@ -185,9 +190,14 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 
 		pnMain.add(pnNorth, BorderLayout.NORTH);
 
-		// cen CAN LAM
+		// cen
 		JPanel pnCen = new JPanel();
+		ImageIcon originalIcon = new ImageIcon("src/cua_hang_tien_loi/icon/home.jpg");
+		Image scaledImage = originalIcon.getImage().getScaledInstance(1000, 900, Image.SCALE_SMOOTH);
+		ImageIcon scaledIcon = new ImageIcon(scaledImage);
+		JLabel lblCen = new JLabel(scaledIcon);
 
+		pnCen.add(lblCen);
 		pnMain.add(pnCen, BorderLayout.CENTER);
 
 		add(pnMain);
@@ -229,14 +239,41 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 
 	}
 
-	public static void main(String[] args) {
-		new TraCuuNhanVien().setVisible(true);
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		Object source = e.getSource();
+
+		if (source.equals(itemTaiKhoan)) {
+			this.thongTinTaiKhoan();
+		} else if (source.equals(itemTroGiup)) {
+
+		} else if (source.equals(itemDangXuat)) {
+			this.dangXuat();
+		} else if (source.equals(itemThemSP)) {
+			this.setVisible(false);
+			new FormThemSanPhamQuanLy().setVisible(true);
+		} else if (source.equals(itemCapNhatSp)) {
+			this.setVisible(true);
+			new CapNhatSanPhamQuanLy().setVisible(true);
+		}
 
 	}
 
+	private void thongTinTaiKhoan() {
+		new ThongTinTaiKhoanQuanLy().setVisible(true);
+	}
+
+	private void dangXuat() {
+		int choice = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Thông báo",
+				JOptionPane.YES_NO_OPTION);
+		if (choice == JOptionPane.YES_OPTION) {
+			this.setVisible(false);
+			new DangNhap().setVisible(true);
+		}
+	}
+
+	public static void main(String[] args) {
+		new TrangChuQuanLy().setVisible(true);
+	}
 }
