@@ -1,0 +1,23 @@
+package cua_hang_tien_loi.controller;
+
+import java.util.List;
+
+import cua_hang_tien_loi.dao.DAO_SanPham;
+import cua_hang_tien_loi.entity.SanPham;
+
+public class SanPhamController {
+
+	private DAO_SanPham daoSp;
+
+	public boolean themSanPham(SanPham sp) {
+		return daoSp.addSanPham(sp);
+	}
+
+	public boolean capNhatSanPham(SanPham sp) {
+		return daoSp.updateSanPham(sp);
+	}
+
+	public List<SanPham> timKiemSanPham(SanPham sp) {
+		return daoSp.findSanPham(sp.getMaSP(), sp.getTenSP(), sp.isTTKD());
+	}
+}

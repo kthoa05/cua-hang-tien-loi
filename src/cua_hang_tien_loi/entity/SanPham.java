@@ -1,23 +1,40 @@
 package cua_hang_tien_loi.entity;
 
+import java.time.LocalDate;
+
 public class SanPham {
+	private String imgPath;
 	private String maSP;
 	private String tenSP;
-	private long giaNhap;
-	private String hinhAnh;
-	private int soLuong;
-	private Loai loai;
-	private NhaCungCap ncc;
+	private String loaiSP;
+	private boolean TTKD;
+	private double donGia;
+	private String chatLieu;
+	private double phanTramKM;
+	private LocalDate ngayBDKM;
+	private LocalDate ngayKTKM;
 
-	public SanPham(String maSP, String tenSP, long giaNhap, String hinhAnh, int soLuong, Loai loai, NhaCungCap ncc) {
+	public SanPham(String imgPath, String maSP, String tenSP, String loaiSP, boolean tTKD, double donGia,
+			String chatLieu, double phanTramKM, LocalDate ngayBDKM, LocalDate ngayKTKM) {
 		super();
+		this.imgPath = imgPath;
 		this.maSP = maSP;
 		this.tenSP = tenSP;
-		this.giaNhap = giaNhap;
-		this.hinhAnh = hinhAnh;
-		this.soLuong = soLuong;
-		this.loai = loai;
-		this.ncc = ncc;
+		this.loaiSP = loaiSP;
+		TTKD = tTKD;
+		this.donGia = donGia;
+		this.chatLieu = chatLieu;
+		this.phanTramKM = phanTramKM;
+		this.ngayBDKM = ngayBDKM;
+		this.ngayKTKM = ngayKTKM;
+	}
+
+	public String getImgPath() {
+		return imgPath;
+	}
+
+	public void setImgPath(String imgPath) {
+		this.imgPath = imgPath;
 	}
 
 	public String getMaSP() {
@@ -36,50 +53,67 @@ public class SanPham {
 		this.tenSP = tenSP;
 	}
 
-	public long getGiaNhap() {
-		return giaNhap;
+	public String getLoaiSP() {
+		return loaiSP;
 	}
 
-	public void setGiaNhap(long giaNhap) {
-		this.giaNhap = giaNhap;
+	public void setLoaiSP(String loaiSP) {
+		this.loaiSP = loaiSP;
 	}
 
-	public String getHinhAnh() {
-		return hinhAnh;
+	public boolean isTTKD() {
+		return TTKD;
 	}
 
-	public void setHinhAnh(String hinhAnh) {
-		this.hinhAnh = hinhAnh;
+	public void setTTKD(boolean tTKD) {
+		TTKD = tTKD;
 	}
 
-	public int getSoLuong() {
-		return soLuong;
+	public double getDonGia() {
+		return donGia;
 	}
 
-	public void setSoLuong(int soLuong) {
-		this.soLuong = soLuong;
+	public void setDonGia(double donGia) {
+		this.donGia = donGia;
 	}
 
-	public Loai getLoai() {
-		return loai;
+	public String getChatLieu() {
+		return chatLieu;
 	}
 
-	public void setLoai(Loai loai) {
-		this.loai = loai;
+	public void setChatLieu(String chatLieu) {
+		this.chatLieu = chatLieu;
 	}
 
-	public NhaCungCap getNcc() {
-		return ncc;
+	public double getPhanTramKM() {
+		return phanTramKM;
 	}
 
-	public void setNcc(NhaCungCap ncc) {
-		this.ncc = ncc;
+	public void setPhanTramKM(double phanTramKM) {
+		this.phanTramKM = phanTramKM;
+	}
+
+	public LocalDate getNgayBDKM() {
+		return ngayBDKM;
+	}
+
+	public void setNgayBDKM(LocalDate ngayBDKM) {
+		this.ngayBDKM = ngayBDKM;
+	}
+
+	public LocalDate getNgayKTKM() {
+		return ngayKTKM;
+	}
+
+	public void setNgayKTKM(LocalDate ngayKTKM) {
+		this.ngayKTKM = ngayKTKM;
 	}
 
 	@Override
 	public String toString() {
-		return "SanPham [maSP=" + maSP + ", tenSP=" + tenSP + ", giaNhap=" + giaNhap + ", hinhAnh=" + hinhAnh
-				+ ", soLuong=" + soLuong + ", loai=" + loai + ", ncc=" + ncc + "]";
+		return "SanPham [imgPath=" + imgPath + ", maSP=" + maSP + ", tenSP=" + tenSP + ", loaiSP=" + loaiSP + ", TTKD="
+				+ TTKD + ", donGia=" + donGia + ", chatLieu=" + chatLieu + ", phanTramKM=" + phanTramKM + ", ngayBDKM="
+				+ ngayBDKM + ", ngayKTKM=" + ngayKTKM + "]";
 	}
 
 }
