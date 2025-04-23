@@ -34,6 +34,7 @@ public class DAO_NhanVien {
 			s.setString(8, nv.getMk());
 			s.setBoolean(9, nv.isAdmin());
 			s.setBoolean(10, nv.isTrangThaiLamViec());
+			s.setString(11, nv.getImgPath());
 			s.executeUpdate();
 			return true;
 		} catch (SQLException e) {
@@ -86,7 +87,7 @@ public class DAO_NhanVien {
 				NhanVien nv = new NhanVien(rs.getString("maNV"), rs.getString("hoTen"), rs.getBoolean("phai"),
 						rs.getDate("nagySinh").toLocalDate(), rs.getString("sdt"), rs.getString("email"),
 						rs.getString("cmnd"), rs.getString("mk"), rs.getBoolean("isAdmin"),
-						rs.getBoolean("trangThaiLamViec"));
+						rs.getBoolean("trangThaiLamViec"), rs.getString("imgPath"));
 				dsnv.add(nv);
 			}
 		} catch (SQLException e) {
@@ -117,7 +118,7 @@ public class DAO_NhanVien {
 				NhanVien nv = new NhanVien(rs.getString("maNV"), rs.getString("hoTen"), rs.getBoolean("phai"),
 						rs.getDate("nagySinh").toLocalDate(), rs.getString("sdt"), rs.getString("email"),
 						rs.getString("cmnd"), rs.getString("mk"), rs.getBoolean("isAdmin"),
-						rs.getBoolean("trangThaiLamViec"));
+						rs.getBoolean("trangThaiLamViec"), rs.getString("imgPath"));
 				dsnv.add(nv);
 			}
 		} catch (SQLException e) {
@@ -148,8 +149,9 @@ public class DAO_NhanVien {
 				String mk = rs.getString(8);
 				boolean isAdmin = rs.getBoolean(9);
 				boolean ttlv = rs.getBoolean(10);
-				NhanVien nv = new NhanVien(maNhanVien, hoVaTen, gioiTinh, ngaySinh, sdt, email, cmnd, mk, isAdmin,
-						ttlv);
+				String imgPath = rs.getString(11);
+				NhanVien nv = new NhanVien(maNhanVien, hoVaTen, gioiTinh, ngaySinh, sdt, email, cmnd, mk, isAdmin, ttlv,
+						imgPath);
 				listNhanVien.add(nv);
 			}
 		} catch (SQLException ex) {
@@ -181,7 +183,9 @@ public class DAO_NhanVien {
 				String matKhau = rs.getString(8);
 				boolean isAdmin = rs.getBoolean(9);
 				boolean ttlv = rs.getBoolean(10);
-				nv = new NhanVien(maNhanVien, hoVaTen, gioiTinh, ngaySinh, soDT, email, cmnd, matKhau, isAdmin, ttlv);
+				String imgPath = rs.getString(11);
+				nv = new NhanVien(maNhanVien, hoVaTen, gioiTinh, ngaySinh, soDT, email, cmnd, matKhau, isAdmin, ttlv,
+						imgPath);
 			}
 
 		} catch (SQLException e) {

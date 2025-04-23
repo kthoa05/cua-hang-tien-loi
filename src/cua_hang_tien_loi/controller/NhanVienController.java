@@ -16,4 +16,9 @@ public class NhanVienController {
 		NhanVien nv = daoNV.getTaiKhoan(sdt, mk);
 		return nv.isAdmin();
 	}
+
+	// get all for class ThongTinTaiKhoanQuanLy
+	public NhanVien getThongTinTaiKhoan(String sdt, String mk) {
+		return daoNV.getTaiKhoan(sdt, mk);
+	}
 }

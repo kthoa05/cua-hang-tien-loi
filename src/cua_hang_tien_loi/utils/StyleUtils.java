@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JTextField;
 
-public class MenuUtils {
+public class StyleUtils {
 	public static JMenuItem createItemMenu(String text, String iconPath) {
 		JMenuItem item = new JMenuItem(text, new ImageIcon(iconPath));
 		item.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -20,10 +20,9 @@ public class MenuUtils {
 		return item;
 	}
 
-	public static JLabel createLabel(String text, int x, int y) {
+	public static JLabel createLabel(String text) {
 		JLabel lbl = new JLabel(text);
-		lbl.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lbl.setBounds(x, y, 150, 30);
+		lbl.setFont(new Font("Arial", Font.BOLD, 14));
 		return lbl;
 	}
 
@@ -56,5 +55,13 @@ public class MenuUtils {
 		lbl.setForeground(Color.WHITE);
 		return lbl;
 	}
+	
+	public static JLabel createLabel2(String text, int x, int y) {
+		JLabel lbl = new JLabel(text);
+		lbl.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lbl.setBounds(x, y, 150, 30);
+		return lbl;
+	}
+
 
 }

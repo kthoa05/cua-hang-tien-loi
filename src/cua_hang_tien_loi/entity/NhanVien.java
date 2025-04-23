@@ -15,6 +15,7 @@ public class NhanVien {
 	private String mk;
 	private boolean isAdmin;
 	private boolean trangThaiLamViec;
+	private String imgPath;
 
 	public String auto_ID() {
 		DAO_NhanVien daoNV = new DAO_NhanVien();
@@ -28,7 +29,7 @@ public class NhanVien {
 	}
 
 	public NhanVien(String maNV, String hoTen, boolean phai, LocalDate ngaySinh, String sdt, String email, String cmnd,
-			String mk, boolean isAdmin, boolean trangThaiLamViec) {
+			String mk, boolean isAdmin, boolean trangThaiLamViec, String imgPath) {
 		super();
 		this.maNV = maNV;
 		this.hoTen = hoTen;
@@ -40,6 +41,15 @@ public class NhanVien {
 		this.mk = mk;
 		this.isAdmin = isAdmin;
 		this.setTrangThaiLamViec(trangThaiLamViec);
+		this.imgPath = imgPath;
+	}
+
+	public String getImgPath() {
+		return imgPath;
+	}
+
+	public void setImgPath(String imgPath) {
+		this.imgPath = imgPath;
 	}
 
 	public String getMaNV() {

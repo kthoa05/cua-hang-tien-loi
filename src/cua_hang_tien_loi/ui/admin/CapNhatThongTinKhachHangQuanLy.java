@@ -16,7 +16,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import cua_hang_tien_loi.utils.MenuUtils;
+import cua_hang_tien_loi.utils.StyleUtils;
 
 public class CapNhatThongTinKhachHangQuanLy extends JFrame implements ActionListener {
 
@@ -69,9 +69,9 @@ public class CapNhatThongTinKhachHangQuanLy extends JFrame implements ActionList
 		JMenu menuHeThong = new JMenu("Hệ thống");
 		menuHeThong.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/hethong.png"));
 		menuHeThong.setBorderPainted(false);
-		itemTaiKhoan = MenuUtils.createItemMenu("Tài khoản", "src/cua_hang_tien_loi/icon/account.png");
-		itemTroGiup = MenuUtils.createItemMenu("Trợ giúp", "src/cua_hang_tien_loi/icon/helpdesk.png");
-		itemDangXuat = MenuUtils.createItemMenu("Đăng xuất", "src/cua_hang_tien_loi/icon/logout.png");
+		itemTaiKhoan = StyleUtils.createItemMenu("Tài khoản", "src/cua_hang_tien_loi/icon/account.png");
+		itemTroGiup = StyleUtils.createItemMenu("Trợ giúp", "src/cua_hang_tien_loi/icon/helpdesk.png");
+		itemDangXuat = StyleUtils.createItemMenu("Đăng xuất", "src/cua_hang_tien_loi/icon/logout.png");
 
 		menuHeThong.add(itemTaiKhoan);
 		menuHeThong.addSeparator();
@@ -84,9 +84,9 @@ public class CapNhatThongTinKhachHangQuanLy extends JFrame implements ActionList
 		// san pham
 		JMenu menuSanPham = new JMenu("Sản phẩm");
 		menuSanPham.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/product.png"));
-		itemTraCuuSP = MenuUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
-		itemThemSP = MenuUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatSp = MenuUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
+		itemTraCuuSP = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
+		itemThemSP = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
+		itemCapNhatSp = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuSanPham.add(itemTraCuuSP);
 		menuSanPham.addSeparator();
@@ -99,9 +99,9 @@ public class CapNhatThongTinKhachHangQuanLy extends JFrame implements ActionList
 		// khach hang
 		JMenu menuKhachHang = new JMenu("Khách hàng");
 		menuKhachHang.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/customer.png"));
-		itemTraCuuKH = MenuUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
-		itemThemKH = MenuUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatKH = MenuUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
+		itemTraCuuKH = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
+		itemThemKH = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
+		itemCapNhatKH = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuKhachHang.add(itemTraCuuKH);
 		menuKhachHang.addSeparator();
@@ -114,9 +114,9 @@ public class CapNhatThongTinKhachHangQuanLy extends JFrame implements ActionList
 		// hoa don
 		JMenu menuHoaDon = new JMenu("Hoá đơn");
 		menuHoaDon.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/invoice.png"));
-		itemTraCuuHD = MenuUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
-		itemThemHD = MenuUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatHD = MenuUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
+		itemTraCuuHD = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
+		itemThemHD = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
+		itemCapNhatHD = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuHoaDon.add(itemTraCuuHD);
 		menuHoaDon.addSeparator();
@@ -129,9 +129,9 @@ public class CapNhatThongTinKhachHangQuanLy extends JFrame implements ActionList
 		// nhan vien
 		JMenu menuNhanVien = new JMenu("Nhân viên");
 		menuNhanVien.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/employee.png"));
-		itemTraCuuNV = MenuUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
-		itemThemNV = MenuUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatNV = MenuUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
+		itemTraCuuNV = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
+		itemThemNV = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
+		itemCapNhatNV = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuNhanVien.add(itemTraCuuNV);
 		menuNhanVien.addSeparator();
@@ -148,9 +148,9 @@ public class CapNhatThongTinKhachHangQuanLy extends JFrame implements ActionList
 		JMenu itemDoanhThu = new JMenu("Doanh thu");
 		itemDoanhThu.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/doanhthu.png"));
 
-		itemDTTheoNgay = MenuUtils.createItemMenu("Theo ngày", "src/cua_hang_tien_loi/icon/day.png");
-		itemDTTheoThang = MenuUtils.createItemMenu("Theo tháng", "src/cua_hang_tien_loi/icon/month.png");
-		itemDTTheoNam = MenuUtils.createItemMenu("Theo năm", "src/cua_hang_tien_loi/icon/year.png");
+		itemDTTheoNgay = StyleUtils.createItemMenu("Theo ngày", "src/cua_hang_tien_loi/icon/day.png");
+		itemDTTheoThang = StyleUtils.createItemMenu("Theo tháng", "src/cua_hang_tien_loi/icon/month.png");
+		itemDTTheoNam = StyleUtils.createItemMenu("Theo năm", "src/cua_hang_tien_loi/icon/year.png");
 
 		itemDoanhThu.add(itemDTTheoNgay);
 		itemDoanhThu.addSeparator();
@@ -165,7 +165,7 @@ public class CapNhatThongTinKhachHangQuanLy extends JFrame implements ActionList
 
 		// quay lai
 		menuBar.add(Box.createVerticalStrut(10));
-		itemQuayLai = MenuUtils.createItemMenu("Quay lại (F1)", "src/cua_hang_tien_loi/icon/quaylai.png");
+		itemQuayLai = StyleUtils.createItemMenu("Quay lại (F1)", "src/cua_hang_tien_loi/icon/quaylai.png");
 		menuBar.add(itemQuayLai);
 
 		pnNorth.add(menuBar);

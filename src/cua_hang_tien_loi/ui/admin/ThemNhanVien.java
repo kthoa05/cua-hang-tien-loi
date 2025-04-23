@@ -29,7 +29,7 @@ import javax.swing.JTextField;
 import cua_hang_tien_loi.controller.NhanVienController;
 import cua_hang_tien_loi.entity.NhanVien;
 import cua_hang_tien_loi.ui.DangNhap;
-import cua_hang_tien_loi.utils.MenuUtils;
+import cua_hang_tien_loi.utils.StyleUtils;
 
 public class ThemNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemTaiKhoan;
@@ -96,9 +96,9 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		JMenu menuHeThong = new JMenu("Hệ thống");
 		menuHeThong.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/hethong.png"));
 		menuHeThong.setBorderPainted(false);
-		itemTaiKhoan = MenuUtils.createItemMenu("Tài khoản", "src/cua_hang_tien_loi/icon/account.png");
-		itemTroGiup = MenuUtils.createItemMenu("Trợ giúp", "src/cua_hang_tien_loi/icon/helpdesk.png");
-		itemDangXuat = MenuUtils.createItemMenu("Đăng xuất", "src/cua_hang_tien_loi/icon/logout.png");
+		itemTaiKhoan = StyleUtils.createItemMenu("Tài khoản", "src/cua_hang_tien_loi/icon/account.png");
+		itemTroGiup = StyleUtils.createItemMenu("Trợ giúp", "src/cua_hang_tien_loi/icon/helpdesk.png");
+		itemDangXuat = StyleUtils.createItemMenu("Đăng xuất", "src/cua_hang_tien_loi/icon/logout.png");
 
 		menuHeThong.add(itemTaiKhoan);
 		menuHeThong.addSeparator();
@@ -111,9 +111,9 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		// san pham
 		JMenu menuSanPham = new JMenu("Sản phẩm");
 		menuSanPham.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/product.png"));
-		itemTraCuuSP = MenuUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
-		itemThemSP = MenuUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatSp = MenuUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
+		itemTraCuuSP = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
+		itemThemSP = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
+		itemCapNhatSp = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuSanPham.add(itemTraCuuSP);
 		menuSanPham.addSeparator();
@@ -126,9 +126,9 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		// khach hang
 		JMenu menuKhachHang = new JMenu("Khách hàng");
 		menuKhachHang.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/customer.png"));
-		itemTraCuuKH = MenuUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
-		itemThemKH = MenuUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatKH = MenuUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
+		itemTraCuuKH = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
+		itemThemKH = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
+		itemCapNhatKH = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuKhachHang.add(itemTraCuuKH);
 		menuKhachHang.addSeparator();
@@ -141,9 +141,9 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		// hoa don
 		JMenu menuHoaDon = new JMenu("Hoá đơn");
 		menuHoaDon.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/invoice.png"));
-		itemTraCuuHD = MenuUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
-		itemThemHD = MenuUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatHD = MenuUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
+		itemTraCuuHD = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
+		itemThemHD = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
+		itemCapNhatHD = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuHoaDon.add(itemTraCuuHD);
 		menuHoaDon.addSeparator();
@@ -156,9 +156,9 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		// nhan vien
 		JMenu menuNhanVien = new JMenu("Nhân viên");
 		menuNhanVien.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/employee.png"));
-		itemTraCuuNV = MenuUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
-		itemThemNV = MenuUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatNV = MenuUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
+		itemTraCuuNV = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
+		itemThemNV = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
+		itemCapNhatNV = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuNhanVien.add(itemTraCuuNV);
 		menuNhanVien.addSeparator();
@@ -175,9 +175,9 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		JMenu itemDoanhThu = new JMenu("Doanh thu");
 		itemDoanhThu.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/doanhthu.png"));
 
-		itemDTTheoNgay = MenuUtils.createItemMenu("Theo ngày", "src/cua_hang_tien_loi/icon/day.png");
-		itemDTTheoThang = MenuUtils.createItemMenu("Theo tháng", "src/cua_hang_tien_loi/icon/month.png");
-		itemDTTheoNam = MenuUtils.createItemMenu("Theo năm", "src/cua_hang_tien_loi/icon/year.png");
+		itemDTTheoNgay = StyleUtils.createItemMenu("Theo ngày", "src/cua_hang_tien_loi/icon/day.png");
+		itemDTTheoThang = StyleUtils.createItemMenu("Theo tháng", "src/cua_hang_tien_loi/icon/month.png");
+		itemDTTheoNam = StyleUtils.createItemMenu("Theo năm", "src/cua_hang_tien_loi/icon/year.png");
 
 		itemDoanhThu.add(itemDTTheoNgay);
 		itemDoanhThu.addSeparator();
@@ -192,7 +192,7 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 
 		// quay lai
 		menuBar.add(Box.createVerticalStrut(10));
-		itemQuayLai = MenuUtils.createItemMenu("Quay lại (F1)", "src/cua_hang_tien_loi/icon/quaylai.png");
+		itemQuayLai = StyleUtils.createItemMenu("Quay lại (F1)", "src/cua_hang_tien_loi/icon/quaylai.png");
 		menuBar.add(itemQuayLai);
 
 		pnNorth.add(menuBar);
@@ -227,8 +227,8 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		JPanel pnMaNV = new JPanel();
 		pnMaNV.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		JLabel lblMaNV = MenuUtils.createLabel("Mã nhân viên:", 100, 80);
-		txtMaNV = MenuUtils.createTextField(250, 80, 300, 30);
+		JLabel lblMaNV = StyleUtils.createLabel2("Mã nhân viên:", 100, 80);
+		txtMaNV = StyleUtils.createTextField(250, 80, 300, 30);
 
 		pnMaNV.add(lblMaNV);
 		pnMaNV.add(txtMaNV);
@@ -240,12 +240,12 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		pnHoTenGT.setLayout(new FlowLayout(FlowLayout.LEFT));
 
 		// ho ten
-		JLabel lblHoTen = MenuUtils.createLabel("Họ tên:", 100, 130);
-		txtHoTen = MenuUtils.createTextField(250, 130, 300, 30);
+		JLabel lblHoTen = StyleUtils.createLabel2("Họ tên:", 100, 130);
+		txtHoTen = StyleUtils.createTextField(250, 130, 300, 30);
 
 		// gioi tinh
-		JLabel lblGioiTinh = MenuUtils.createLabel("Giới tính:", 100, 180);
-		txtGioiTinh = MenuUtils.createComboBox(new String[] { "Nam", "Nữ", "Khác" }, 250, 180, 100, 30);
+		JLabel lblGioiTinh = StyleUtils.createLabel2("Giới tính:", 100, 180);
+		txtGioiTinh = StyleUtils.createComboBox(new String[] { "Nam", "Nữ", "Khác" }, 250, 180, 100, 30);
 
 		// add ho ten gt vo pn
 		pnHoTenGT.add(lblHoTen);
@@ -259,8 +259,8 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		JPanel pnNgaySinh = new JPanel();
 		pnNgaySinh.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		JLabel lblNgaySinh = MenuUtils.createLabel("Ngày sinh:", 100, 230);
-		txtNgaySinh = MenuUtils.createTextField(250, 230, 300, 30);
+		JLabel lblNgaySinh = StyleUtils.createLabel2("Ngày sinh:", 100, 230);
+		txtNgaySinh = StyleUtils.createTextField(250, 230, 300, 30);
 
 		pnNgaySinh.add(lblNgaySinh);
 		pnNgaySinh.add(txtNgaySinh);
@@ -271,8 +271,8 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		JPanel pnSDT = new JPanel();
 		pnSDT.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		JLabel lblSdt = MenuUtils.createLabel("Số điện thoại:", 100, 280);
-		txtSdt = MenuUtils.createTextField(250, 280, 300, 30);
+		JLabel lblSdt = StyleUtils.createLabel2("Số điện thoại:", 100, 280);
+		txtSdt = StyleUtils.createTextField(250, 280, 300, 30);
 
 		pnSDT.add(lblSdt);
 		pnSDT.add(txtSdt);
@@ -283,8 +283,8 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		JPanel pnEmail = new JPanel();
 		pnEmail.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		JLabel lblEmail = MenuUtils.createLabel("Email:", 100, 330);
-		txtEmail = MenuUtils.createTextField(250, 330, 300, 30);
+		JLabel lblEmail = StyleUtils.createLabel2("Email:", 100, 330);
+		txtEmail = StyleUtils.createTextField(250, 330, 300, 30);
 
 		pnEmail.add(lblEmail);
 		pnEmail.add(txtEmail);
@@ -295,8 +295,8 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		JPanel pnCmnd = new JPanel();
 		pnCmnd.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		JLabel lblCmnd = MenuUtils.createLabel("CCCD:", 100, 330);
-		txtCmnd = MenuUtils.createTextField(250, 330, 300, 30);
+		JLabel lblCmnd = StyleUtils.createLabel2("CCCD:", 100, 330);
+		txtCmnd = StyleUtils.createTextField(250, 330, 300, 30);
 
 		pnCmnd.add(lblCmnd);
 		pnCmnd.add(txtCmnd);
@@ -307,8 +307,8 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		JPanel pnMatKhau = new JPanel();
 		pnMatKhau.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		JLabel lblMatKhau = MenuUtils.createLabel("Mật khẩu:", 100, 330);
-		txtMatKhau = MenuUtils.createTextField(250, 330, 300, 30);
+		JLabel lblMatKhau = StyleUtils.createLabel2("Mật khẩu:", 100, 330);
+		txtMatKhau = StyleUtils.createTextField(250, 330, 300, 30);
 
 		pnMatKhau.add(lblMatKhau);
 		pnMatKhau.add(txtMatKhau);
@@ -420,7 +420,7 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		LocalDate ns = LocalDate.parse(ngaySinh);
 		boolean gt = phai.equals("Nam") ? false : true;
 
-		NhanVien nv = new NhanVien(ma, ten, gt, ns, sdt, email, cmnd, mk, false, true);
+		NhanVien nv = new NhanVien(ma, ten, gt, ns, sdt, email, cmnd, mk, false, true, pathImg);
 
 		boolean statusThemNV = nvController.themNhanVien(nv);
 		if (!statusThemNV) {

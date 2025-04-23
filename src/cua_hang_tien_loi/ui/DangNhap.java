@@ -7,15 +7,17 @@ import java.util.concurrent.Flow;
 import javax.swing.*;
 
 import cua_hang_tien_loi.controller.NhanVienController;
+import cua_hang_tien_loi.entity.NhanVien;
 import cua_hang_tien_loi.ui.admin.TrangChuQuanLy;
 import cua_hang_tien_loi.ui.nv.TrangChuDangNhapNhanVien;
 
 public class DangNhap extends JFrame implements ActionListener {
-	private JTextField txtTaiKhoan;
-	private JPasswordField txtMatKhau;
+	private static JTextField txtTaiKhoan;
+	private static JPasswordField txtMatKhau;
 	private JButton btnDangNhap, btnThoat, btnQuenMK;
 	private JToggleButton btnHienMatKhau;
-	private NhanVienController nvController;
+	private static NhanVienController nvController;
+	public static NhanVien thongTinNV = nvController.getThongTinTaiKhoan(txtTaiKhoan.getText(), txtMatKhau.toString());
 
 	public DangNhap() {
 		setTitle("Quản lý cửa hàng tiện lợi - Đăng nhập");
@@ -144,7 +146,7 @@ public class DangNhap extends JFrame implements ActionListener {
 	}
 
 	private void dangNhap() {
-		if (nvController.isAdmin(txtTaiKhoan.getText(), txtMatKhau.toString())) {
+		if (thongTinNV.isAdmin()) {
 			this.setVisible(false);
 			new TrangChuQuanLy().setVisible(true);
 		} else {
