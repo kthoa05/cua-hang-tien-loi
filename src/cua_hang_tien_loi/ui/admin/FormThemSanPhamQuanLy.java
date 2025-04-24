@@ -59,9 +59,6 @@ public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 	private JComboBox cboLoaiSanPham;
 	private JComboBox cboTrangThai;
 	private JTextField txtChatLieu;
-	private JTextField txtKhuyenMai;
-	private JTextField txtNgayBatDau;
-	private JTextField txtNgayKetThuc;
 	private JButton btnLamMoi;
 	private JButton btnThem;
 	private JTextField txtDonGia;
@@ -291,30 +288,6 @@ public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 		pnChatLieu.add(lblChatLieu);
 		pnChatLieu.add(txtChatLieu);
 
-		// % km
-		JPanel pnKhuyenMai = new JPanel();
-		pnKhuyenMai.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel lblKhuyenMai = new JLabel("% Khuyến mãi:");
-		txtKhuyenMai = new JTextField(20);
-		pnKhuyenMai.add(lblKhuyenMai);
-		pnKhuyenMai.add(txtKhuyenMai);
-
-		// ngay bd km
-		JPanel pnNgayBatDau = new JPanel();
-		pnNgayBatDau.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel lblNgayBatDau = new JLabel("Ngày bắt đầu KM:");
-		txtNgayBatDau = new JTextField(20);
-		pnNgayBatDau.add(lblNgayBatDau);
-		pnNgayBatDau.add(txtNgayBatDau);
-
-		// ngay ket thuc km
-		JPanel pnNgayKetThuc = new JPanel();
-		pnNgayKetThuc.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel lblNgayKetThuc = new JLabel("Ngày kết thúc KM:");
-		txtNgayKetThuc = new JTextField(20);
-		pnNgayKetThuc.add(lblNgayKetThuc);
-		pnNgayKetThuc.add(txtNgayKetThuc);
-
 		// button
 		JPanel pnBtn = new JPanel();
 		pnBtn.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -330,9 +303,6 @@ public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 		txtMaSanPham.setPreferredSize(txtSize);
 		txtTenSanPham.setPreferredSize(txtSize);
 		txtChatLieu.setPreferredSize(txtSize);
-		txtKhuyenMai.setPreferredSize(txtSize);
-		txtNgayBatDau.setPreferredSize(txtSize);
-		txtNgayKetThuc.setPreferredSize(txtSize);
 		txtDonGia.setPreferredSize(txtSize);
 		cboLoaiSanPham.setPreferredSize(new Dimension(185, 25));
 		cboTrangThai.setPreferredSize(new Dimension(185, 25));
@@ -341,18 +311,12 @@ public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 		lblMaSanPham.setPreferredSize(lblSize);
 		lblTenSanPham.setPreferredSize(lblSize);
 		lblChatLieu.setPreferredSize(lblSize);
-		lblKhuyenMai.setPreferredSize(lblSize);
-		lblNgayBatDau.setPreferredSize(lblSize);
-		lblNgayKetThuc.setPreferredSize(lblSize);
 		lblDonGia.setPreferredSize(lblSize);
 		lblTrangThai.setPreferredSize(lblSize);
 		lblLoaiSanPham.setPreferredSize(lblSize);
 
 		// add vo pnRight
 		pnRightOfCen.add(pnChatLieu);
-		pnRightOfCen.add(pnKhuyenMai);
-		pnRightOfCen.add(pnNgayBatDau);
-		pnRightOfCen.add(pnNgayKetThuc);
 		pnRightOfCen.add(pnBtn);
 
 		pnCen.add(pnRightOfCen);
@@ -415,7 +379,7 @@ public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 		if (source.equals(itemTaiKhoan)) {
 			new ThongTinTaiKhoanQuanLy().setVisible(true);
 		} else if (source.equals(itemTroGiup)) {
-			SystemUtils.openFile("/Users/lethoa/Documents/giaykhamsuckhoe.pdf"); 
+			SystemUtils.openFile("/Users/lethoa/Documents/giaykhamsuckhoe.pdf");
 		} else if (source.equals(itemDangXuat)) {
 			this.dangXuat();
 		} else if (source.equals(itemThemSP)) {
@@ -434,7 +398,6 @@ public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 
 	}
 
-
 	// btn them
 	private void themSanPham() {
 		String ma = txtMaSanPham.getText();
@@ -442,13 +405,10 @@ public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 		String ttkd = cboTrangThai.getSelectedItem().toString();
 		double donGia = Double.parseDouble(txtDonGia.getText());
 		String chatLieu = txtChatLieu.getText();
-		double km = Double.parseDouble(txtKhuyenMai.getText());
-		LocalDate bd = LocalDate.parse(txtNgayBatDau.getText());
-		LocalDate kt = LocalDate.parse(txtNgayKetThuc.getText());
 
 		boolean ttkdBoolean = ttkd.equals("Kinh Doanh") ? true : false;
 
-		SanPham sp = new SanPham(pathImg, ma, ten, chatLieu, ttkdBoolean, donGia, chatLieu, km, bd, kt);
+		SanPham sp = new SanPham(pathImg, ma, ten, chatLieu, ttkdBoolean, donGia, chatLieu);
 
 		boolean statusThemSP = sanPhamController.themSanPham(sp);
 		if (!statusThemSP) {
@@ -496,8 +456,5 @@ public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 		txtTenSanPham.setText("");
 		txtDonGia.setText("");
 		txtChatLieu.setText("");
-		txtKhuyenMai.setText("");
-		txtNgayBatDau.setText("");
-		txtNgayKetThuc.setText("");
 	}
 }

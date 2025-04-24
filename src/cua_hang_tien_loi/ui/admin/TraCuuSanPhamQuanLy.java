@@ -252,8 +252,7 @@ public class TraCuuSanPhamQuanLy extends JFrame implements ActionListener {
 		pnKetQua.setLayout(new BorderLayout());
 		pnKetQua.setBorder(BorderFactory.createTitledBorder("Kết quả tìm kiếm"));
 
-		String[] cols = { "Mã SP", "Tên SP", "Loại SP", "Giá", "Chất liệu", "Phần trăm khuyến mãi",
-				"Trạng thái kinh doanh" };
+		String[] cols = { "Mã SP", "Tên SP", "Loại SP", "Giá", "Chất liệu", "Trạng thái kinh doanh" };
 		modelTable = new DefaultTableModel(cols, 0);
 		table = new JTable(modelTable);
 		table.setPreferredScrollableViewportSize(new Dimension(550, 150));
@@ -378,7 +377,7 @@ public class TraCuuSanPhamQuanLy extends JFrame implements ActionListener {
 		// load du lieu len table
 		for (SanPham sp : dssp) {
 			Object[] row = { sp.getMaSP(), sp.getTenSP(), sp.getLoaiSP(), sp.getDonGia(), sp.getChatLieu(),
-					sp.getPhanTramKM(), sp.isTTKD() ? "Kinh doanh" : "Ngừng kinh doanh" };
+					sp.isTTKD() ? "Kinh doanh" : "Ngừng kinh doanh" };
 			modelTable.addRow(row);
 		}
 	}

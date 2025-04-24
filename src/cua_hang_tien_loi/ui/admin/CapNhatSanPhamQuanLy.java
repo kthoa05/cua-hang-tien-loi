@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -57,9 +56,6 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 	private JComboBox cboLoaiSanPham;
 	private JComboBox cboTrangThai;
 	private JTextField txtChatLieu;
-	private JTextField txtKhuyenMai;
-	private JTextField txtNgayBatDau;
-	private JTextField txtNgayKetThuc;
 	private JButton btnLamMoi;
 	private JButton btnThem;
 	private JTextField txtDonGia;
@@ -295,30 +291,6 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 		pnChatLieu.add(lblChatLieu);
 		pnChatLieu.add(txtChatLieu);
 
-		// % km
-		JPanel pnKhuyenMai = new JPanel();
-		pnKhuyenMai.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel lblKhuyenMai = new JLabel("% Khuyến mãi:");
-		txtKhuyenMai = new JTextField(20);
-		pnKhuyenMai.add(lblKhuyenMai);
-		pnKhuyenMai.add(txtKhuyenMai);
-
-		// ngay bd km
-		JPanel pnNgayBatDau = new JPanel();
-		pnNgayBatDau.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel lblNgayBatDau = new JLabel("Ngày bắt đầu KM:");
-		txtNgayBatDau = new JTextField(20);
-		pnNgayBatDau.add(lblNgayBatDau);
-		pnNgayBatDau.add(txtNgayBatDau);
-
-		// ngay ket thuc km
-		JPanel pnNgayKetThuc = new JPanel();
-		pnNgayKetThuc.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel lblNgayKetThuc = new JLabel("Ngày kết thúc KM:");
-		txtNgayKetThuc = new JTextField(20);
-		pnNgayKetThuc.add(lblNgayKetThuc);
-		pnNgayKetThuc.add(txtNgayKetThuc);
-
 		// button
 		JPanel pnBtn = new JPanel();
 		pnBtn.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -331,9 +303,6 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 
 		// add vo pnRight
 		pnRightOfCen.add(pnChatLieu);
-		pnRightOfCen.add(pnKhuyenMai);
-		pnRightOfCen.add(pnNgayBatDau);
-		pnRightOfCen.add(pnNgayKetThuc);
 		pnRightOfCen.add(pnBtn);
 
 		pnCen.add(pnRightOfCen);
@@ -469,13 +438,10 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 		String ttkd = cboTrangThai.getSelectedItem().toString();
 		double donGia = Double.parseDouble(txtDonGia.getText());
 		String chatLieu = txtChatLieu.getText();
-		double km = Double.parseDouble(txtKhuyenMai.getText());
-		LocalDate bd = LocalDate.parse(txtNgayBatDau.getText());
-		LocalDate kt = LocalDate.parse(txtNgayKetThuc.getText());
 
 		boolean ttkdBoolean = ttkd.equals("Kinh Doanh") ? true : false;
 
-		SanPham sp = new SanPham(pathImg, ma, ten, chatLieu, ttkdBoolean, donGia, chatLieu, km, bd, kt);
+		SanPham sp = new SanPham(pathImg, ma, ten, chatLieu, ttkdBoolean, donGia, chatLieu);
 
 		boolean statusCapNhatSP = sanPhamController.capNhatSanPham(sp);
 		if (!statusCapNhatSP) {
@@ -485,7 +451,6 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 			JOptionPane.showMessageDialog(this, "Cập nhật sản phẩm thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-
 
 	private void dangXuat() {
 		int choice = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Thông báo",
@@ -505,8 +470,5 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 		txtTenSanPham.setText("");
 		txtDonGia.setText("");
 		txtChatLieu.setText("");
-		txtKhuyenMai.setText("");
-		txtNgayBatDau.setText("");
-		txtNgayKetThuc.setText("");
 	}
 }

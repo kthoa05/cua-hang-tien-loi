@@ -1,7 +1,5 @@
 package cua_hang_tien_loi.entity;
 
-import java.time.LocalDate;
-
 public class SanPham {
 	private String imgPath;
 	private String maSP;
@@ -10,12 +8,9 @@ public class SanPham {
 	private boolean TTKD;
 	private double donGia;
 	private String chatLieu;
-	private double phanTramKM;
-	private LocalDate ngayBDKM;
-	private LocalDate ngayKTKM;
 
 	public SanPham(String imgPath, String maSP, String tenSP, String loaiSP, boolean tTKD, double donGia,
-			String chatLieu, double phanTramKM, LocalDate ngayBDKM, LocalDate ngayKTKM) {
+			String chatLieu) {
 		super();
 		this.imgPath = imgPath;
 		this.maSP = maSP;
@@ -24,9 +19,7 @@ public class SanPham {
 		TTKD = tTKD;
 		this.donGia = donGia;
 		this.chatLieu = chatLieu;
-		this.phanTramKM = phanTramKM;
-		this.ngayBDKM = ngayBDKM;
-		this.ngayKTKM = ngayKTKM;
+
 	}
 
 	public String getImgPath() {
@@ -85,36 +78,10 @@ public class SanPham {
 		this.chatLieu = chatLieu;
 	}
 
-	public double getPhanTramKM() {
-		return phanTramKM;
-	}
-
-	public void setPhanTramKM(double phanTramKM) {
-		this.phanTramKM = phanTramKM;
-	}
-
-	public LocalDate getNgayBDKM() {
-		return ngayBDKM;
-	}
-
-	public void setNgayBDKM(LocalDate ngayBDKM) {
-		this.ngayBDKM = ngayBDKM;
-	}
-
-	public LocalDate getNgayKTKM() {
-		return ngayKTKM;
-	}
-
-	public void setNgayKTKM(LocalDate ngayKTKM) {
-		this.ngayKTKM = ngayKTKM;
-	}
-
 	@Override
 	public String toString() {
 		return "SanPham [maSP=" + maSP + ", tenSP=" + tenSP + ", loaiSP=" + loaiSP + ", TTKD=" + TTKD + ", donGia="
-				+ donGia + ", chatLieu=" + chatLieu + ", phanTramKM=" + phanTramKM + "]";
+				+ donGia + ", chatLieu=" + chatLieu;
 	}
-
-	
 
 }

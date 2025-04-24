@@ -24,9 +24,8 @@ public class DAO_SanPham {
 			ResultSet rs = s.executeQuery();
 			while (rs.next()) {
 				list.add(new SanPham(rs.getString("imgPath"), rs.getString("maSP"), rs.getString("tenSP"),
-						rs.getString("loaiSP"), rs.getBoolean("ttkd"), rs.getDouble("donGia"), rs.getString("chatLieu"),
-						rs.getDouble("phanTramKM"), rs.getDate("ngayBDKM").toLocalDate(),
-						rs.getDate("ngayKTKM").toLocalDate()));
+						rs.getString("loaiSP"), rs.getBoolean("ttkd"), rs.getDouble("donGia"),
+						rs.getString("chatLieu")));
 
 			}
 		} catch (SQLException e) {
@@ -50,9 +49,6 @@ public class DAO_SanPham {
 			s.setBoolean(5, sp.isTTKD());
 			s.setDouble(6, sp.getDonGia());
 			s.setString(7, sp.getChatLieu());
-			s.setDouble(8, sp.getPhanTramKM());
-			s.setDate(9, Date.valueOf(sp.getNgayBDKM()));
-			s.setDate(10, Date.valueOf(sp.getNgayKTKM()));
 			s.executeUpdate();
 			return true;
 		} catch (SQLException e) {
@@ -73,10 +69,7 @@ public class DAO_SanPham {
 			s.setString(2, sp.getLoaiSP());
 			s.setBoolean(3, sp.isTTKD());
 			s.setString(4, sp.getChatLieu());
-			s.setDouble(5, sp.getPhanTramKM());
-			s.setDate(6, Date.valueOf(sp.getNgayBDKM()));
-			s.setDate(7, Date.valueOf(sp.getNgayKTKM()));
-			s.setString(9, sp.getMaSP());
+			s.setString(5, sp.getMaSP());
 			s.executeUpdate();
 			return true;
 		} catch (SQLException e) {
@@ -100,9 +93,8 @@ public class DAO_SanPham {
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
 				SanPham sp = new SanPham(rs.getString("imgPath"), rs.getString("maSP"), rs.getString("tenSP"),
-						rs.getString("loaiSP"), rs.getBoolean("ttkd"), rs.getDouble("donGia"), rs.getString("chatLieu"),
-						rs.getDouble("phanTramKM"), rs.getDate("ngayBDKM").toLocalDate(),
-						rs.getDate("ngayKTKM").toLocalDate());
+						rs.getString("loaiSP"), rs.getBoolean("ttkd"), rs.getDouble("donGia"),
+						rs.getString("chatLieu"));
 				ds.add(sp);
 			}
 		} catch (SQLException e) {
