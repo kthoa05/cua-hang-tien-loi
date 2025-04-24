@@ -17,8 +17,18 @@ public class SanPhamController {
 		return daoSp.updateSanPham(sp);
 	}
 
-	//cho phan TraCuuSP
+	// cho phan TraCuuSP
 	public List<SanPham> timKiemSanPham(String maSp, String tenSp, String loai, boolean ttkd) {
 		return daoSp.findSanPham(maSp, tenSp, loai, ttkd);
+	}
+
+	// loai sp
+	public List<String> getLoaiSP() {
+		return daoSp.getLoaiSP();
+	}
+
+	// ttkd
+	public List<String> getTTKD() {
+		return daoSp.getDSTinhTrangKD();
 	}
 }

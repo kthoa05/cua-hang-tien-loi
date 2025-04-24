@@ -54,12 +54,12 @@ public class TraCuuSanPhamQuanLy extends JFrame implements ActionListener {
 	private JMenuItem itemQuayLai;
 	private JTextField txtMa;
 	private JTextField txtTen;
-	private JComboBox cbLoai;
+	private JComboBox<Object> cbLoai;
 	private AbstractButton btnTim;
 	private JButton btnLamMoi;
 	private JTable table;
 	private JTextField txtTTKD;
-	private JComboBox cbTTKD;
+	private JComboBox<Object> cbTTKD;
 	private SanPhamController spController;
 	private DefaultTableModel modelTable;
 
@@ -220,15 +220,21 @@ public class TraCuuSanPhamQuanLy extends JFrame implements ActionListener {
 		JLabel lblTen = StyleUtils.createLabel("Tên sản phẩm:");
 		txtTen = new JTextField(15);
 
-		// CAN LAM - LOAD DU LIEU TU TABLE LEN
+		// CAN TEST - LOAD DU LIEU TU TABLE LEN
 		JLabel lblLoai = StyleUtils.createLabel("Loại:");
-		String[] loaiSP = { "Tất cả", "Đồ ăn", "Đồ uống", "Gia dụng", "Khác" };
-		cbLoai = new JComboBox<>(loaiSP);
+		cbLoai = new JComboBox<>();
+		cbLoai.addItem("Tất cả");
+		for (String loai : spController.getLoaiSP()) {
+			cbLoai.addItem(loai);
+		}
 
-		// CAN LAM - LOAD DU LIEU TU TABLE LEN
+		// CAN TEST - LOAD DU LIEU TU TABLE LEN
 		JLabel lblTTKD = StyleUtils.createLabel("TTKD:");
-		String[] ttkd = { "Ngừng kinh doanh", "Kinh doanh" };
-		cbTTKD = new JComboBox<>(ttkd);
+		cbTTKD = new JComboBox<>();
+		cbTTKD.addItem("Tất cả");
+		for (String ttkd : spController.getTTKD()) {
+			cbTTKD.addItem(ttkd);
+		}
 
 		// btn
 		btnTim = new JButton("Tìm kiếm", new ImageIcon("src/cua_hang_tien_loi/icon/search.png"));

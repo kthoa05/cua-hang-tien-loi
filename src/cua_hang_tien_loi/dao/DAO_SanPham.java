@@ -112,4 +112,46 @@ public class DAO_SanPham {
 		return ds;
 	}
 
+	// select loai len
+	public List<String> getLoaiSP() {
+		ConnectDB.getInstance();
+		Connection conn = ConnectDB.getConnection();
+		String sql = "SELECT DISTINCT loai FROM SanPham";
+		PreparedStatement s = null;
+		List<String> ds = new ArrayList<>();
+		ResultSet rs = null;
+		try {
+			s = conn.prepareStatement(sql);
+			rs = s.executeQuery();
+			while (rs.next()) {
+				String loai = rs.getString("loai");
+				ds.add(loai);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ds;
+	}
+
+	// select ttkd
+	public List<String> getDSTinhTrangKD() {
+		List<String> ds = new ArrayList<>();
+		Connection conn = ConnectDB.getConnection();
+		String sql = "SELECT ttkd FROM SanPham";
+
+		try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+			while (rs.next()) {
+				boolean ttkd = rs.getBoolean("ttkd");
+				String tinhTrang = ttkd ? "Kinh doanh" : "Không kinh doanh";
+				ds.add(tinhTrang);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ds;
+	}
+
 }
