@@ -2,7 +2,6 @@ package cua_hang_tien_loi.dao;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,26 +12,27 @@ import cua_hang_tien_loi.connectDB.ConnectDB;
 import cua_hang_tien_loi.entity.SanPham;
 
 public class DAO_SanPham {
-	public ArrayList<SanPham> getSanPham() {
+	public SanPham getSanPham(String id) {
 		ConnectDB.getInstance();
 		Connection conn = ConnectDB.getConnection();
-		String sql = "SELECT * FROM SanPham";
+		String sql = "SELECT * FROM SanPham WHERE maSP = ?";
 		PreparedStatement s = null;
-		ArrayList<SanPham> list = new ArrayList<SanPham>();
+		SanPham sp = new SanPham();
 		try {
 			s = conn.prepareStatement(sql);
+			s.setString(0, id);
 			ResultSet rs = s.executeQuery();
 			while (rs.next()) {
-				list.add(new SanPham(rs.getString("imgPath"), rs.getString("maSP"), rs.getString("tenSP"),
+				sp = new SanPham(rs.getString("imgPath"), rs.getString("maSP"), rs.getString("tenSP"),
 						rs.getString("loaiSP"), rs.getBoolean("ttkd"), rs.getDouble("donGia"),
-						rs.getString("chatLieu")));
+						rs.getString("chatLieu"));
 
 			}
 		} catch (SQLException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return list;
+		return sp;
 	}
 
 	public boolean addSanPham(SanPham sp) {

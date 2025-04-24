@@ -1,7 +1,9 @@
 package cua_hang_tien_loi.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
+import cua_hang_tien_loi.dao.DAO_ChiTietHoaDon;
 import cua_hang_tien_loi.dao.DAO_HoaDon;
 
 public class HoaDon {
@@ -9,7 +11,6 @@ public class HoaDon {
 	private KhachHang kh;
 	private NhanVien nv;
 	private LocalDate ngayLapHD;
-	private double tongTien;
 
 	private String auto_IDHoaDon() {
 		// auto gen id hóa đơn dạng HDXXXXXX
@@ -21,13 +22,12 @@ public class HoaDon {
 
 	}
 
-	public HoaDon(String maHD, KhachHang kh, NhanVien nv, LocalDate ngayLapHD, double tongTien) {
+	public HoaDon(String maHD, KhachHang kh, NhanVien nv, LocalDate ngayLapHD) {
 		super();
 		this.maHD = maHD;
 		this.kh = kh;
 		this.nv = nv;
 		this.ngayLapHD = ngayLapHD;
-		this.tongTien = tongTien;
 	}
 
 	public String getMaHD() {
@@ -62,18 +62,20 @@ public class HoaDon {
 		this.ngayLapHD = ngayLapHD;
 	}
 
-	public double getTongTien() {
-		return tongTien;
-	}
-
-	public void setTongTien(double tongTien) {
-		this.tongTien = tongTien;
-	}
-
 	@Override
 	public String toString() {
-		return "HoaDon [maHD=" + maHD + ", kh=" + kh + ", nv=" + nv + ", ngayLapHD=" + ngayLapHD + ", tongTien="
-				+ tongTien + "]";
+		return "HoaDon [maHD=" + maHD + ", kh=" + kh + ", nv=" + nv + ", ngayLapHD=" + ngayLapHD + ", tongTien=";
+	}
+
+	public long tongTien() {
+		long tongTien = 0;
+		DAO_ChiTietHoaDon daoCTHD = new DAO_ChiTietHoaDon();
+		ArrayList<ChiTietHoaDon> listChiTietHoaDon = daoCTHD.getAllCTHDByHoaDon(this);
+		for (ChiTietHoaDon cthd : listChiTietHoaDon) {
+			tongTien += cthd.getSoLuong();
+		}
+
+		return tongTien;
 	}
 
 }

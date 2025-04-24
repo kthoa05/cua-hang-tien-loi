@@ -36,9 +36,8 @@ public class DAO_HoaDon {
 				NhanVien nv = nvController.getNhanVien(rs.getString("maNV"));
 				KhachHang kh = khController.getKhachHang(rs.getString("maKH"));
 				LocalDate ngayLap = rs.getDate("ngayLap").toLocalDate();
-				double tongTien = rs.getDouble("tongTien");
 
-				HoaDon hd = new HoaDon(maHD, kh, nv, ngayLap, tongTien);
+				HoaDon hd = new HoaDon(maHD, kh, nv, ngayLap);
 				danhSachHoaDon.add(hd);
 			}
 

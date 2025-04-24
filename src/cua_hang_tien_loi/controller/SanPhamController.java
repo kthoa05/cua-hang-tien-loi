@@ -31,4 +31,9 @@ public class SanPhamController {
 	public List<String> getTTKD() {
 		return daoSp.getDSTinhTrangKD();
 	}
+
+	// get by id
+	public SanPham getById(String id) {
+		return daoSp.getSanPham(id);
+	}
 }

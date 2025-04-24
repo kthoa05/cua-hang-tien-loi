@@ -9,6 +9,10 @@ public class SanPham {
 	private double donGia;
 	private String chatLieu;
 
+	public SanPham() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public SanPham(String imgPath, String maSP, String tenSP, String loaiSP, boolean tTKD, double donGia,
 			String chatLieu) {
 		super();
