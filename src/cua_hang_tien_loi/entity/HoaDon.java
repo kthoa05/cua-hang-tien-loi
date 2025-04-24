@@ -1,5 +1,6 @@
 package cua_hang_tien_loi.entity;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -10,7 +11,7 @@ public class HoaDon {
 	private String maHD;
 	private KhachHang kh;
 	private NhanVien nv;
-	private LocalDate ngayLapHD;
+	private Date ngayLapHD;
 
 	private String auto_IDHoaDon() {
 		// auto gen id hóa đơn dạng HDXXXXXX
@@ -22,7 +23,7 @@ public class HoaDon {
 
 	}
 
-	public HoaDon(String maHD, KhachHang kh, NhanVien nv, LocalDate ngayLapHD) {
+	public HoaDon(String maHD, KhachHang kh, NhanVien nv, Date ngayLapHD) {
 		super();
 		this.maHD = maHD;
 		this.kh = kh;
@@ -54,11 +55,11 @@ public class HoaDon {
 		this.nv = nv;
 	}
 
-	public LocalDate getNgayLapHD() {
+	public Date getNgayLapHD() {
 		return ngayLapHD;
 	}
 
-	public void setNgayLapHD(LocalDate ngayLapHD) {
+	public void setNgayLapHD(Date ngayLapHD) {
 		this.ngayLapHD = ngayLapHD;
 	}
 
