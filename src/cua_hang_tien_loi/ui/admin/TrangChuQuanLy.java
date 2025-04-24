@@ -238,7 +238,7 @@ public class TrangChuQuanLy extends JFrame implements ActionListener {
 			SystemUtils.dangXuat(this);
 		} else if (source.equals(itemThemSP)) {
 			this.setVisible(false);
-			new FormThemSanPhamQuanLy().setVisible(true);
+			new ThemSanPhamQuanLy().setVisible(true);
 		} else if (source.equals(itemCapNhatSp)) {
 			this.setVisible(false);
 			new CapNhatSanPhamQuanLy().setVisible(true);

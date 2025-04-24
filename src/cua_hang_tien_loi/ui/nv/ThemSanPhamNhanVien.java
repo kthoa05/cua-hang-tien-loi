@@ -1,4 +1,4 @@
-package cua_hang_tien_loi.ui.admin;
+package cua_hang_tien_loi.ui.nv;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -24,51 +24,46 @@ import javax.swing.JTextField;
 
 import cua_hang_tien_loi.controller.SanPhamController;
 import cua_hang_tien_loi.entity.SanPham;
+import cua_hang_tien_loi.ui.admin.ThongTinTaiKhoanQuanLy;
 import cua_hang_tien_loi.utils.StyleUtils;
 import cua_hang_tien_loi.utils.SystemUtils;
 
-public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
+public class ThemSanPhamNhanVien extends JFrame implements ActionListener {
 
 	private JMenuItem itemTaiKhoan;
 	private JMenuItem itemTroGiup;
 	private JMenuItem itemDangXuat;
-	private JMenuItem itemThemSP;
-	private JMenuItem itemTraCuuSP;
-	private JMenuItem itemCapNhatSp;
 	private JMenuItem itemTraCuuKH;
 	private JMenuItem itemThemKH;
 	private JMenuItem itemCapNhatKH;
 	private JMenuItem itemTraCuuHD;
 	private JMenuItem itemThemHD;
 	private JMenuItem itemCapNhatHD;
-	private JMenuItem itemTraCuuNV;
-	private JMenuItem itemThemNV;
-	private JMenuItem itemCapNhatNV;
 	private JMenuItem itemDTTheoNgay;
 	private JMenuItem itemDTTheoThang;
 	private JMenuItem itemDTTheoNam;
 	private JMenuItem itemQuayLai;
+	private JLabel lblImage;
 	private JButton btnImg;
 	private JTextField txtMaSanPham;
 	private JTextField txtTenSanPham;
 	private JComboBox<Object> cboLoaiSanPham;
+	private SanPhamController sanPhamController;
 	private JComboBox<Object> cboTrangThai;
+	private JTextField txtDonGia;
 	private JTextField txtChatLieu;
 	private JButton btnLamMoi;
 	private JButton btnThem;
-	private JTextField txtDonGia;
-	private SanPhamController sanPhamController;
-	private JLabel lblImage;
 	private String pathImg;
 
-	public FormThemSanPhamQuanLy() {
+	public ThemSanPhamNhanVien() {
 		// TODO Auto-generated constructor stub
-		this.UIFormThemSanPham();
+		this.UIThemSanPhamNhanVien();
 	}
 
-	private void UIFormThemSanPham() {
-		setTitle("Quản lý cửa hàng tiện lợi - Thêm sản phẩm");
-		setSize(1000, 500);
+	private void UIThemSanPhamNhanVien() {
+		setTitle("Quản lý cửa hàng tiện lợi - Trang chủ");
+		setSize(1000, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -102,21 +97,6 @@ public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 		menuBar.add(menuHeThong);
 		menuBar.add(Box.createHorizontalStrut(25));
 
-		// san pham
-		JMenu menuSanPham = new JMenu("Sản phẩm");
-		menuSanPham.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/product.png"));
-		itemTraCuuSP = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
-		itemThemSP = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatSp = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
-
-		menuSanPham.add(itemTraCuuSP);
-		menuSanPham.addSeparator();
-		menuSanPham.add(itemThemSP);
-		menuSanPham.addSeparator();
-		menuSanPham.add(itemCapNhatSp);
-		menuBar.add(menuSanPham);
-		menuBar.add(Box.createHorizontalStrut(25));
-
 		// khach hang
 		JMenu menuKhachHang = new JMenu("Khách hàng");
 		menuKhachHang.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/customer.png"));
@@ -145,21 +125,6 @@ public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 		menuHoaDon.addSeparator();
 		menuHoaDon.add(itemCapNhatHD);
 		menuBar.add(menuHoaDon);
-		menuBar.add(Box.createHorizontalStrut(25));
-
-		// nhan vien
-		JMenu menuNhanVien = new JMenu("Nhân viên");
-		menuNhanVien.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/employee.png"));
-		itemTraCuuNV = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
-		itemThemNV = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatNV = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
-
-		menuNhanVien.add(itemTraCuuNV);
-		menuNhanVien.addSeparator();
-		menuNhanVien.add(itemThemNV);
-		menuNhanVien.addSeparator();
-		menuNhanVien.add(itemCapNhatNV);
-		menuBar.add(menuNhanVien);
 		menuBar.add(Box.createHorizontalStrut(25));
 
 		// thong ke
@@ -333,11 +298,6 @@ public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 		itemTroGiup.addActionListener(this);
 		itemDangXuat.addActionListener(this);
 
-		// san pham
-		itemTraCuuSP.addActionListener(this);
-		itemCapNhatSp.addActionListener(this);
-		itemThemSP.addActionListener(this);
-
 		// khach hang
 		itemTraCuuKH.addActionListener(this);
 		itemCapNhatKH.addActionListener(this);
@@ -346,11 +306,6 @@ public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 		// hoa don
 		itemTraCuuHD.addActionListener(this);
 		itemThemHD.addActionListener(this);
-
-		// nhan vien
-		itemTraCuuNV.addActionListener(this);
-		itemCapNhatNV.addActionListener(this);
-		itemThemNV.addActionListener(this);
 
 		// thong ke
 		itemDTTheoNgay.addActionListener(this);
@@ -367,10 +322,11 @@ public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 
 		// key f1
 		SystemUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
+
 	}
 
 	public static void main(String[] args) {
-		new FormThemSanPhamQuanLy().setVisible(true);
+		new ThemSanPhamNhanVien().setVisible(true);
 	}
 
 	@Override
@@ -383,12 +339,6 @@ public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 			SystemUtils.openFile("/Users/lethoa/Documents/giaykhamsuckhoe.pdf");
 		} else if (source.equals(itemDangXuat)) {
 			SystemUtils.dangXuat(this);
-		} else if (source.equals(itemThemSP)) {
-			this.setVisible(false);
-			new FormThemSanPhamQuanLy().setVisible(true);
-		} else if (source.equals(itemCapNhatSp)) {
-			this.setVisible(true);
-			new CapNhatSanPhamQuanLy().setVisible(true);
 		}
 		// btn
 		else if (source.equals(btnImg)) {

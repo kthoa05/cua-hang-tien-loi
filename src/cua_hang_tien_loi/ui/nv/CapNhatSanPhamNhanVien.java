@@ -1,4 +1,4 @@
-package cua_hang_tien_loi.ui.admin;
+package cua_hang_tien_loi.ui.nv;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -26,57 +26,52 @@ import javax.swing.JTextField;
 import cua_hang_tien_loi.controller.SanPhamController;
 import cua_hang_tien_loi.entity.SanPham;
 import cua_hang_tien_loi.ui.DangNhap;
+import cua_hang_tien_loi.ui.admin.CapNhatSanPhamQuanLy;
+import cua_hang_tien_loi.ui.admin.ThemSanPhamQuanLy;
+import cua_hang_tien_loi.ui.admin.ThongTinTaiKhoanQuanLy;
 import cua_hang_tien_loi.utils.StyleUtils;
 import cua_hang_tien_loi.utils.SystemUtils;
 
-public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
+public class CapNhatSanPhamNhanVien extends JFrame implements ActionListener {
 
 	private JMenuItem itemTaiKhoan;
 	private JMenuItem itemTroGiup;
 	private JMenuItem itemDangXuat;
-	private JMenuItem itemThemSP;
-	private JMenuItem itemTraCuuSP;
-	private JMenuItem itemCapNhatSp;
 	private JMenuItem itemTraCuuKH;
 	private JMenuItem itemThemKH;
 	private JMenuItem itemCapNhatKH;
 	private JMenuItem itemTraCuuHD;
 	private JMenuItem itemThemHD;
 	private JMenuItem itemCapNhatHD;
-	private JMenuItem itemTraCuuNV;
-	private JMenuItem itemThemNV;
-	private JMenuItem itemCapNhatNV;
 	private JMenuItem itemDTTheoNgay;
 	private JMenuItem itemDTTheoThang;
 	private JMenuItem itemDTTheoNam;
 	private JMenuItem itemQuayLai;
-	private JButton btnImg;
 	private JTextField txtMaSanPham;
 	private JTextField txtTenSanPham;
 	private JComboBox<Object> cboLoaiSanPham;
+	private SanPhamController spController;
 	private JComboBox<Object> cboTrangThai;
+	private JLabel lblImage;
+	private JButton btnImg;
+	private JTextField txtDonGia;
 	private JTextField txtChatLieu;
 	private JButton btnLamMoi;
-	private JButton btnThem;
-	private JTextField txtDonGia;
+	private JButton btnCapNhat;
 	private JTextField txtMaSP;
 	private JTextField txtTenSp;
 	private JComboBox<String> txtTTKD;
-	private JButton btnCapNhat;
-	private JLabel lblImage;
-	private String pathImg;
-	private SanPhamController sanPhamController;
 	private JButton btnTimKiem;
-	private SanPhamController spController;
+	private String pathImg;
 
-	public CapNhatSanPhamQuanLy() {
+	public CapNhatSanPhamNhanVien() {
 		// TODO Auto-generated constructor stub
 		this.UICapNhatSanPham();
 	}
 
-	private <E> void UICapNhatSanPham() {
+	private void UICapNhatSanPham() {
 		setTitle("Quản lý cửa hàng tiện lợi - Cập nhật sản phẩm");
-		setSize(1000, 500);
+		setSize(1000, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -110,21 +105,6 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 		menuBar.add(menuHeThong);
 		menuBar.add(Box.createHorizontalStrut(25));
 
-		// san pham
-		JMenu menuSanPham = new JMenu("Sản phẩm");
-		menuSanPham.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/product.png"));
-		itemTraCuuSP = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
-		itemThemSP = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatSp = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
-
-		menuHeThong.add(itemTaiKhoan);
-		menuHeThong.addSeparator();
-		menuSanPham.add(itemThemSP);
-		menuSanPham.addSeparator();
-		menuSanPham.add(itemCapNhatSp);
-		menuBar.add(menuSanPham);
-		menuBar.add(Box.createHorizontalStrut(25));
-
 		// khach hang
 		JMenu menuKhachHang = new JMenu("Khách hàng");
 		menuKhachHang.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/customer.png"));
@@ -155,21 +135,6 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 		menuBar.add(menuHoaDon);
 		menuBar.add(Box.createHorizontalStrut(25));
 
-		// nhan vien
-		JMenu menuNhanVien = new JMenu("Nhân viên");
-		menuNhanVien.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/employee.png"));
-		itemTraCuuNV = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
-		itemThemNV = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatNV = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
-
-		menuNhanVien.add(itemTraCuuNV);
-		menuNhanVien.addSeparator();
-		menuNhanVien.add(itemThemNV);
-		menuNhanVien.addSeparator();
-		menuNhanVien.add(itemCapNhatNV);
-		menuBar.add(menuNhanVien);
-		menuBar.add(Box.createHorizontalStrut(25));
-
 		// thong ke
 		JMenu menuThongKe = new JMenu("Thống kê");
 		menuThongKe.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/thongke.png"));
@@ -186,6 +151,7 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 		itemDoanhThu.add(itemDTTheoThang);
 		itemDoanhThu.addSeparator();
 		itemDoanhThu.add(itemDTTheoNam);
+
 		menuThongKe.add(itemDoanhThu);
 
 		menuBar.add(menuThongKe);
@@ -259,6 +225,7 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 		pnTrangThai.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JLabel lblTrangThai = new JLabel("TTKD:");
 		cboTrangThai = new JComboBox<>();
+		cboTrangThai.addItem("Tất cả");
 		for (String ttkd : spController.getTTKD()) {
 			cboTrangThai.addItem(ttkd);
 		}
@@ -354,11 +321,6 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 		itemTroGiup.addActionListener(this);
 		itemDangXuat.addActionListener(this);
 
-		// san pham
-		itemTraCuuSP.addActionListener(this);
-		itemCapNhatSp.addActionListener(this);
-		itemThemSP.addActionListener(this);
-
 		// khach hang
 		itemTraCuuKH.addActionListener(this);
 		itemCapNhatKH.addActionListener(this);
@@ -367,11 +329,6 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 		// hoa don
 		itemTraCuuHD.addActionListener(this);
 		itemThemHD.addActionListener(this);
-
-		// nhan vien
-		itemTraCuuNV.addActionListener(this);
-		itemCapNhatNV.addActionListener(this);
-		itemThemNV.addActionListener(this);
 
 		// thong ke
 		itemDTTheoNgay.addActionListener(this);
@@ -389,10 +346,11 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 
 		// key f1
 		SystemUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
+
 	}
 
 	public static void main(String[] args) {
-		new CapNhatSanPhamQuanLy().setVisible(true);
+		new CapNhatSanPhamNhanVien().setVisible(true);
 	}
 
 	@Override
@@ -405,12 +363,6 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 			SystemUtils.openFile("/Users/lethoa/Documents/giaykhamsuckhoe.pdf");
 		} else if (source.equals(itemDangXuat)) {
 			this.dangXuat();
-		} else if (source.equals(itemThemSP)) {
-			this.setVisible(false);
-			new ThemSanPhamQuanLy().setVisible(true);
-		} else if (source.equals(itemCapNhatSp)) {
-			this.setVisible(true);
-			new CapNhatSanPhamQuanLy().setVisible(true);
 		}
 
 		// btn
@@ -431,7 +383,7 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 		String ttkd = cboTrangThai.getSelectedItem().toString();
 		boolean ttkdBoolean = ttkd.equals("Kinh Doanh") ? true : false;
 
-		List<SanPham> sp = sanPhamController.timKiemSanPham(ma, ten, null, ttkdBoolean);
+		List<SanPham> sp = spController.timKiemSanPham(ma, ten, null, ttkdBoolean);
 
 		// do du lieu len form
 	}
@@ -448,7 +400,7 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 
 		SanPham sp = new SanPham(pathImg, ma, ten, chatLieu, ttkdBoolean, donGia, chatLieu);
 
-		boolean statusCapNhatSP = sanPhamController.capNhatSanPham(sp);
+		boolean statusCapNhatSP = spController.capNhatSanPham(sp);
 		if (!statusCapNhatSP) {
 			JOptionPane.showMessageDialog(this, "Cập nhật sản phẩm sản phẩm thành công", "Thông báo",
 					JOptionPane.INFORMATION_MESSAGE);
@@ -476,4 +428,5 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 		txtDonGia.setText("");
 		txtChatLieu.setText("");
 	}
+
 }

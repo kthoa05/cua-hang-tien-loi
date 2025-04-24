@@ -4,28 +4,41 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
-import cua_hang_tien_loi.ui.DangNhap;
+import cua_hang_tien_loi.controller.SanPhamController;
+import cua_hang_tien_loi.entity.SanPham;
 import cua_hang_tien_loi.ui.admin.CapNhatSanPhamQuanLy;
+import cua_hang_tien_loi.ui.admin.CapNhatThongTinKhachHangQuanLy;
 import cua_hang_tien_loi.ui.admin.ThemSanPhamQuanLy;
+import cua_hang_tien_loi.ui.admin.ThemNhanVien;
 import cua_hang_tien_loi.ui.admin.ThongTinTaiKhoanQuanLy;
+import cua_hang_tien_loi.ui.admin.TraCuuKhachHangQuanLy;
+import cua_hang_tien_loi.ui.admin.TraCuuNhanVien;
+import cua_hang_tien_loi.ui.admin.TraCuuSanPhamQuanLy;
 import cua_hang_tien_loi.utils.StyleUtils;
+import cua_hang_tien_loi.utils.SystemUtils;
 
-public class TrangChuDangNhapNhanVien extends JFrame implements ActionListener {
+public class TraCuuSanPhamNhanVien extends JFrame implements ActionListener {
 
 	private JMenuItem itemTaiKhoan;
 	private JMenuItem itemTroGiup;
@@ -40,14 +53,23 @@ public class TrangChuDangNhapNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemDTTheoThang;
 	private JMenuItem itemDTTheoNam;
 	private JMenuItem itemQuayLai;
+	private JTextField txtMa;
+	private JTextField txtTen;
+	private JComboBox<Object> cbLoai;
+	private SanPhamController spController;
+	private JComboBox<Object> cbTTKD;
+	private JButton btnTim;
+	private JButton btnLamMoi;
+	private DefaultTableModel modelTable;
+	private JTable table;
 
-	public TrangChuDangNhapNhanVien() {
+	public TraCuuSanPhamNhanVien() {
 		// TODO Auto-generated constructor stub
-		this.UITrangChuDangNhapNhanVien();
+		this.UITraCuuSanPhamNhanVien();
 	}
 
-	private void UITrangChuDangNhapNhanVien() {
-		setTitle("Quản lý cửa hàng tiện lợi - Trang chủ");
+	private void UITraCuuSanPhamNhanVien() {
+		setTitle("Quản lý cửa hàng tiện lợi - Tra cứu sản phẩm");
 		setSize(1000, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -147,12 +169,71 @@ public class TrangChuDangNhapNhanVien extends JFrame implements ActionListener {
 		// cen
 		JPanel pnCen = new JPanel();
 
-		ImageIcon originalIcon = new ImageIcon("src/cua_hang_tien_loi/icon/home.jpg");
-		Image scaledImage = originalIcon.getImage().getScaledInstance(1000, 900, Image.SCALE_SMOOTH);
-		ImageIcon scaledIcon = new ImageIcon(scaledImage);
-		JLabel lblCen = new JLabel(scaledIcon);
+		pnCen.setLayout(new BoxLayout(pnCen, BoxLayout.X_AXIS));
 
-		pnCen.add(lblCen);
+		// tieu de
+		JPanel pnTieuDe = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+		JLabel lblTieuDe = StyleUtils.createHeaderTitle("TRA CỨU SẢN PHẨM");
+		pnTieuDe.add(lblTieuDe);
+		pnCen.add(pnTieuDe);
+
+		// form
+		JPanel pnTimKiem = new JPanel();
+		pnTimKiem.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+
+		JLabel lblMa = StyleUtils.createLabel("Mã sản phẩm:");
+		txtMa = new JTextField(10);
+
+		JLabel lblTen = StyleUtils.createLabel("Tên sản phẩm:");
+		txtTen = new JTextField(15);
+
+		// CAN TEST - LOAD DU LIEU TU TABLE LEN
+		JLabel lblLoai = StyleUtils.createLabel("Loại:");
+		cbLoai = new JComboBox<>();
+		for (String loai : spController.getLoaiSP()) {
+			cbLoai.addItem(loai);
+		}
+
+		// CAN TEST - LOAD DU LIEU TU TABLE LEN
+		JLabel lblTTKD = StyleUtils.createLabel("TTKD:");
+		cbTTKD = new JComboBox<>();
+		for (String ttkd : spController.getTTKD()) {
+			cbTTKD.addItem(ttkd);
+		}
+
+		// btn
+		btnTim = new JButton("Tìm kiếm", new ImageIcon("src/cua_hang_tien_loi/icon/search.png"));
+		btnLamMoi = new JButton("Làm mới", new ImageIcon("src/cua_hang_tien_loi/icon/lammoi.png"));
+
+		pnTimKiem.add(lblMa);
+		pnTimKiem.add(txtMa);
+		pnTimKiem.add(lblTen);
+		pnTimKiem.add(txtTen);
+		pnTimKiem.add(lblLoai);
+		pnTimKiem.add(cbLoai);
+		pnTimKiem.add(lblTTKD);
+		pnTimKiem.add(cbTTKD);
+		pnTimKiem.add(btnTim);
+		pnTimKiem.add(btnLamMoi);
+
+		pnCen.add(pnTimKiem);
+
+		// table
+		JPanel pnKetQua = new JPanel();
+		pnKetQua.setLayout(new BorderLayout());
+		pnKetQua.setBorder(BorderFactory.createTitledBorder("Kết quả tìm kiếm"));
+
+		String[] cols = { "Mã SP", "Tên SP", "Loại SP", "Giá", "Chất liệu", "Trạng thái kinh doanh" };
+		modelTable = new DefaultTableModel(cols, 0);
+		table = new JTable(modelTable);
+		table.setPreferredScrollableViewportSize(new Dimension(550, 150));
+		JScrollPane scroll = new JScrollPane(table);
+
+		pnKetQua.add(scroll, BorderLayout.CENTER);
+
+		pnCen.add(pnKetQua);
+
 		pnMain.add(pnCen, BorderLayout.CENTER);
 
 		add(pnMain);
@@ -167,7 +248,6 @@ public class TrangChuDangNhapNhanVien extends JFrame implements ActionListener {
 		// khach hang
 		itemTraCuuKH.addActionListener(this);
 		itemCapNhatKH.addActionListener(this);
-		itemThemKH.addActionListener(this);
 
 		// hoa don
 		itemTraCuuHD.addActionListener(this);
@@ -181,10 +261,18 @@ public class TrangChuDangNhapNhanVien extends JFrame implements ActionListener {
 		// quay lai
 		itemQuayLai.addActionListener(this);
 
+		// btn
+		btnTim.addActionListener(this);
+		btnLamMoi.addActionListener(this);
+		btnTim.addActionListener(this);
+
+		// key f1
+		SystemUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
+
 	}
 
 	public static void main(String[] args) {
-		new TrangChuDangNhapNhanVien().setVisible(true);
+		new TraCuuSanPhamNhanVien().setVisible(true);
 	}
 
 	@Override
@@ -193,24 +281,63 @@ public class TrangChuDangNhapNhanVien extends JFrame implements ActionListener {
 		Object source = e.getSource();
 
 		if (source.equals(itemTaiKhoan)) {
-			this.thongTinTaiKhoan();
+			new ThongTinTaiKhoanQuanLy().setVisible(true);
 		} else if (source.equals(itemTroGiup)) {
-
-		} else if (source.equals(itemDangXuat)) {
-			this.dangXuat();
-		}
-	}
-
-	private void thongTinTaiKhoan() {
-		new ThongTinTaiKhoanNhanVien().setVisible(true);
-	}
-
-	private void dangXuat() {
-		int choice = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Thông báo",
-				JOptionPane.YES_NO_OPTION);
-		if (choice == JOptionPane.YES_OPTION) {
 			this.setVisible(false);
-			new DangNhap().setVisible(true);
+			new TraCuuSanPhamQuanLy().setVisible(true);
+		} else if (source.equals(itemDangXuat)) {
+			SystemUtils.dangXuat(this);
+		} else if (source.equals(itemTraCuuKH)) {
+			this.setVisible(false);
+			new TraCuuKhachHangQuanLy().setVisible(true);
+		} else if (source.equals(itemCapNhatKH)) {
+			this.setVisible(false);
+			new CapNhatThongTinKhachHangQuanLy().setVisible(true);
+		} else if (source.equals(itemTraCuuHD)) {
+			this.setVisible(false);
+
+		} else if (source.equals(itemThemHD)) {
+			this.setVisible(false);
+
+		} else if (source.equals(itemCapNhatHD)) {
+			this.setVisible(false);
+
+		} else if (source.equals(itemQuayLai)) {
+			SystemUtils.quayLai(this);
+		}
+
+		// btn
+		if (source.equals(btnLamMoi)) {
+			this.clear();
+		} else if (source.equals(btnTim)) {
+			this.timKiem();
 		}
 	}
+
+	// tim
+	private void timKiem() {
+		String maSP = txtMa.getText();
+		String tenSP = txtTen.getText();
+		String loaiSP = cbLoai.getSelectedItem().toString();
+		String ttkd = cbTTKD.getSelectedItem().toString();
+		boolean ttkdStatus = ttkd.equals("Kinh doanh") ? true : false;
+
+		List<SanPham> dssp = spController.timKiemSanPham(maSP, tenSP, loaiSP, ttkdStatus);
+
+		modelTable.setRowCount(0);
+
+		// load du lieu len table
+		for (SanPham sp : dssp) {
+			Object[] row = { sp.getMaSP(), sp.getTenSP(), sp.getLoaiSP(), sp.getDonGia(), sp.getChatLieu(),
+					sp.isTTKD() ? "Kinh doanh" : "Ngừng kinh doanh" };
+			modelTable.addRow(row);
+		}
+	}
+
+	// lam moi
+	private void clear() {
+		txtMa.setText("");
+		txtTen.setText("");
+	}
+
 }
