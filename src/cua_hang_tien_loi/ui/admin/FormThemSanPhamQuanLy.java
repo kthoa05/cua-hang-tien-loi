@@ -4,11 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.time.LocalDate;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -16,7 +13,6 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -28,9 +24,8 @@ import javax.swing.JTextField;
 
 import cua_hang_tien_loi.controller.SanPhamController;
 import cua_hang_tien_loi.entity.SanPham;
-import cua_hang_tien_loi.ui.DangNhap;
-import cua_hang_tien_loi.utils.SystemUtils;
 import cua_hang_tien_loi.utils.StyleUtils;
+import cua_hang_tien_loi.utils.SystemUtils;
 
 public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 
@@ -56,8 +51,8 @@ public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 	private JButton btnImg;
 	private JTextField txtMaSanPham;
 	private JTextField txtTenSanPham;
-	private JComboBox cboLoaiSanPham;
-	private JComboBox cboTrangThai;
+	private JComboBox<Object> cboLoaiSanPham;
+	private JComboBox<Object> cboTrangThai;
 	private JTextField txtChatLieu;
 	private JButton btnLamMoi;
 	private JButton btnThem;
@@ -244,8 +239,12 @@ public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 		JPanel pnLoaiSanPham = new JPanel();
 		pnLoaiSanPham.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JLabel lblLoaiSanPham = new JLabel("Loại sản phẩm:");
-		String[] loaiSanPham = { "Điện thoại", "Máy tính", "Tivi", "Máy ảnh" };
-		cboLoaiSanPham = new JComboBox<>(loaiSanPham);
+		cboLoaiSanPham = new JComboBox<>();
+
+		for (String loai : sanPhamController.getLoaiSP()) {
+			cboLoaiSanPham.addItem(loai);
+		}
+
 		pnLoaiSanPham.add(lblLoaiSanPham);
 		pnLoaiSanPham.add(cboLoaiSanPham);
 
@@ -253,8 +252,10 @@ public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 		JPanel pnTrangThai = new JPanel();
 		pnTrangThai.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JLabel lblTrangThai = new JLabel("TTKD:");
-		String[] trangThai = { "Còn hàng", "Hết hàng", "Sắp ra mắt" };
-		cboTrangThai = new JComboBox<>(trangThai);
+		cboTrangThai = new JComboBox<>();
+		for (String status : sanPhamController.getTTKD()) {
+			cboTrangThai.addItem(status);
+		}
 		pnTrangThai.add(lblTrangThai);
 		pnTrangThai.add(cboTrangThai);
 
@@ -381,19 +382,22 @@ public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 		} else if (source.equals(itemTroGiup)) {
 			SystemUtils.openFile("/Users/lethoa/Documents/giaykhamsuckhoe.pdf");
 		} else if (source.equals(itemDangXuat)) {
-			this.dangXuat();
+			SystemUtils.dangXuat(this);
 		} else if (source.equals(itemThemSP)) {
 			this.setVisible(false);
 			new FormThemSanPhamQuanLy().setVisible(true);
 		} else if (source.equals(itemCapNhatSp)) {
 			this.setVisible(true);
 			new CapNhatSanPhamQuanLy().setVisible(true);
-		} else if (source.equals(btnImg)) {
-			this.chonAnhSanPham();
+		}
+		// btn
+		else if (source.equals(btnImg)) {
+			SystemUtils.chonAnhSanPham(lblImage, pathImg);
 		} else if (source.equals(btnLamMoi)) {
 			this.clearTxtField();
 		} else if (source.equals(btnThem)) {
 			this.themSanPham();
+			this.clearTxtField();
 		}
 
 	}
@@ -416,34 +420,6 @@ public class FormThemSanPhamQuanLy extends JFrame implements ActionListener {
 					JOptionPane.INFORMATION_MESSAGE);
 		} else {
 			JOptionPane.showMessageDialog(this, "Thêm sản phẩm thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
-	// btn them anh
-	private void chonAnhSanPham() {
-		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setDialogTitle("Chọn ảnh sản phẩm");
-		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		int result = fileChooser.showOpenDialog(null);
-
-		if (result == JFileChooser.APPROVE_OPTION) {
-			File selectedFile = fileChooser.getSelectedFile();
-			String imagePath = selectedFile.getAbsolutePath();
-
-			lblImage.setText("");
-			lblImage.setIcon(
-					new ImageIcon(new ImageIcon(imagePath).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
-
-			pathImg = imagePath;
-		}
-	}
-
-	private void dangXuat() {
-		int choice = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Thông báo",
-				JOptionPane.YES_NO_OPTION);
-		if (choice == JOptionPane.YES_OPTION) {
-			this.setVisible(false);
-			new DangNhap().setVisible(true);
 		}
 	}
 

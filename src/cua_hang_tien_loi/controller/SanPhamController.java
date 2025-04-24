@@ -9,6 +9,7 @@ public class SanPhamController {
 
 	private DAO_SanPham daoSp;
 
+	//add sp
 	public boolean themSanPham(SanPham sp) {
 		return daoSp.addSanPham(sp);
 	}

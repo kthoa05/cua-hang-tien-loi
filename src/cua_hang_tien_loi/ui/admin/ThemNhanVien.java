@@ -29,8 +29,8 @@ import javax.swing.JTextField;
 import cua_hang_tien_loi.controller.NhanVienController;
 import cua_hang_tien_loi.entity.NhanVien;
 import cua_hang_tien_loi.ui.DangNhap;
-import cua_hang_tien_loi.utils.SystemUtils;
 import cua_hang_tien_loi.utils.StyleUtils;
+import cua_hang_tien_loi.utils.SystemUtils;
 
 public class ThemNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemTaiKhoan;
@@ -66,6 +66,7 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 	private String pathImg;
 	private JTextField txtCmnd;
 	private NhanVienController nvController;
+	private JComboBox<Object> cbboGt;
 
 	public ThemNhanVien() {
 		// TODO Auto-generated constructor stub
@@ -246,7 +247,10 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 
 		// gioi tinh
 		JLabel lblGioiTinh = StyleUtils.createLabel2("Giới tính:", 100, 180);
-		txtGioiTinh = StyleUtils.createComboBox(new String[] { "Nam", "Nữ", "Khác" }, 250, 180, 100, 30);
+		cbboGt = new JComboBox<>();
+		for (String gt : nvController.getPhai()) {
+			cbboGt.addItem(cbboGt);
+		}
 
 		// add ho ten gt vo pn
 		pnHoTenGT.add(lblHoTen);
@@ -385,28 +389,28 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		Object source = e.getSource();
 		if (source.equals(itemTaiKhoan)) {
-			this.thongTinTaiKhoan();
+			new ThongTinTaiKhoanQuanLy().setVisible(true);
 		} else if (source.equals(itemTroGiup)) {
-			SystemUtils.openFile("/Users/lethoa/Documents/giaykhamsuckhoe.pdf"); 
+			SystemUtils.openFile("/Users/lethoa/Documents/giaykhamsuckhoe.pdf");
 		} else if (source.equals(itemDangXuat)) {
-			this.dangXuat();
+			SystemUtils.dangXuat(this);
 		} else if (source.equals(itemThemSP)) {
 			this.setVisible(false);
 			new FormThemSanPhamQuanLy().setVisible(true);
 		} else if (source.equals(itemCapNhatSp)) {
 			this.setVisible(true);
 			new CapNhatSanPhamQuanLy().setVisible(true);
-		} else if (source.equals(btnImg)) {
-			this.chonAnhNhanVien();
+		}
+
+		// btn
+		else if (source.equals(btnImg)) {
+			SystemUtils.chonAnhSanPham(lblImage, pathImg);
 		} else if (source.equals(btnLamMoi)) {
 			this.clearTxtField();
 		} else if (source.equals(btnThem)) {
 			this.themNhanVien();
+			this.clearTxtField();
 		}
-	}
-
-	private void thongTinTaiKhoan() {
-
 	}
 
 	// btn them
@@ -432,34 +436,6 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		} else {
 			JOptionPane.showMessageDialog(this, "Thêm nhân viên thất bại", "Thông báo",
 					JOptionPane.INFORMATION_MESSAGE);
-		}
-	}
-
-	// btn them anh
-	private void chonAnhNhanVien() {
-		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setDialogTitle("Chọn ảnh sản phẩm");
-		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		int result = fileChooser.showOpenDialog(null);
-
-		if (result == JFileChooser.APPROVE_OPTION) {
-			File selectedFile = fileChooser.getSelectedFile();
-			String imagePath = selectedFile.getAbsolutePath();
-
-			lblImage.setText("");
-			lblImage.setIcon(
-					new ImageIcon(new ImageIcon(imagePath).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
-
-			pathImg = imagePath;
-		}
-	}
-
-	private void dangXuat() {
-		int choice = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Thông báo",
-				JOptionPane.YES_NO_OPTION);
-		if (choice == JOptionPane.YES_OPTION) {
-			this.setVisible(false);
-			new DangNhap().setVisible(true);
 		}
 	}
 

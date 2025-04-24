@@ -216,7 +216,7 @@ public class TraCuuKhachHangQuanLy extends JFrame implements ActionListener {
 
 		// quay lai
 		itemQuayLai.addActionListener(this);
-		
+
 		// key f1
 		SystemUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
 	}
