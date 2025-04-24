@@ -4,22 +4,31 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
-import cua_hang_tien_loi.utils.SystemUtils;
+import cua_hang_tien_loi.controller.NhanVienController;
+import cua_hang_tien_loi.entity.NhanVien;
 import cua_hang_tien_loi.utils.StyleUtils;
+import cua_hang_tien_loi.utils.SystemUtils;
 
 public class TraCuuNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemTaiKhoan;
@@ -41,6 +50,16 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemDTTheoThang;
 	private JMenuItem itemDTTheoNam;
 	private JMenuItem itemQuayLai;
+	private JTextField txtMa;
+	private JTextField txtTen;
+	private JTextField txtSdt;
+	private JComboBox<Object> cbGT;
+	private JTextField txtCccd;
+	private JButton btnTim;
+	private JButton btnLamMoi;
+	private JTable table;
+	private DefaultTableModel modelTable;
+	private NhanVienController nvController;
 
 	public TraCuuNhanVien() {
 		// TODO Auto-generated constructor stub
@@ -179,6 +198,76 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 		// cen CAN LAM
 		JPanel pnCen = new JPanel();
 
+		pnCen.setLayout(new BoxLayout(pnCen, BoxLayout.X_AXIS));
+
+		// tieu de
+		JPanel pnTieuDe = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+		JLabel lblTieuDe = StyleUtils.createHeaderTitle("TRA CỨU NHÂN VIÊN");
+		pnTieuDe.add(lblTieuDe);
+		pnCen.add(pnTieuDe);
+
+		// form
+		JPanel pnTimKiem = new JPanel();
+		pnTimKiem.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+
+		// ma nv
+		JLabel lblMa = StyleUtils.createLabel("Mã nhân viên:");
+		txtMa = new JTextField(10);
+
+		// tennv
+		JLabel lblTen = StyleUtils.createLabel("Tên nhân viên:");
+		txtTen = new JTextField(15);
+
+		// sdt
+		JLabel lblSdt = StyleUtils.createLabel("SĐT:");
+		txtSdt = new JTextField(15);
+
+		// CAN TEST - LOAD DU LIEU TU TABLE LEN
+		JLabel lblLoai = StyleUtils.createLabel("Giới tính:");
+		cbGT = new JComboBox<>();
+		for (String gt : nvController.getPhai()) {
+			cbGT.addItem(gt);
+		}
+
+		// cmnd
+		JLabel lblCccd = StyleUtils.createLabel("CCCD:");
+		txtCccd = new JTextField(15);
+
+		// btn
+		btnTim = new JButton("Tìm kiếm", new ImageIcon("src/cua_hang_tien_loi/icon/search.png"));
+		btnLamMoi = new JButton("Làm mới", new ImageIcon("src/cua_hang_tien_loi/icon/lammoi.png"));
+
+		pnTimKiem.add(lblMa);
+		pnTimKiem.add(txtMa);
+		pnTimKiem.add(lblTen);
+		pnTimKiem.add(txtTen);
+		pnTimKiem.add(lblSdt);
+		pnTimKiem.add(txtSdt);
+		pnTimKiem.add(lblLoai);
+		pnTimKiem.add(cbGT);
+		pnTimKiem.add(lblCccd);
+		pnTimKiem.add(txtCccd);
+		pnTimKiem.add(btnTim);
+		pnTimKiem.add(btnLamMoi);
+
+		pnCen.add(pnTimKiem);
+
+		// table
+		JPanel pnKetQua = new JPanel();
+		pnKetQua.setLayout(new BorderLayout());
+		pnKetQua.setBorder(BorderFactory.createTitledBorder("Kết quả tìm kiếm"));
+
+		String[] cols = { "Mã NV", "Tên NV", "Giới tính", "CCCD", "Mật khẩu", "SĐT", "Email", "TTLV" };
+		modelTable = new DefaultTableModel(cols, 0);
+		table = new JTable(modelTable);
+		table.setPreferredScrollableViewportSize(new Dimension(550, 150));
+		JScrollPane scroll = new JScrollPane(table);
+
+		pnKetQua.add(scroll, BorderLayout.CENTER);
+
+		pnCen.add(pnKetQua);
+
 		pnMain.add(pnCen, BorderLayout.CENTER);
 
 		add(pnMain);
@@ -216,7 +305,7 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 
 		// quay lai
 		itemQuayLai.addActionListener(this);
-		
+
 		// key f1
 		SystemUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
 	}
@@ -228,7 +317,84 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		Object source = e.getSource();
 
+		if (source.equals(itemTaiKhoan)) {
+			new ThongTinTaiKhoanQuanLy().setVisible(true);
+		} else if (source.equals(itemTroGiup)) {
+			this.setVisible(false);
+			new TraCuuSanPhamQuanLy().setVisible(true);
+		} else if (source.equals(itemDangXuat)) {
+			SystemUtils.dangXuat(this);
+		} else if (source.equals(itemThemSP)) {
+			this.setVisible(false);
+			new FormThemSanPhamQuanLy().setVisible(true);
+		} else if (source.equals(itemCapNhatSp)) {
+			this.setVisible(false);
+			new CapNhatSanPhamQuanLy().setVisible(true);
+		} else if (source.equals(itemTraCuuKH)) {
+			this.setVisible(false);
+			new TraCuuKhachHangQuanLy().setVisible(true);
+		} else if (source.equals(itemCapNhatKH)) {
+			this.setVisible(false);
+			new CapNhatThongTinKhachHangQuanLy().setVisible(true);
+		} else if (source.equals(itemThemKH)) {
+			this.setVisible(false);
+			new ThemKhachHangQuanLy().setVisible(true);
+		} else if (source.equals(itemTraCuuHD)) {
+			this.setVisible(false);
+
+		} else if (source.equals(itemThemHD)) {
+			this.setVisible(false);
+
+		} else if (source.equals(itemCapNhatHD)) {
+			this.setVisible(false);
+
+		} else if (source.equals(itemTraCuuNV)) {
+			this.setVisible(false);
+			new TraCuuNhanVien().setVisible(true);
+		} else if (source.equals(itemThemNV)) {
+			this.setVisible(false);
+			new ThemNhanVien().setVisible(true);
+		} else if (source.equals(itemCapNhatNV)) {
+			this.setVisible(false);
+
+		} else if (source.equals(itemQuayLai)) {
+			SystemUtils.quayLai(this);
+		}
+		// btn
+		if (source.equals(btnLamMoi)) {
+			this.clear();
+		} else if (source.equals(btnTim)) {
+			this.timKiem();
+		}
 	}
 
+	private void timKiem() {
+		String ma = txtMa.getText();
+		String ten = txtTen.getText();
+		String phai = cbGT.getSelectedItem().toString();
+		String sdt = txtSdt.getText();
+		String cccd = txtCccd.getText();
+
+		boolean gtBoolean = phai.equals("Nữ") ? true : false;
+
+		List<NhanVien> dsnv = nvController.getNV(ma, ten, gtBoolean, sdt, cccd);
+
+		modelTable.setRowCount(0);
+
+		// load du lieu len table
+		for (NhanVien nv : dsnv) {
+			Object[] row = { nv.getMaNV(), nv.getHoTen(), nv.isPhai() ? "Nữ" : "Nam", nv.getCmnd(), nv.getMk(),
+					nv.getSdt(), nv.getEmail(), nv.isTrangThaiLamViec() ? "Đang làm việc" : "Ngưng làm việc" };
+			modelTable.addRow(row);
+		}
+	}
+
+	private void clear() {
+		txtMa.setText("");
+		txtTen.setText("");
+		txtSdt.setText("");
+		txtCccd.setText("");
+	}
 }

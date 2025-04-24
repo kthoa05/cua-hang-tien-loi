@@ -13,6 +13,7 @@ import java.util.List;
 
 import cua_hang_tien_loi.connectDB.ConnectDB;
 import cua_hang_tien_loi.entity.NhanVien;
+import cua_hang_tien_loi.entity.SanPham;
 
 public class DAO_NhanVien {
 
@@ -194,4 +195,51 @@ public class DAO_NhanVien {
 
 		return nv;
 	}
+
+	// get gioi tinh
+	public List<String> getPhai() {
+		List<String> ds = new ArrayList<>();
+		Connection conn = ConnectDB.getConnection();
+		String sql = "SELECT phai FROM NhanVien";
+
+		try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+			while (rs.next()) {
+				boolean phai = rs.getBoolean("phai");
+				String phaiStr = phai ? "Nữ" : "Nam";
+				ds.add(phaiStr);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ds;
+	}
+
+	// get List NV for TraCuuNhanVien dua tren 4 field maNV, tenNV, phai, sdt, cccd
+	public List<NhanVien> findNhanVien(String ma, String ten, boolean gt, String sdt, String cccd) {
+		List<NhanVien> ds = new ArrayList<>();
+		String sql = "{call findNhanVien(?, ?, ?, ?, ?)}";
+		Connection conn = ConnectDB.getConnection();
+
+		try (CallableStatement cs = conn.prepareCall(sql)) {
+			cs.setString(1, ma != null && !ma.isEmpty() ? ma : null);
+			cs.setString(2, ten != null && !ten.isEmpty() ? ten : null);
+			cs.setBoolean(3, gt);
+			cs.setString(4, sdt != null && !sdt.isEmpty() ? sdt : null);
+			cs.setString(5, cccd != null && !cccd.isEmpty() ? cccd : null);
+
+			ResultSet rs = cs.executeQuery();
+			while (rs.next()) {
+				NhanVien nv = new NhanVien(rs.getString("maNV"), rs.getString("tenNV"), rs.getBoolean("phai"),
+						rs.getString("cccd"), rs.getString("mk"), rs.getString("sdt"), rs.getString("email"),
+						rs.getBoolean("ttkd"));
+				ds.add(nv);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ds;
+	}
+
 }

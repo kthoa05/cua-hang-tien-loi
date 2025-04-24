@@ -201,8 +201,6 @@ public class TraCuuSanPhamQuanLy extends JFrame implements ActionListener {
 
 		pnCen.setLayout(new BoxLayout(pnCen, BoxLayout.X_AXIS));
 
-		pnCen.setLayout(new BoxLayout(pnCen, BoxLayout.Y_AXIS));
-
 		// tieu de
 		JPanel pnTieuDe = new JPanel(new FlowLayout(FlowLayout.CENTER));
 

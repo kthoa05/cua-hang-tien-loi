@@ -85,7 +85,7 @@ public class DAO_SanPham {
 		return false;
 	}
 
-	// get for TraCuuSanPham dua tren 3 field masp, tensp, loai, ttkd
+	// get for TraCuuSanPham dua tren 4 field masp, tensp, loai, ttkd
 	public List<SanPham> findSanPham(String maSP, String tenSP, String loai, boolean ttkd) {
 		List<SanPham> ds = new ArrayList<>();
 		String sql = "{call findSanPham(?, ?, ?, ?)}";
