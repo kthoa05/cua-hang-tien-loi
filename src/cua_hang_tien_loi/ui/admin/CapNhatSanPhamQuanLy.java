@@ -457,7 +457,7 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 		String ttkd = cboTrangThai.getSelectedItem().toString();
 		boolean ttkdBoolean = ttkd.equals("Kinh Doanh") ? true : false;
 
-		List<SanPham> sp = sanPhamController.timKiemSanPham(ma, ten, ttkdBoolean);
+		List<SanPham> sp = sanPhamController.timKiemSanPham(ma, ten, null, ttkdBoolean);
 
 		// do du lieu len form
 	}

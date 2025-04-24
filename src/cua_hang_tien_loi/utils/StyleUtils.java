@@ -19,6 +19,12 @@ public class StyleUtils {
 		item.setBackground(Color.decode("#FAFAFA"));
 		return item;
 	}
+	
+	public static JLabel createHeaderTitle(String text) {
+		JLabel lbl = new JLabel(text);
+		lbl.setFont(new Font("Arial", Font.BOLD, 20));
+		return lbl;
+	}
 
 	public static JLabel createLabel(String text) {
 		JLabel lbl = new JLabel(text);

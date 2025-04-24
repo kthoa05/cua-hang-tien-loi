@@ -6,8 +6,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
-import javax.swing.AbstractAction;
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -19,15 +20,16 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.KeyStroke;
+import javax.swing.table.DefaultTableModel;
 
 import cua_hang_tien_loi.controller.SanPhamController;
-import cua_hang_tien_loi.ui.DangNhap;
-import cua_hang_tien_loi.utils.SystemUtils;
+import cua_hang_tien_loi.entity.SanPham;
 import cua_hang_tien_loi.utils.StyleUtils;
+import cua_hang_tien_loi.utils.SystemUtils;
 
 public class TraCuuSanPhamQuanLy extends JFrame implements ActionListener {
 
@@ -50,6 +52,16 @@ public class TraCuuSanPhamQuanLy extends JFrame implements ActionListener {
 	private JMenuItem itemDTTheoThang;
 	private JMenuItem itemDTTheoNam;
 	private JMenuItem itemQuayLai;
+	private JTextField txtMa;
+	private JTextField txtTen;
+	private JComboBox cbLoai;
+	private AbstractButton btnTim;
+	private JButton btnLamMoi;
+	private JTable table;
+	private JTextField txtTTKD;
+	private JComboBox cbTTKD;
+	private SanPhamController spController;
+	private DefaultTableModel modelTable;
 
 	public TraCuuSanPhamQuanLy() {
 		// TODO Auto-generated constructor stub
@@ -57,7 +69,7 @@ public class TraCuuSanPhamQuanLy extends JFrame implements ActionListener {
 	}
 
 	private void UITraCuuSanPhamQuanLy() {
-		setTitle("Quản lý cửa hàng tiện lợi - Thêm sản phẩm");
+		setTitle("Quản lý cửa hàng tiện lợi - Tra cứu sản phẩm");
 		setSize(1000, 500);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -189,6 +201,68 @@ public class TraCuuSanPhamQuanLy extends JFrame implements ActionListener {
 
 		pnCen.setLayout(new BoxLayout(pnCen, BoxLayout.X_AXIS));
 
+		pnCen.setLayout(new BoxLayout(pnCen, BoxLayout.Y_AXIS));
+
+		// tieu de
+		JPanel pnTieuDe = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+		JLabel lblTieuDe = StyleUtils.createHeaderTitle("TRA CỨU SẢN PHẨM");
+		pnTieuDe.add(lblTieuDe);
+		pnCen.add(pnTieuDe);
+
+		// form
+		JPanel pnTimKiem = new JPanel();
+		pnTimKiem.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+
+		JLabel lblMa = StyleUtils.createLabel("Mã sản phẩm:");
+		txtMa = new JTextField(10);
+
+		JLabel lblTen = StyleUtils.createLabel("Tên sản phẩm:");
+		txtTen = new JTextField(15);
+
+		// CAN LAM - LOAD DU LIEU TU TABLE LEN
+		JLabel lblLoai = StyleUtils.createLabel("Loại:");
+		String[] loaiSP = { "Tất cả", "Đồ ăn", "Đồ uống", "Gia dụng", "Khác" };
+		cbLoai = new JComboBox<>(loaiSP);
+
+		// CAN LAM - LOAD DU LIEU TU TABLE LEN
+		JLabel lblTTKD = StyleUtils.createLabel("TTKD:");
+		String[] ttkd = { "Ngừng kinh doanh", "Kinh doanh" };
+		cbTTKD = new JComboBox<>(ttkd);
+
+		// btn
+		btnTim = new JButton("Tìm kiếm", new ImageIcon("src/cua_hang_tien_loi/icon/search.png"));
+		btnLamMoi = new JButton("Làm mới", new ImageIcon("src/cua_hang_tien_loi/icon/lammoi.png"));
+
+		pnTimKiem.add(lblMa);
+		pnTimKiem.add(txtMa);
+		pnTimKiem.add(lblTen);
+		pnTimKiem.add(txtTen);
+		pnTimKiem.add(lblLoai);
+		pnTimKiem.add(cbLoai);
+		pnTimKiem.add(lblTTKD);
+		pnTimKiem.add(cbTTKD);
+		pnTimKiem.add(btnTim);
+		pnTimKiem.add(btnLamMoi);
+
+		pnCen.add(pnTimKiem);
+
+		// table
+		JPanel pnKetQua = new JPanel();
+		pnKetQua.setLayout(new BorderLayout());
+		pnKetQua.setBorder(BorderFactory.createTitledBorder("Kết quả tìm kiếm"));
+
+		String[] cols = { "Mã SP", "Tên SP", "Loại SP", "Giá", "Chất liệu", "Phần trăm khuyến mãi",
+				"Trạng thái kinh doanh" };
+		modelTable = new DefaultTableModel(cols, 0);
+		table = new JTable(modelTable);
+		table.setPreferredScrollableViewportSize(new Dimension(550, 150));
+		JScrollPane scroll = new JScrollPane(table);
+
+		pnKetQua.add(scroll, BorderLayout.CENTER);
+
+		pnCen.add(pnKetQua);
+
 		pnMain.add(pnCen, BorderLayout.CENTER);
 
 		add(pnMain);
@@ -228,6 +302,9 @@ public class TraCuuSanPhamQuanLy extends JFrame implements ActionListener {
 		itemQuayLai.addActionListener(this);
 
 		// btn
+		btnTim.addActionListener(this);
+		btnLamMoi.addActionListener(this);
+		btnTim.addActionListener(this);
 
 		// key f1
 		SystemUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
@@ -244,7 +321,7 @@ public class TraCuuSanPhamQuanLy extends JFrame implements ActionListener {
 			this.setVisible(false);
 			new TraCuuSanPhamQuanLy().setVisible(true);
 		} else if (source.equals(itemDangXuat)) {
-			this.dangXuat();
+			SystemUtils.dangXuat(this);
 		} else if (source.equals(itemThemSP)) {
 			this.setVisible(false);
 			new FormThemSanPhamQuanLy().setVisible(true);
@@ -279,29 +356,41 @@ public class TraCuuSanPhamQuanLy extends JFrame implements ActionListener {
 			this.setVisible(false);
 
 		} else if (source.equals(itemQuayLai)) {
-			this.quayLai();
+			SystemUtils.quayLai(this);
 		}
 
-	}
-
-	// quay lai
-	private void quayLai() {
-		int choice = JOptionPane.showConfirmDialog(this, "Bạn có muốn quay lại màn hình đăng nhập?", "Xác nhận",
-				JOptionPane.YES_NO_OPTION);
-		if (choice == JOptionPane.YES_OPTION) {
-			this.setVisible(false);
-			new DangNhap().setVisible(true);
+		// btn
+		if (source.equals(btnLamMoi)) {
+			this.clear();
+		} else if (source.equals(btnTim)) {
+			this.timKiem();
 		}
 	}
 
-	// he thong: dang xuat
-	private void dangXuat() {
-		int choice = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Thông báo",
-				JOptionPane.YES_NO_OPTION);
-		if (choice == JOptionPane.YES_OPTION) {
-			this.setVisible(false);
-			new DangNhap().setVisible(true);
+	// tim
+	private void timKiem() {
+		String maSP = txtMa.getText();
+		String tenSP = txtTen.getText();
+		String loaiSP = cbLoai.getSelectedItem().toString();
+		String ttkd = cbTTKD.getSelectedItem().toString();
+		boolean ttkdStatus = ttkd.equals("Kinh doanh") ? true : false;
+
+		List<SanPham> dssp = spController.timKiemSanPham(maSP, tenSP, loaiSP, ttkdStatus);
+
+		modelTable.setRowCount(0);
+
+		// load du lieu len table
+		for (SanPham sp : dssp) {
+			Object[] row = { sp.getMaSP(), sp.getTenSP(), sp.getLoaiSP(), sp.getDonGia(), sp.getChatLieu(),
+					sp.getPhanTramKM(), sp.isTTKD() ? "Kinh doanh" : "Ngừng kinh doanh" };
+			modelTable.addRow(row);
 		}
+	}
+
+	// lam moi
+	private void clear() {
+		txtMa.setText("");
+		txtTen.setText("");
 	}
 
 	public static void main(String[] args) {

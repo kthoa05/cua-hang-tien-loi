@@ -85,15 +85,17 @@ public class DAO_SanPham {
 		return false;
 	}
 
-	public List<SanPham> findSanPham(String maSP, String tenSP, boolean ttkd) {
+	// get for TraCuuSanPham dua tren 3 field masp, tensp, loai, ttkd
+	public List<SanPham> findSanPham(String maSP, String tenSP, String loai, boolean ttkd) {
 		List<SanPham> ds = new ArrayList<>();
-		String sql = "{call findSanPham(?, ?, ?)}";
+		String sql = "{call findSanPham(?, ?, ?, ?)}";
 
 		try (Connection conn = ConnectDB.getConnection(); CallableStatement cs = conn.prepareCall(sql)) {
 			cs.setString(1, maSP != null && !maSP.isEmpty() ? maSP : null);
 			cs.setString(2, tenSP != null && !tenSP.isEmpty() ? tenSP : null);
+			cs.setString(3, loai != null && !loai.isEmpty() ? loai : null);
 			String ttkdStr = ttkd ? "Kinh doanh" : "Ngừng kinh doanh";
-			cs.setString(3, ttkdStr);
+			cs.setString(4, ttkdStr);
 
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {

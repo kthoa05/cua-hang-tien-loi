@@ -111,9 +111,10 @@ public class SanPham {
 
 	@Override
 	public String toString() {
-		return "SanPham [imgPath=" + imgPath + ", maSP=" + maSP + ", tenSP=" + tenSP + ", loaiSP=" + loaiSP + ", TTKD="
-				+ TTKD + ", donGia=" + donGia + ", chatLieu=" + chatLieu + ", phanTramKM=" + phanTramKM + ", ngayBDKM="
-				+ ngayBDKM + ", ngayKTKM=" + ngayKTKM + "]";
+		return "SanPham [maSP=" + maSP + ", tenSP=" + tenSP + ", loaiSP=" + loaiSP + ", TTKD=" + TTKD + ", donGia="
+				+ donGia + ", chatLieu=" + chatLieu + ", phanTramKM=" + phanTramKM + "]";
 	}
+
+	
 
 }
