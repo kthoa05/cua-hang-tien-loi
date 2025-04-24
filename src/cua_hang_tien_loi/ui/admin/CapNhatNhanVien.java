@@ -136,7 +136,6 @@ public class CapNhatNhanVien extends JFrame implements ActionListener, MouseList
 		JMenu menuKhachHang = new JMenu("Khách hàng");
 		menuKhachHang.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/customer.png"));
 		itemTraCuuKH = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
-		itemThemKH = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
 		itemCapNhatKH = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuKhachHang.add(itemTraCuuKH);
@@ -384,7 +383,6 @@ public class CapNhatNhanVien extends JFrame implements ActionListener, MouseList
 		// khach hang
 		itemTraCuuKH.addActionListener(this);
 		itemCapNhatKH.addActionListener(this);
-		itemThemKH.addActionListener(this);
 
 		// hoa don
 		itemTraCuuHD.addActionListener(this);
@@ -442,9 +440,6 @@ public class CapNhatNhanVien extends JFrame implements ActionListener, MouseList
 		} else if (source.equals(itemCapNhatKH)) {
 			this.setVisible(false);
 			new CapNhatThongTinKhachHangQuanLy().setVisible(true);
-		} else if (source.equals(itemThemKH)) {
-			this.setVisible(false);
-			new ThemKhachHangQuanLy().setVisible(true);
 		} else if (source.equals(itemTraCuuHD)) {
 			this.setVisible(false);
 
