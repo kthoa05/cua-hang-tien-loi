@@ -29,8 +29,19 @@ public class NhanVienController {
 		return daoNV.getPhai();
 	}
 
+	// get ttlv
+	public List<String> getTrangThaiLamViec() {
+		return daoNV.getTrangThaiLV();
+	}
+
 	// get for TraCuuNhanVien
-	public List<NhanVien> getNV(String ma, String ten, boolean phai, String sdt, String cccd) {
+	public List<NhanVien> getNV(String ma, String ten, Boolean phai, String sdt, String cccd) {
 		return daoNV.findNhanVien(ma, ten, phai, sdt, cccd);
 	}
+
+	// cap nhat
+	public boolean capNhatNhanVien(NhanVien nv) {
+		return daoNV.updateNhanVien(nv);
+	}
+
 }

@@ -215,8 +215,27 @@ public class DAO_NhanVien {
 		return ds;
 	}
 
+	//get trang thau lam viec
+	public List<String> getTrangThaiLV() {
+		List<String> ds = new ArrayList<>();
+		Connection conn = ConnectDB.getConnection();
+		String sql = "SELECT ttlv FROM NhanVien";
+
+		try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+			while (rs.next()) {
+				boolean ttlv = rs.getBoolean("ttlv");
+				String ttlvStr = ttlv ? "Đang làm việc" : "Ngưng làm việc";
+				ds.add(ttlvStr);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ds;
+	}
+	
 	// get List NV for TraCuuNhanVien dua tren 4 field maNV, tenNV, phai, sdt, cccd
-	public List<NhanVien> findNhanVien(String ma, String ten, boolean gt, String sdt, String cccd) {
+	public List<NhanVien> findNhanVien(String ma, String ten, Boolean gt, String sdt, String cccd) {
 		List<NhanVien> ds = new ArrayList<>();
 		String sql = "{call findNhanVien(?, ?, ?, ?, ?)}";
 		Connection conn = ConnectDB.getConnection();

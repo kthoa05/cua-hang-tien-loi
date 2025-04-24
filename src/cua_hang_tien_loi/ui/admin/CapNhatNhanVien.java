@@ -6,6 +6,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -18,17 +21,19 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import cua_hang_tien_loi.controller.NhanVienController;
+import cua_hang_tien_loi.entity.NhanVien;
 import cua_hang_tien_loi.utils.StyleUtils;
 import cua_hang_tien_loi.utils.SystemUtils;
 
-public class CapNhatNhanVien extends JFrame implements ActionListener {
+public class CapNhatNhanVien extends JFrame implements ActionListener, MouseListener {
 
 	private JMenuItem itemTaiKhoan;
 	private JMenuItem itemTroGiup;
@@ -53,12 +58,12 @@ public class CapNhatNhanVien extends JFrame implements ActionListener {
 	private JButton btnImg;
 	private JTextField txtMa;
 	private JTextField txtTen;
-	private JComboBox cboGt;
+	private JComboBox<Object> cboGt;
 	private JTextField txtSdt;
 	private JButton btnLamMoi;
 	private JButton btnCapNhat;
 	private JTextField txtCccd;
-	private JComboBox cboTTLV;
+	private JComboBox<Object> cboTTLV;
 	private JTextField txtMaSP;
 	private JTextField txtTenSp;
 	private JComboBox<String> txtTTKD;
@@ -68,6 +73,7 @@ public class CapNhatNhanVien extends JFrame implements ActionListener {
 	private DefaultTableModel modelTable;
 	private JTable table;
 	private String imgPath;
+	private NhanVienController nvController;
 
 	public CapNhatNhanVien() {
 		// TODO Auto-generated constructor stub
@@ -203,13 +209,13 @@ public class CapNhatNhanVien extends JFrame implements ActionListener {
 
 		pnMain.add(pnNorth, BorderLayout.NORTH);
 
-		// cen CAN LAM
+		// cen
 		JPanel pnCen = new JPanel();
 		pnCen.setLayout(new BorderLayout());
 
 		// north
 		JPanel pnHeader = new JPanel();
-		JLabel lblCapNhat = StyleUtils.createHeaderTitle("TRA CỨU NHÂN VIÊN");
+		JLabel lblCapNhat = StyleUtils.createHeaderTitle("CẬP NHẬT NHÂN VIÊN");
 		lblCapNhat.setAlignmentX(CENTER_ALIGNMENT);
 		pnHeader.add(lblCapNhat);
 
@@ -259,6 +265,9 @@ public class CapNhatNhanVien extends JFrame implements ActionListener {
 		JPanel pnGt = new JPanel();
 		JLabel lblGt = StyleUtils.createLabel("Giới tính:");
 		cboGt = new JComboBox<>();
+		for (String gt : nvController.getPhai()) {
+			cboGt.addItem(gt);
+		}
 
 		pnGt.add(lblGt);
 		pnGt.add(cboGt);
@@ -289,6 +298,10 @@ public class CapNhatNhanVien extends JFrame implements ActionListener {
 		pnTTLV.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JLabel lblTTLV = new JLabel("TTLV:");
 		cboTTLV = new JComboBox<>();
+		for (String ttlv : nvController.getTrangThaiLamViec()) {
+			cboTTLV.addItem(ttlv);
+		}
+
 		pnTTLV.add(lblTTLV);
 		pnTTLV.add(cboTTLV);
 
@@ -458,11 +471,49 @@ public class CapNhatNhanVien extends JFrame implements ActionListener {
 		else if (source.equals(btnImg)) {
 			SystemUtils.chonAnhSanPham(lblImage, imgPath);
 		} else if (source.equals(btnCapNhat)) {
-
+			this.capNhat();
 		} else if (source.equals(btnLamMoi)) {
 			this.clear();
 		} else if (source.equals(btnTimKiem)) {
+			this.timKiem();
+		}
+	}
 
+	private void capNhat() {
+		String ten = txtTen.getText();
+		String sdt = txtSdt.getText();
+		String gioiTinh = cboGt.getSelectedItem().toString();
+		String cccd = txtCccd.getText();
+		String ttlv = cboTTLV.getSelectedItem().toString();
+
+		boolean gt = gioiTinh.equals("Nữ") ? true : false;
+		boolean status = ttlv.equals("Đang làm việc") ? true : false;
+
+		NhanVien nv = new NhanVien(ten, status, sdt, sdt, gt, ten, gioiTinh, cccd, ttlv);
+
+		boolean statusCapNhatNV = nvController.capNhatNhanVien(nv);
+		if (!statusCapNhatNV) {
+			JOptionPane.showMessageDialog(this, "Cập nhật nhân viên sản phẩm thành công", "Thông báo",
+					JOptionPane.INFORMATION_MESSAGE);
+			modelTable.setRowCount(0);
+		} else {
+			JOptionPane.showMessageDialog(this, "Cập nhật nhân viên thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	private void timKiem() {
+		String ma = txtMaNV.getText();
+		String ten = txtTenNV.getText();
+
+		List<NhanVien> dsnv = nvController.getNV(ma, ten, null, null, null);
+
+		modelTable.setRowCount(0);
+
+		// load du lieu len table
+		for (NhanVien nv : dsnv) {
+			Object[] row = { nv.getMaNV(), nv.getHoTen(), nv.isPhai() ? "Nữ" : "Nam", nv.getCmnd(), nv.getMk(),
+					nv.getSdt(), nv.getEmail(), nv.isTrangThaiLamViec() ? "Đang làm việc" : "Ngưng làm việc" };
+			modelTable.addRow(row);
 		}
 	}
 
@@ -470,6 +521,43 @@ public class CapNhatNhanVien extends JFrame implements ActionListener {
 		txtTen.setText("");
 		txtSdt.setText("");
 		txtCccd.setText("");
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		int row = table.getSelectedRow();
+		txtTen.setText(modelTable.getValueAt(row, 2).toString());
+		txtSdt.setText(modelTable.getValueAt(row, 6).toString());
+		String gt = modelTable.getValueAt(row, 3).toString();
+		cboGt.setSelectedItem(gt);
+		txtCccd.setText(modelTable.getValueAt(row, 4).toString());
+		String ttlv = modelTable.getValueAt(row, 8).toString();
+		cboTTLV.setSelectedItem(ttlv);
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

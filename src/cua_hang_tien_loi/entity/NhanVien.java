@@ -53,6 +53,16 @@ public class NhanVien {
 		this.imgPath = imgPath;
 	}
 
+	public NhanVien(String hoTen, boolean phai, String sdt, String cmnd, boolean trangThaiLamViec, String ten,
+			String gioiTinh, String cccd, String ttlv) {
+		super();
+		this.hoTen = hoTen;
+		this.phai = phai;
+		this.sdt = sdt;
+		this.cmnd = cmnd;
+		this.trangThaiLamViec = trangThaiLamViec;
+	}
+
 	public String getImgPath() {
 		return imgPath;
 	}
