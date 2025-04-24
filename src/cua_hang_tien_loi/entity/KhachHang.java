@@ -6,6 +6,10 @@ public class KhachHang {
 	private boolean phai;
 	private String sdt;
 
+	public KhachHang() {
+		super();
+	}
+
 	public KhachHang(String maKH, String tenKH, boolean phai, String sdt) {
 		super();
 		this.maKH = maKH;

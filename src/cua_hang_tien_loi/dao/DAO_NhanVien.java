@@ -13,7 +13,6 @@ import java.util.List;
 
 import cua_hang_tien_loi.connectDB.ConnectDB;
 import cua_hang_tien_loi.entity.NhanVien;
-import cua_hang_tien_loi.entity.SanPham;
 
 public class DAO_NhanVien {
 
@@ -215,7 +214,7 @@ public class DAO_NhanVien {
 		return ds;
 	}
 
-	//get trang thau lam viec
+	// get trang thau lam viec
 	public List<String> getTrangThaiLV() {
 		List<String> ds = new ArrayList<>();
 		Connection conn = ConnectDB.getConnection();
@@ -233,7 +232,7 @@ public class DAO_NhanVien {
 		}
 		return ds;
 	}
-	
+
 	// get List NV for TraCuuNhanVien dua tren 4 field maNV, tenNV, phai, sdt, cccd
 	public List<NhanVien> findNhanVien(String ma, String ten, Boolean gt, String sdt, String cccd) {
 		List<NhanVien> ds = new ArrayList<>();
@@ -259,6 +258,38 @@ public class DAO_NhanVien {
 		}
 
 		return ds;
+	}
+
+	// get nhan vien by id
+	public NhanVien getNhanVienByID(String id) {
+		ConnectDB.getInstance();
+		Connection conn = ConnectDB.getConnection();
+		NhanVien nv = null;
+		try {
+
+			String sql = "SELECT * FROM NhanVien WHERE maNV = ?";
+			PreparedStatement stmt = conn.prepareCall(sql);
+			stmt.setString(1, id);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				String maNhanVien = rs.getString(1);
+				String hoVaTen = rs.getString(2);
+				boolean gioiTinh = rs.getBoolean(3);
+				LocalDate ngaySinh = rs.getDate(4).toLocalDate();
+				String sdt = rs.getString(5);
+				String email = rs.getString(6);
+				String cmnd = rs.getString(7);
+				String mk = rs.getString(8);
+				boolean isAdmin = rs.getBoolean(9);
+				boolean ttlv = rs.getBoolean(10);
+				String imgPath = rs.getString(11);
+				nv = new NhanVien(maNhanVien, hoVaTen, gioiTinh, ngaySinh, sdt, email, cmnd, mk, isAdmin, ttlv,
+						imgPath);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return nv;
 	}
 
 }

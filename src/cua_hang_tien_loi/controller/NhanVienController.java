@@ -44,4 +44,9 @@ public class NhanVienController {
 		return daoNV.updateNhanVien(nv);
 	}
 
+	// get all nv
+	public NhanVien getNhanVien(String id) {
+		return daoNV.getNhanVienByID(id);
+	}
+
 }
