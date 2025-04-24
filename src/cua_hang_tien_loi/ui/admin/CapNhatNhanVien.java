@@ -4,26 +4,31 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.plaf.basic.BasicComboBoxRenderer;
+import javax.swing.table.DefaultTableModel;
 
-import cua_hang_tien_loi.ui.DangNhap;
 import cua_hang_tien_loi.utils.StyleUtils;
 import cua_hang_tien_loi.utils.SystemUtils;
 
-public class TrangChuQuanLy extends JFrame implements ActionListener {
+public class CapNhatNhanVien extends JFrame implements ActionListener {
 
 	private JMenuItem itemTaiKhoan;
 	private JMenuItem itemTroGiup;
@@ -44,15 +49,34 @@ public class TrangChuQuanLy extends JFrame implements ActionListener {
 	private JMenuItem itemDTTheoThang;
 	private JMenuItem itemDTTheoNam;
 	private JMenuItem itemQuayLai;
+	private JLabel lblImage;
+	private JButton btnImg;
+	private JTextField txtMa;
+	private JTextField txtTen;
+	private JComboBox cboGt;
+	private JTextField txtSdt;
+	private JButton btnLamMoi;
+	private JButton btnCapNhat;
+	private JTextField txtCccd;
+	private JComboBox cboTTLV;
+	private JTextField txtMaSP;
+	private JTextField txtTenSp;
+	private JComboBox<String> txtTTKD;
+	private JButton btnTimKiem;
+	private JTextField txtMaNV;
+	private JTextField txtTenNV;
+	private DefaultTableModel modelTable;
+	private JTable table;
+	private String imgPath;
 
-	public TrangChuQuanLy() {
+	public CapNhatNhanVien() {
 		// TODO Auto-generated constructor stub
-		this.initUITrangChu();
+		this.UICapNhatNhanVien();
 	}
 
 	// giao dien
-	private void initUITrangChu() {
-		setTitle("Quản lý cửa hàng tiện lợi - Trang chủ");
+	private void UICapNhatNhanVien() {
+		setTitle("Quản lý cửa hàng tiện lợi - Cập nhật nhân viên");
 		setSize(1000, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -64,7 +88,6 @@ public class TrangChuQuanLy extends JFrame implements ActionListener {
 		// north
 		JPanel pnNorth = new JPanel();
 		pnNorth.setLayout(new FlowLayout(FlowLayout.LEFT));
-//		pnNorth.setBackground(Color.decode("#FAFAFA"));
 		pnNorth.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
 		pnNorth.setPreferredSize(new Dimension(750, 40));
 
@@ -180,15 +203,156 @@ public class TrangChuQuanLy extends JFrame implements ActionListener {
 
 		pnMain.add(pnNorth, BorderLayout.NORTH);
 
-		// cen
+		// cen CAN LAM
 		JPanel pnCen = new JPanel();
-		ImageIcon originalIcon = new ImageIcon("src/cua_hang_tien_loi/icon/home.jpg");
-		Image scaledImage = originalIcon.getImage().getScaledInstance(1000, 900, Image.SCALE_SMOOTH);
-		ImageIcon scaledIcon = new ImageIcon(scaledImage);
-		JLabel lblCen = new JLabel(scaledIcon);
+		pnCen.setLayout(new BorderLayout());
 
-		pnCen.add(lblCen);
+		// north
+		JPanel pnHeader = new JPanel();
+		JLabel lblCapNhat = StyleUtils.createHeaderTitle("TRA CỨU NHÂN VIÊN");
+		lblCapNhat.setAlignmentX(CENTER_ALIGNMENT);
+		pnHeader.add(lblCapNhat);
+
+		pnCen.add(pnHeader, BorderLayout.NORTH);
+
+		// left
+		JPanel pnLeftOfCen = new JPanel();
+		pnLeftOfCen.setLayout(new BorderLayout());
+		pnLeftOfCen.setPreferredSize(new Dimension(200, 200));
+
+		lblImage = new JLabel("Ảnh chưa chọn", JLabel.CENTER);
+		lblImage.setPreferredSize(new Dimension(100, 100));
+		lblImage.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		pnLeftOfCen.add(lblImage, BorderLayout.CENTER);
+
+		btnImg = new JButton("Chọn ảnh");
+		pnLeftOfCen.add(btnImg, BorderLayout.SOUTH);
+
+		pnCen.add(pnLeftOfCen, BorderLayout.WEST);
+
+		// center
+
+		JPanel pnCenter = new JPanel();
+
+		JPanel pnCenterOfCen = new JPanel();
+		pnCenterOfCen.setLayout(new BoxLayout(pnCenterOfCen, BoxLayout.Y_AXIS));
+		pnCenterOfCen.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+		// ten nv
+		JPanel pnTen = new JPanel();
+		pnTen.setLayout(new FlowLayout(FlowLayout.LEFT));
+		JLabel lblTen = StyleUtils.createLabel("Tên NV:");
+		txtTen = new JTextField(19);
+		pnTen.add(lblTen);
+		pnTen.add(txtTen);
+
+		// sdt
+		JPanel pnSdt = new JPanel();
+		pnSdt.setLayout(new FlowLayout(FlowLayout.LEFT));
+		JLabel lblSdt = StyleUtils.createLabel("SĐT:");
+		txtSdt = new JTextField(20);
+
+		pnSdt.add(lblSdt);
+		pnSdt.add(txtSdt);
+
+		// gt
+		JPanel pnGt = new JPanel();
+		JLabel lblGt = StyleUtils.createLabel("Giới tính:");
+		cboGt = new JComboBox<>();
+
+		pnGt.add(lblGt);
+		pnGt.add(cboGt);
+
+		// add vo pn
+		pnCenterOfCen.add(pnTen);
+		pnCenterOfCen.add(pnGt);
+		pnCenterOfCen.add(pnSdt);
+
+		pnCenter.add(pnCenterOfCen);
+
+		// right of cen
+
+		JPanel pnRightOfCen = new JPanel();
+		pnRightOfCen.setLayout(new BoxLayout(pnRightOfCen, BoxLayout.Y_AXIS));
+		pnRightOfCen.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+		// cccd
+		JPanel pnCccd = new JPanel();
+		pnCccd.setLayout(new FlowLayout(FlowLayout.LEFT));
+		JLabel lblCccd = new JLabel("CCCD:");
+		txtCccd = new JTextField(20);
+		pnCccd.add(lblCccd);
+		pnCccd.add(txtCccd);
+
+		// ttlv
+		JPanel pnTTLV = new JPanel();
+		pnTTLV.setLayout(new FlowLayout(FlowLayout.LEFT));
+		JLabel lblTTLV = new JLabel("TTLV:");
+		cboTTLV = new JComboBox<>();
+		pnTTLV.add(lblTTLV);
+		pnTTLV.add(cboTTLV);
+
+		// add vo pnRight
+		pnRightOfCen.add(pnCccd);
+		pnRightOfCen.add(pnTTLV);
+
+		pnCenter.add(pnRightOfCen);
+
+		// tim kiem
+		JPanel pnSearch = new JPanel();
+		pnSearch.setBorder(BorderFactory.createTitledBorder("Tìm kiếm"));
+
+		JPanel pnForm = new JPanel();
+		pnForm.setLayout(new BoxLayout(pnForm, BoxLayout.X_AXIS));
+
+		JLabel lblMaNV = new JLabel("Mã NV:");
+		txtMaNV = new JTextField(10);
+
+		JLabel lblTenNV = new JLabel("Tên NV:");
+		txtTenNV = new JTextField(10);
+
+		btnTimKiem = new JButton("Tìm kiếm", new ImageIcon("src/cua_hang_tien_loi/icon/search.png"));
+
+		// add vo panel
+		pnSearch.add(lblMaNV);
+		pnSearch.add(txtMaNV);
+		pnSearch.add(lblTenNV);
+		pnSearch.add(txtTenNV);
+		pnSearch.add(Box.createHorizontalStrut(40));
+		pnSearch.add(btnTimKiem);
+
+		pnCenter.add(pnSearch);
+
+		// btn cap nhat
+		JPanel pnBtn = new JPanel();
+		pnBtn.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+		btnLamMoi = new JButton("Làm mới", new ImageIcon("src/cua_hang_tien_loi/icon/lammoi.png"));
+		btnCapNhat = new JButton("Cập nhật", new ImageIcon("src/cua_hang_tien_loi/icon/edit.png"));
+
+		pnBtn.add(btnLamMoi);
+		pnBtn.add(btnCapNhat);
+
+		pnCenter.add(pnBtn);
+
+		pnCen.add(pnCenter, BorderLayout.CENTER);
+
 		pnMain.add(pnCen, BorderLayout.CENTER);
+
+		// south table
+		JPanel pnKetQua = new JPanel();
+		pnKetQua.setLayout(new BorderLayout());
+		pnKetQua.setBorder(BorderFactory.createTitledBorder("Kết quả tìm kiếm"));
+
+		String[] cols = { "Mã NV", "Tên NV", "Giới tính", "CCCD", "Mật khẩu", "SĐT", "Email", "TTLV" };
+		modelTable = new DefaultTableModel(cols, 0);
+		table = new JTable(modelTable);
+		table.setPreferredScrollableViewportSize(new Dimension(550, 150));
+		JScrollPane scroll = new JScrollPane(table);
+
+		pnKetQua.add(scroll);
+
+		pnMain.add(pnKetQua, BorderLayout.SOUTH);
 
 		add(pnMain);
 
@@ -229,10 +393,21 @@ public class TrangChuQuanLy extends JFrame implements ActionListener {
 		// key f1
 		SystemUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
 
+		// btn
+		btnImg.addActionListener(this);
+		btnCapNhat.addActionListener(this);
+		btnLamMoi.addActionListener(this);
+		btnTimKiem.addActionListener(this);
+
+	}
+
+	public static void main(String[] args) {
+		new CapNhatNhanVien().setVisible(true);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
 		Object source = e.getSource();
 
@@ -278,9 +453,23 @@ public class TrangChuQuanLy extends JFrame implements ActionListener {
 		} else if (source.equals(itemQuayLai)) {
 			SystemUtils.quayLai(this);
 		}
+
+		// btn
+		else if (source.equals(btnImg)) {
+			SystemUtils.chonAnhSanPham(lblImage, imgPath);
+		} else if (source.equals(btnCapNhat)) {
+
+		} else if (source.equals(btnLamMoi)) {
+			this.clear();
+		} else if (source.equals(btnTimKiem)) {
+
+		}
 	}
 
-	public static void main(String[] args) {
-		new TrangChuQuanLy().setVisible(true);
+	private void clear() {
+		txtTen.setText("");
+		txtSdt.setText("");
+		txtCccd.setText("");
 	}
+
 }

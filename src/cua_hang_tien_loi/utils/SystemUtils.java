@@ -1,14 +1,20 @@
 package cua_hang_tien_loi.utils;
 
 import java.awt.Desktop;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.io.File;
 
 import javax.swing.AbstractAction;
+import javax.swing.AbstractButton;
 import javax.swing.Action;
 import javax.swing.ActionMap;
+import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -17,6 +23,8 @@ import javax.swing.KeyStroke;
 import cua_hang_tien_loi.ui.DangNhap;
 
 public class SystemUtils {
+
+	private static String pathImg;
 
 	// key f1
 	public static void setF1ToKey(JPanel pnMain, String keyStroke, JMenuItem menuItem) {
@@ -66,4 +74,24 @@ public class SystemUtils {
 			new DangNhap().setVisible(true);
 		}
 	}
+
+	// btn chon anh
+	public static void chonAnhSanPham(JLabel lblImg, String imgPath) {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Chọn ảnh sản phẩm");
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		int result = fileChooser.showOpenDialog(null);
+
+		if (result == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = fileChooser.getSelectedFile();
+			String imagePath = selectedFile.getAbsolutePath();
+
+			lblImg.setText("");
+			lblImg.setIcon(
+					new ImageIcon(new ImageIcon(imagePath).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
+
+			pathImg = imagePath;
+		}
+	}
+
 }
