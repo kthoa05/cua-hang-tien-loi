@@ -28,7 +28,7 @@ import javax.swing.table.DefaultTableModel;
 import cua_hang_tien_loi.utils.StyleUtils;
 import cua_hang_tien_loi.utils.SystemUtils;
 
-public class ThemHoaDon extends JFrame implements ActionListener{
+public class ThemHoaDonQuanLy extends JFrame implements ActionListener{
 	private JMenuItem itemTaiKhoan;
 	private JMenuItem itemTroGiup;
 	private JMenuItem itemDangXuat;
@@ -60,7 +60,7 @@ public class ThemHoaDon extends JFrame implements ActionListener{
 	private DefaultTableModel modelTable;
 	private JTable table;
 	
-	public ThemHoaDon () {
+	public ThemHoaDonQuanLy () {
 		this.initUIThemHoaDon();
 	}
 	
@@ -195,8 +195,6 @@ public class ThemHoaDon extends JFrame implements ActionListener{
 		// cen
 		JPanel pnCen = new JPanel();
 		
-		
-		
 		JPanel pn = new JPanel();
 		pn.setLayout(new BoxLayout(pn, BoxLayout.Y_AXIS));
 		JLabel lbTitle = StyleUtils.createHeaderTitle("THÊM HÓA ĐƠN");
@@ -245,6 +243,7 @@ public class ThemHoaDon extends JFrame implements ActionListener{
 		pn.add(Box.createVerticalStrut(20));
 		pn.add(pn2);
 		
+		//button
 		JPanel pn3 = new JPanel();
 		pn3.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		btnThem = new JButton("Thêm", new ImageIcon("src/cua_hang_tien_loi/icon/add.png"));
@@ -364,6 +363,6 @@ public class ThemHoaDon extends JFrame implements ActionListener{
 	}
 	
 	public static void main(String[] args) {
-		new ThemHoaDon().setVisible(true);
+		new ThemHoaDonQuanLy().setVisible(true);
 	}
 }
