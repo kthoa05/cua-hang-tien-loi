@@ -2,6 +2,7 @@ package cua_hang_tien_loi.ui.admin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -21,7 +22,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import cua_hang_tien_loi.controller.SanPhamController;
 import cua_hang_tien_loi.entity.SanPham;
@@ -68,6 +72,8 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 	private SanPhamController sanPhamController;
 	private JButton btnTimKiem;
 	private SanPhamController spController;
+	private DefaultTableModel modelTable;
+	private JTable table;
 
 	public CapNhatSanPhamQuanLy() {
 		// TODO Auto-generated constructor stub
@@ -203,7 +209,7 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 
 		// cen
 		JPanel pnCen = new JPanel();
-
+		
 		pnCen.setLayout(new BoxLayout(pnCen, BoxLayout.X_AXIS));
 
 		// left of cen
@@ -232,85 +238,116 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 		pnMaSanPham.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JLabel lblMaSanPham = new JLabel("Mã sản phẩm:");
 		txtMaSanPham = new JTextField(20);
+		JLabel lblChatLieu = new JLabel("Chất liệu:");
+		txtChatLieu = new JTextField(20);
 		pnMaSanPham.add(lblMaSanPham);
+		pnMaSanPham.add(Box.createHorizontalStrut(5));
 		pnMaSanPham.add(txtMaSanPham);
+		pnMaSanPham.add(lblChatLieu);
+		pnMaSanPham.add(txtChatLieu);
 
 		// ten sp
 		JPanel pnTenSanPham = new JPanel();
 		pnTenSanPham.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JLabel lblTenSanPham = new JLabel("Tên sản phẩm:");
-		txtTenSanPham = new JTextField(19);
+		txtTenSanPham = new JTextField(20);
+		JLabel lblTrangThai = new JLabel("TTKD:");
+		cboTrangThai = new JComboBox<>();
+		cboTrangThai.setPreferredSize(new Dimension(203, 22));
 		pnTenSanPham.add(lblTenSanPham);
+		pnTenSanPham.add(Box.createHorizontalStrut(2));
 		pnTenSanPham.add(txtTenSanPham);
+		pnTenSanPham.add(lblTrangThai);
+
+		pnTenSanPham.add(Box.createHorizontalStrut(9));
+		pnTenSanPham.add(cboTrangThai);
 
 		// loai sp
 		JPanel pnLoaiSanPham = new JPanel();
 		pnLoaiSanPham.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JLabel lblLoaiSanPham = new JLabel("Loại sản phẩm:");
 		cboLoaiSanPham = new JComboBox<>();
+		cboLoaiSanPham.setPreferredSize(new Dimension(200, 22));
 //		for (String loai : spController.getLoaiSP()) {
 //			cboLoaiSanPham.addItem(loai);
 //		}
+		JLabel lblDonGia = new JLabel("Đơn giá:");
+		txtDonGia = new JTextField(20);
 		pnLoaiSanPham.add(lblLoaiSanPham);
+		pnLoaiSanPham.add(Box.createHorizontalStrut(2));
 		pnLoaiSanPham.add(cboLoaiSanPham);
-
-		// trang thai kinh doanh
-		JPanel pnTrangThai = new JPanel();
-		pnTrangThai.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel lblTrangThai = new JLabel("TTKD:");
-		cboTrangThai = new JComboBox<>();
+		pnLoaiSanPham.add(lblDonGia);
+		pnLoaiSanPham.add(Box.createHorizontalStrut(2));
+		pnLoaiSanPham.add(txtDonGia);
+		
+//		JPanel pnChatLieu = new JPanel();
+//		pnChatLieu.setLayout(new FlowLayout(FlowLayout.LEFT));
+//		JLabel lblChatLieu = new JLabel("Chất liệu:");
+//		txtChatLieu = new JTextField(20);
+//		pnChatLieu.add(lblChatLieu);
+//		pnChatLieu.add(txtChatLieu);
+		
+		
+		// button
+		JPanel pnBtn = new JPanel();
+		pnBtn.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		
+		btnLamMoi = new JButton("Làm mới", new ImageIcon("src/cua_hang_tien_loi/icon/lammoi.png"));
+		btnCapNhat = new JButton("Cập nhật", new ImageIcon("src/cua_hang_tien_loi/icon/edit.png"));
+		
+		pnBtn.add(btnLamMoi);
+		pnBtn.add(btnCapNhat);
+//		JPanel pnTrangThai = new JPanel();
+//		pnTrangThai.setLayout(new FlowLayout(FlowLayout.LEFT));
+//		JLabel lblTrangThai = new JLabel("TTKD:");
+//		cboTrangThai = new JComboBox<>();
 //		for (String ttkd : spController.getTTKD()) {
 //			cboTrangThai.addItem(ttkd);
 //		}
-		pnTrangThai.add(lblTrangThai);
-		pnTrangThai.add(cboTrangThai);
-
+//		pnTrangThai.add(lblTrangThai);
+//		pnTrangThai.add(cboTrangThai);
+		
 		// don gia
-		JPanel pnDonGia = new JPanel();
-		pnDonGia.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel lblDonGia = new JLabel("Đơn giá:");
-		txtDonGia = new JTextField(20);
-		pnDonGia.add(lblDonGia);
-		pnDonGia.add(txtDonGia);
+//		JPanel pnDonGia = new JPanel();
+//		pnDonGia.setLayout(new FlowLayout(FlowLayout.LEFT));
+//		JLabel lblDonGia = new JLabel("Đơn giá:");
+//		txtDonGia = new JTextField(20);
+//		pnDonGia.add(lblDonGia);
+//		pnDonGia.add(txtDonGia);
+		
+		
+
+		// trang thai kinh doanh
 
 		// add vo pn
 		pnCenterOfCen.add(pnMaSanPham);
 		pnCenterOfCen.add(pnTenSanPham);
 		pnCenterOfCen.add(pnLoaiSanPham);
-		pnCenterOfCen.add(pnTrangThai);
-		pnCenterOfCen.add(pnDonGia);
+		
+		pnCenterOfCen.add(pnBtn);
 
 		pnCen.add(pnCenterOfCen);
 
 		// right of cen
 
-		JPanel pnRightOfCen = new JPanel();
-		pnRightOfCen.setLayout(new BoxLayout(pnRightOfCen, BoxLayout.Y_AXIS));
-		pnRightOfCen.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+//		JPanel pnRightOfCen = new JPanel();
+//		pnRightOfCen.setLayout(new BoxLayout(pnRightOfCen, BoxLayout.Y_AXIS));
+//		pnRightOfCen.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+//
+//		// chat lieu
+//
+//		// add vo pnRight
+//		pnRightOfCen.add(pnChatLieu);
+//		pnRightOfCen.add(pnTrangThai);
+//		pnRightOfCen.add(pnDonGia);
+//		pnRightOfCen.add(pnBtn);
+		
+		
+		
 
-		// chat lieu
-		JPanel pnChatLieu = new JPanel();
-		pnChatLieu.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel lblChatLieu = new JLabel("Chất liệu:");
-		txtChatLieu = new JTextField(20);
-		pnChatLieu.add(lblChatLieu);
-		pnChatLieu.add(txtChatLieu);
+		
 
-		// button
-		JPanel pnBtn = new JPanel();
-		pnBtn.setLayout(new FlowLayout(FlowLayout.LEFT));
-
-		btnLamMoi = new JButton("Làm mới", new ImageIcon("src/cua_hang_tien_loi/icon/lammoi.png"));
-		btnCapNhat = new JButton("Cập nhật", new ImageIcon("src/cua_hang_tien_loi/icon/edit.png"));
-
-		pnBtn.add(btnLamMoi);
-		pnBtn.add(btnCapNhat);
-
-		// add vo pnRight
-		pnRightOfCen.add(pnChatLieu);
-		pnRightOfCen.add(pnBtn);
-
-		pnCen.add(pnRightOfCen);
+//		pnCen.add(pnRightOfCen);
 
 		pnMain.add(pnCen, BorderLayout.CENTER);
 
@@ -326,12 +363,18 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 
 		JLabel lblTenSp = new JLabel("Tên SP:");
 		txtTenSp = new JTextField(10);
-
+		
+		
 		JLabel lblTTKD = new JLabel("TTKD:");
 		String[] item = { "Kinh doanh", "Ngừng kinh doanh" };
 		txtTTKD = new JComboBox<String>(item);
 
 		btnTimKiem = new JButton("Tìm kiếm", new ImageIcon("src/cua_hang_tien_loi/icon/search.png"));
+		
+		String[] title = {"Mã sản phẩm", "Tên sản phẩm", "Loại sản phẩm", "Chất liệu", "Đơn giá", "TTKD"};
+		modelTable = new DefaultTableModel(title, 0);
+		table = new JTable(modelTable);
+		
 
 		// add vo panel
 		pnSouth.add(lblMaSp);
@@ -342,6 +385,10 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 		pnSouth.add(txtTTKD);
 		pnSouth.add(Box.createHorizontalStrut(40));
 		pnSouth.add(btnTimKiem);
+		pnSouth.add(Box.createVerticalStrut(40));
+		JScrollPane scroll = new JScrollPane(table);
+		scroll.setPreferredSize(new Dimension(1000, 150));
+		pnSouth.add(new JScrollPane(scroll));
 
 		pnMain.add(pnSouth, BorderLayout.SOUTH);
 
