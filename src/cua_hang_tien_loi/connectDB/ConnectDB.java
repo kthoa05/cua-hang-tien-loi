@@ -4,30 +4,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConnectDB{
+public class ConnectDB {
 
-	public static Connection con = null;
-	public static ConnectDB instance = new ConnectDB();
+	private static Connection con = null;
+	private static final ConnectDB instance = new ConnectDB();
 
-	public void connect() throws SQLException {
-		String url = "jdbc:sqlserver://localhost:1433;databaseName=CHTL_QuanLy";
-		String user = "sa";
-		String password = "sapassword";
-		con = DriverManager.getConnection(url, user, password);
-	}
+	private final String URL = "jdbc:sqlserver://localhost:1433;databaseName=QuanLy_CHTL";
+	private final String USER = "u12";
+	private final String PASS = "u12";
 
-	public void disconnect() {
-		if (con != null) {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public static Connection getCon() {
-		return con;
+	private ConnectDB() {
+		// Constructor private để đảm bảo Singleton
 	}
 
 	public static ConnectDB getInstance() {
@@ -35,8 +22,29 @@ public class ConnectDB{
 	}
 
 	public static Connection getConnection() {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			if (con == null || con.isClosed()) {
+				instance.connect(); // tự động kết nối lại nếu bị mất
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return con;
 	}
 
+	public void connect() throws SQLException {
+		con = DriverManager.getConnection(URL, USER, PASS);
+		System.out.println("✅ Đã kết nối lại CSDL.");
+	}
+
+	public void disconnect() {
+		if (con != null) {
+			try {
+				con.close();
+				System.out.println("🛑 Đã đóng kết nối CSDL.");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

@@ -34,6 +34,32 @@ public class DAO_KhachHang {
 		return kh;
 	}
 
+	// tim kh for TraCuuKhachHangQuanLy
+	public ArrayList<KhachHang> getKhachHang(String ma, String ten, String sdt) {
+		ArrayList<KhachHang> listKhachHang = new ArrayList<>();
+		ConnectDB.getInstance();
+		Connection conn = ConnectDB.getConnection();
+		try {
+			String sql = "SELECT * FROM KhachHang WHERE maKH = ? AND tenKH = ? AND sdt = ?";
+			PreparedStatement stmt = conn.prepareCall(sql);
+			stmt.setString(1, ma);
+			stmt.setString(2, ten);
+			stmt.setString(3, sdt);
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				String maKhachHang = rs.getString(1);
+				String hoVaTen = rs.getString(2);
+				boolean gioiTinh = rs.getBoolean(3);
+				String sdtKH = rs.getString(4);
+				KhachHang kh = new KhachHang(maKhachHang, hoVaTen, gioiTinh, sdtKH);
+				listKhachHang.add(kh);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return listKhachHang;
+	}
+
 	// get all
 	public ArrayList<KhachHang> getAllKhachHang() {
 		ArrayList<KhachHang> listKhachHang = new ArrayList<>();

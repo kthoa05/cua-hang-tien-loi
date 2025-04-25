@@ -28,6 +28,13 @@ public class KhachHang {
 		this.sdt = sdt;
 	}
 
+	public KhachHang(String maKH, String tenKH, String sdt) {
+		super();
+		this.maKH = maKH;
+		this.tenKH = tenKH;
+		this.sdt = sdt;
+	}
+
 	public String getMaKH() {
 		return maKH;
 	}

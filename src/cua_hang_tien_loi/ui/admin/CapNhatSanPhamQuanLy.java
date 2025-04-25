@@ -248,9 +248,9 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 		pnLoaiSanPham.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JLabel lblLoaiSanPham = new JLabel("Loại sản phẩm:");
 		cboLoaiSanPham = new JComboBox<>();
-		for (String loai : spController.getLoaiSP()) {
-			cboLoaiSanPham.addItem(loai);
-		}
+//		for (String loai : spController.getLoaiSP()) {
+//			cboLoaiSanPham.addItem(loai);
+//		}
 		pnLoaiSanPham.add(lblLoaiSanPham);
 		pnLoaiSanPham.add(cboLoaiSanPham);
 
@@ -259,9 +259,9 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 		pnTrangThai.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JLabel lblTrangThai = new JLabel("TTKD:");
 		cboTrangThai = new JComboBox<>();
-		for (String ttkd : spController.getTTKD()) {
-			cboTrangThai.addItem(ttkd);
-		}
+//		for (String ttkd : spController.getTTKD()) {
+//			cboTrangThai.addItem(ttkd);
+//		}
 		pnTrangThai.add(lblTrangThai);
 		pnTrangThai.add(cboTrangThai);
 
@@ -419,9 +419,9 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 		} else if (source.equals(btnLamMoi)) {
 			this.clearTxtField();
 		} else if (source.equals(btnCapNhat)) {
-			this.capNhatSanPham();
+//			this.capNhatSanPham();
 		} else if (source.equals(btnTimKiem)) {
-			this.timKiemSanPham();
+//			this.timKiemSanPham();
 		}
 	}
 
@@ -434,7 +434,7 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 		List<SanPham> sp = sanPhamController.timKiemSanPham(ma, ten, null, ttkdBoolean);
 
 		// do du lieu len form
-		
+
 	}
 
 	// btn cap nhat
