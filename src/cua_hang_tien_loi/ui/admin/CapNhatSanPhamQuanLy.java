@@ -434,6 +434,7 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener {
 		List<SanPham> sp = sanPhamController.timKiemSanPham(ma, ten, null, ttkdBoolean);
 
 		// do du lieu len form
+		
 	}
 
 	// btn cap nhat

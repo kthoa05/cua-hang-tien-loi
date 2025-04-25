@@ -1,5 +1,7 @@
 package cua_hang_tien_loi.entity;
 
+import cua_hang_tien_loi.dao.DAO_SanPham;
+
 public class SanPham {
 	private String imgPath;
 	private String maSP;
@@ -8,6 +10,14 @@ public class SanPham {
 	private boolean TTKD;
 	private double donGia;
 	private String chatLieu;
+
+	public String auto_ID() {
+		DAO_SanPham daoSP = new DAO_SanPham();
+		String idPrefix = "SP";
+		int length = daoSP.getAllSanPham().size();
+		String finalId = idPrefix + String.format("%04d", length + 1);
+		return finalId;
+	}
 
 	public SanPham() {
 		// TODO Auto-generated constructor stub

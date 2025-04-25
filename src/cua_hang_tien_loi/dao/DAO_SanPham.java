@@ -12,6 +12,33 @@ import cua_hang_tien_loi.connectDB.ConnectDB;
 import cua_hang_tien_loi.entity.SanPham;
 
 public class DAO_SanPham {
+
+	// get all sp
+	public List<SanPham> getAllSanPham() {
+		ConnectDB.getInstance();
+		Connection conn = ConnectDB.getConnection();
+		String sql = "SELECT * FROM SanPham";
+		PreparedStatement s = null;
+		SanPham sp = new SanPham();
+		List<SanPham> listSP = new ArrayList<SanPham>();
+		try {
+			s = conn.prepareStatement(sql);
+			ResultSet rs = s.executeQuery();
+			while (rs.next()) {
+				sp = new SanPham(rs.getString("imgPath"), rs.getString("maSP"), rs.getString("tenSP"),
+						rs.getString("loaiSP"), rs.getBoolean("ttkd"), rs.getDouble("donGia"),
+						rs.getString("chatLieu"));
+				listSP.add(sp);
+
+			}
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return listSP;
+	}
+
+	// get sp by masp
 	public SanPham getSanPham(String id) {
 		ConnectDB.getInstance();
 		Connection conn = ConnectDB.getConnection();
