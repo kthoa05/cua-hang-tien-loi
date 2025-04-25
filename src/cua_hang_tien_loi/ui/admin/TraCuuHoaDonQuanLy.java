@@ -2,6 +2,7 @@ package cua_hang_tien_loi.ui.admin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -12,13 +13,17 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import cua_hang_tien_loi.utils.StyleUtils;
 import cua_hang_tien_loi.utils.SystemUtils;
@@ -47,6 +52,14 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 	private JTextField txtTenKH;
 	private JTextField txtMaHD;
 	private JTextField txtSDTKH;
+	private JTextField txtTenNV;
+	private JTextField txtMaKH;
+	private JTextField txtNgayLap;
+	private DefaultTableModel modelTable;
+	private JTable table;
+	private Container pnCenter;
+	private JButton btnTim;
+	private JButton btnLamMoi;
 
 	public TraCuuHoaDonQuanLy() {
 		// TODO Auto-generated constructor stub
@@ -185,8 +198,11 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 		// CAN LAM
 		JLabel lbTitle = new JLabel("TRA CỨU HÓA ĐƠN");
 		lbTitle.setFont(new Font("Arial", Font.BOLD, 20));
-		lbTitle.setForeground(Color.CYAN);
+		lbTitle.setForeground(Color.BLACK);
 		pnCen.add(lbTitle);
+		
+		JPanel pn = new JPanel();
+		pn.setLayout(new BoxLayout(pn, BoxLayout.Y_AXIS));
 		
 		JPanel pn1 = new JPanel();
 		pn1.setLayout(new BoxLayout(pn1, BoxLayout.X_AXIS));
@@ -208,10 +224,55 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 		pn1.add(lbSDTKH);
 		pn1.add(Box.createHorizontalStrut(10));
 		pn1.add(txtSDTKH);
-		pnCen.add(pn1);
+		pn.add(Box.createVerticalStrut(10));
+		pn.add(pn1);
 		
-
+		JPanel pn2 = new JPanel();
+		pn2.setLayout(new BoxLayout(pn2, BoxLayout.X_AXIS));
+		
+		JLabel lbTenNV = new JLabel("Tên NV:");
+		txtTenNV = new JTextField(25);
+		JLabel lbMaKH = new JLabel("Mã KH");
+		txtMaKH = new JTextField(25);
+		JLabel lbNgayLap = new JLabel("Ngày lập:");
+		txtNgayLap = new JTextField(25);
+		pn2.add(lbTenNV);
+		pn2.add(Box.createHorizontalStrut(10));
+		pn2.add(txtTenNV);
+		pn2.add(Box.createHorizontalStrut(10));
+		pn2.add(lbMaKH);
+		pn2.add(Box.createHorizontalStrut(10));
+		pn2.add(txtMaKH);
+		pn2.add(Box.createHorizontalStrut(10));
+		pn2.add(lbNgayLap);
+		pn2.add(Box.createHorizontalStrut(10));
+		pn2.add(txtNgayLap);
+		pn.add(Box.createVerticalStrut(10));
+		pn.add(pn2);
+		
+		JPanel pn3 = new JPanel();
+		
+		pn3.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		btnTim = new JButton("Tìm kiếm", new ImageIcon("src/cua_hang_tien_loi/icon/search.png"));
+		btnLamMoi = new JButton("Làm mới", new ImageIcon("src/cua_hang_tien_loi/icon/reload.png"));
+		pn3.add(btnTim);
+		pn3.add(btnLamMoi);
+		pn.add(pn3);
+		pnCen.add(pn);
 		pnMain.add(pnCen, BorderLayout.CENTER);
+		
+		JPanel pnSouth = new JPanel();
+		
+		String[] title = {"Mã HD", "Mã KH", "Ngày lập", "Tên KH", "Nhân viên", "SĐT", "Tổng tiền"};
+		modelTable = new DefaultTableModel(title, 0);
+		table = new JTable(modelTable);
+		JScrollPane scroll = new JScrollPane(table);
+		
+		scroll.setPreferredSize(new Dimension(1000, 350));
+		pnSouth.add(new JScrollPane(scroll));
+		
+		pnMain.add(pnSouth, BorderLayout.SOUTH);
+
 
 		add(pnMain);
 
