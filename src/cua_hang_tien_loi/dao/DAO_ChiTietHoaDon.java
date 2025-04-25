@@ -43,22 +43,23 @@ public class DAO_ChiTietHoaDon {
 	}
 
 	// add cthd
-	public int addChiTietHoaDon(ChiTietHoaDon chiTietHoaDon) {
+	public boolean addChiTietHoaDon(ChiTietHoaDon chiTietHoaDon) {
 		ConnectDB.getInstance();
 		Connection conn = ConnectDB.getConnection();
 		try {
-			String sql = "insert into ChiTietHoaDon values (?, ?, ?,?)";
+			String sql = "INSERT INTO ChiTietHoaDon (maHD, maSP, soLuong, thanhTien) VALUES (?, ?, ?, ?)";
 			PreparedStatement stmt = conn.prepareCall(sql);
 			stmt.setString(1, chiTietHoaDon.getSp().getMaSP());
 			stmt.setString(2, chiTietHoaDon.getHd().getMaHD());
 			stmt.setInt(3, chiTietHoaDon.getSoLuong());
 			stmt.setLong(4, chiTietHoaDon.getThanhTien());
 
-			return stmt.executeUpdate();
+			int result = stmt.executeUpdate();
+			return result > 0;
 		} catch (SQLException ex) {
 			ex.printStackTrace();
+			return false;
 		}
-		return -1;
 	}
 
 	// tong doanh thu

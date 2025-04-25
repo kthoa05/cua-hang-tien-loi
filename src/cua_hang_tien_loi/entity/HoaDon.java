@@ -32,6 +32,14 @@ public class HoaDon {
 		this.ngayLapHD = ngayLapHD;
 	}
 
+	public HoaDon(String maHD, NhanVien nv, Date ngayLapHD, double tongTien) {
+		super();
+		this.maHD = maHD;
+		this.nv = nv;
+		this.ngayLapHD = ngayLapHD;
+		this.tongTien = tongTien;
+	}
+
 	public HoaDon(String maHD, KhachHang kh, NhanVien nv, Date ngayLapHD, double tongTien) {
 		super();
 		this.maHD = maHD;
@@ -39,6 +47,13 @@ public class HoaDon {
 		this.nv = nv;
 		this.ngayLapHD = ngayLapHD;
 		this.tongTien = tongTien;
+	}
+
+	public HoaDon(String maHD, NhanVien nhanVien, Date ngayLap) {
+		// TODO Auto-generated constructor stub
+		this.maHD = maHD;
+		this.nv = nhanVien;
+		this.ngayLapHD = ngayLap;
 	}
 
 	public String getMaHD() {
@@ -87,6 +102,14 @@ public class HoaDon {
 		}
 
 		return tongTien;
+	}
+
+	public double getTongTien() {
+		return tongTien;
+	}
+
+	public void setTongTien(double tongTien) {
+		this.tongTien = tongTien;
 	}
 
 }

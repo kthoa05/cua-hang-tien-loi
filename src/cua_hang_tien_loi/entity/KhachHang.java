@@ -12,6 +12,11 @@ public class KhachHang {
 		super();
 	}
 
+	public KhachHang(String maKH) {
+		super();
+		this.maKH = maKH;
+	}
+
 	private String auto_ID() {
 		DAO_KhachHang daoKH = new DAO_KhachHang();
 		String idPrefix = "KH";

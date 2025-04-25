@@ -187,4 +187,23 @@ public class DAO_HoaDon {
 		return ds;
 	}
 
+	// insert hoa don
+	public boolean themHoaDon(HoaDon hoaDon) {
+		ConnectDB.getInstance();
+		Connection conn = ConnectDB.getConnection();
+		String query = "INSERT INTO HoaDon (maHD, maKH, maNV, ngayLapHD, tongTien) VALUES (?, ?, ?, ?, ?)";
+		try (PreparedStatement stmt = conn.prepareStatement(query)) {
+			stmt.setString(1, hoaDon.getMaHD());
+			stmt.setString(2, hoaDon.getKh().getMaKH());
+			stmt.setString(3, hoaDon.getNv().getMaNV());
+			stmt.setDate(4, hoaDon.getNgayLapHD());
+			stmt.setDouble(5, hoaDon.getTongTien());
+			int updateStatus = stmt.executeUpdate();
+			return updateStatus > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 }

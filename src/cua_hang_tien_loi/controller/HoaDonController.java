@@ -19,4 +19,9 @@ public class HoaDonController {
 	public List<String> getMaHoaDon() {
 		return daoHD.getMaHD();
 	}
+
+	// insert hd
+	public boolean themHoaDon(HoaDon hd) {
+		return daoHD.themHoaDon(hd);
+	}
 }

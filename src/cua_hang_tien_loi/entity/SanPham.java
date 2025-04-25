@@ -1,4 +1,5 @@
 package cua_hang_tien_loi.entity;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,7 +8,13 @@ import com.sun.jdi.connect.spi.Connection;
 
 import cua_hang_tien_loi.connectDB.ConnectDB;
 import cua_hang_tien_loi.dao.DAO_SanPham;
+
 public class SanPham {
+	public SanPham(String maSP) {
+		super();
+		this.maSP = maSP;
+	}
+
 	private String imgPath;
 	private String maSP;
 	private String tenSP;
@@ -15,15 +22,14 @@ public class SanPham {
 	private boolean TTKD;
 	private double donGia;
 	private String chatLieu;
-	public String auto_ID() {
- 		DAO_SanPham daoSP = new DAO_SanPham();
- 		String idPrefix = "SP";
- 		int length = daoSP.getAllSanPham().size();
- 		String finalId = idPrefix + String.format("%04d", length + 1);
- 		return finalId;
- 	}
-	
 
+	public String auto_ID() {
+		DAO_SanPham daoSP = new DAO_SanPham();
+		String idPrefix = "SP";
+		int length = daoSP.getAllSanPham().size();
+		String finalId = idPrefix + String.format("%04d", length + 1);
+		return finalId;
+	}
 
 	public SanPham() {
 		// TODO Auto-generated constructor stub
@@ -78,13 +84,13 @@ public class SanPham {
 		return TTKD;
 	}
 
-
 	public void setTTKD(boolean tTKD) {
 		this.TTKD = tTKD;
 	}
+
 	public String getTTKDString() {
-        return TTKD ? "Kinh doanh" : "Không kinh doanh";
-    }
+		return TTKD ? "Kinh doanh" : "Không kinh doanh";
+	}
 
 	public double getDonGia() {
 		return donGia;
