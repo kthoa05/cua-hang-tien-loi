@@ -4,19 +4,24 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import cua_hang_tien_loi.utils.StyleUtils;
+import cua_hang_tien_loi.utils.SystemUtils;
 
 public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 
@@ -39,6 +44,9 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 	private JMenuItem itemDTTheoThang;
 	private JMenuItem itemDTTheoNam;
 	private JMenuItem itemQuayLai;
+	private JTextField txtTenKH;
+	private JTextField txtMaHD;
+	private JTextField txtSDTKH;
 
 	public TraCuuHoaDonQuanLy() {
 		// TODO Auto-generated constructor stub
@@ -175,10 +183,73 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 		JPanel pnCen = new JPanel();
 
 		// CAN LAM
+		JLabel lbTitle = new JLabel("TRA CỨU HÓA ĐƠN");
+		lbTitle.setFont(new Font("Arial", Font.BOLD, 20));
+		lbTitle.setForeground(Color.CYAN);
+		pnCen.add(lbTitle);
+		
+		JPanel pn1 = new JPanel();
+		pn1.setLayout(new BoxLayout(pn1, BoxLayout.X_AXIS));
+		
+		JLabel lbTenKH = new JLabel("Tên KH:");
+		txtTenKH = new JTextField(25);
+		JLabel lbMaHD = new JLabel("Mã HD");
+		txtMaHD = new JTextField(25);
+		JLabel lbSDTKH = new JLabel("SĐT KH:");
+		txtSDTKH = new JTextField(25);
+		pn1.add(lbTenKH);
+		pn1.add(Box.createHorizontalStrut(10));
+		pn1.add(txtTenKH);
+		pn1.add(Box.createHorizontalStrut(10));
+		pn1.add(lbMaHD);
+		pn1.add(Box.createHorizontalStrut(10));
+		pn1.add(txtMaHD);
+		pn1.add(Box.createHorizontalStrut(10));
+		pn1.add(lbSDTKH);
+		pn1.add(Box.createHorizontalStrut(10));
+		pn1.add(txtSDTKH);
+		pnCen.add(pn1);
+		
 
 		pnMain.add(pnCen, BorderLayout.CENTER);
 
 		add(pnMain);
+
+		// event
+
+		// he thong
+		itemTaiKhoan.addActionListener(this);
+		itemTroGiup.addActionListener(this);
+		itemDangXuat.addActionListener(this);
+
+		// san pham
+		itemTraCuuSP.addActionListener(this);
+		itemCapNhatSp.addActionListener(this);
+		itemThemSP.addActionListener(this);
+
+		// khach hang
+		itemTraCuuKH.addActionListener(this);
+		itemCapNhatKH.addActionListener(this);
+
+		// hoa don
+		itemTraCuuHD.addActionListener(this);
+		itemThemHD.addActionListener(this);
+
+		// nhan vien
+		itemTraCuuNV.addActionListener(this);
+		itemCapNhatNV.addActionListener(this);
+		itemThemNV.addActionListener(this);
+
+		// thong ke
+		itemDTTheoNgay.addActionListener(this);
+		itemDTTheoThang.addActionListener(this);
+		itemDTTheoNam.addActionListener(this);
+
+		// quay lai
+		itemQuayLai.addActionListener(this);
+
+		// key f1
+		SystemUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
 	}
 
 	public static void main(String[] args) {
@@ -188,7 +259,46 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		Object source = e.getSource();
 
+		if (source.equals(itemTaiKhoan)) {
+			new ThongTinTaiKhoanQuanLy().setVisible(true);
+		} else if (source.equals(itemTroGiup)) {
+			SystemUtils.openFile("/Users/lethoa/Documents/giaykhamsuckhoe.pdf");
+		} else if (source.equals(itemDangXuat)) {
+			SystemUtils.dangXuat(this);
+		} else if (source.equals(itemThemSP)) {
+			this.setVisible(false);
+			new ThemSanPhamQuanLy().setVisible(true);
+		} else if (source.equals(itemCapNhatSp)) {
+			this.setVisible(false);
+			new CapNhatSanPhamQuanLy().setVisible(true);
+		} else if (source.equals(itemTraCuuKH)) {
+			this.setVisible(false);
+			new TraCuuKhachHangQuanLy().setVisible(true);
+		} else if (source.equals(itemCapNhatKH)) {
+			this.setVisible(false);
+			new CapNhatThongTinKhachHangQuanLy().setVisible(true);
+		} else if (source.equals(itemTraCuuHD)) {
+			this.setVisible(false);
+
+		} else if (source.equals(itemThemHD)) {
+			this.setVisible(false);
+
+		} else if (source.equals(itemCapNhatHD)) {
+			this.setVisible(false);
+
+		} else if (source.equals(itemTraCuuNV)) {
+			this.setVisible(false);
+			new TraCuuNhanVien().setVisible(true);
+		} else if (source.equals(itemThemNV)) {
+			this.setVisible(false);
+			new ThemNhanVien().setVisible(true);
+		} else if (source.equals(itemCapNhatNV)) {
+			this.setVisible(false);
+			new CapNhatNhanVien().setVisible(true);
+		} else if (source.equals(itemQuayLai)) {
+			SystemUtils.quayLai(this);
+		}
 	}
-
 }
