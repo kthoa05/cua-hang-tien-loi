@@ -411,7 +411,6 @@ public class CapNhatNhanVien extends JFrame implements ActionListener, MouseList
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
 		Object source = e.getSource();
 
 		if (source.equals(itemTaiKhoan)) {
