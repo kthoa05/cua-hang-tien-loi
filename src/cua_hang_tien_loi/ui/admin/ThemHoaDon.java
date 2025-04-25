@@ -13,13 +13,17 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import cua_hang_tien_loi.utils.StyleUtils;
 import cua_hang_tien_loi.utils.SystemUtils;
@@ -47,6 +51,14 @@ public class ThemHoaDon extends JFrame implements ActionListener{
 	private JTextField txtMaHD;
 	private JTextField txtNgayLapHD;
 	private JTextField txtSoLuong;
+	private JTextField txtMaNV;
+	private JTextField txtSP;
+	private JTextField txtDonGia;
+	private JButton btnThem;
+	private JButton btnLamMoi;
+	private JButton btnXuatHoaDon;
+	private DefaultTableModel modelTable;
+	private JTable table;
 	
 	public ThemHoaDon () {
 		this.initUIThemHoaDon();
@@ -187,7 +199,8 @@ public class ThemHoaDon extends JFrame implements ActionListener{
 		
 		JPanel pn = new JPanel();
 		pn.setLayout(new BoxLayout(pn, BoxLayout.Y_AXIS));
-		JLabel lbTitle = StyleUtils.createHeaderTitle("HÓA ĐƠN");
+		JLabel lbTitle = StyleUtils.createHeaderTitle("THÊM HÓA ĐƠN");
+		lbTitle.setAlignmentX(CENTER_ALIGNMENT);
 		lbTitle.setFont(new Font("Arial", Font.BOLD, 20));
 		lbTitle.setForeground(Color.BLACK);
 		pn.add(lbTitle);
@@ -209,16 +222,57 @@ public class ThemHoaDon extends JFrame implements ActionListener{
 		pn1.add(lblSoLuong);
 		pn1.add(Box.createHorizontalStrut(10));
 		pn1.add(txtSoLuong);
-		pn.add(Box.createVerticalStrut(10));
+		pn.add(Box.createVerticalStrut(20));
 		pn.add(pn1);
 		
-//		JPanel pn2 = new JPanel();
-//		pn2.setLayout(new BoxLayout(pn2, BoxLayout.X_AXIS));
+		JPanel pn2 = new JPanel();
+		pn2.setLayout(new BoxLayout(pn2, BoxLayout.X_AXIS));
+		JLabel lblMaNV = new JLabel("Mã NV:");
+		txtMaNV = new JTextField(25);
+		JLabel lblMaSP = new JLabel("Mã SP:");
+		txtSP = new JTextField(25);
+		JLabel lblDonGia = new JLabel("Đơn giá:");
+		txtDonGia = new JTextField(25);
+		pn2.add(lblMaNV);
+		pn2.add(Box.createHorizontalStrut(10));
+		pn2.add(txtMaNV);
+		pn2.add(lblMaSP);
+		pn2.add(Box.createHorizontalStrut(43));
+		pn2.add(txtSP);
+		pn2.add(lblDonGia);
+		pn2.add(Box.createHorizontalStrut(20));
+		pn2.add(txtDonGia);
+		pn.add(Box.createVerticalStrut(20));
+		pn.add(pn2);
 		
-//		pn.add(Box.createVerticalStrut(10));
-//		pn.add(pn2);
+		JPanel pn3 = new JPanel();
+		pn3.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		btnThem = new JButton("Thêm", new ImageIcon("src/cua_hang_tien_loi/icon/add.png"));
+		btnLamMoi = new JButton("Làm mới", new ImageIcon("src/cua_hang_tien_loi/icon/reload.png"));
+		btnXuatHoaDon = new JButton("Xuất hóa đơn", new ImageIcon("src/cua_hang_tien_loi/icon/xuathd.png"));
+		pn3.add(btnThem);
+		pn3.add(Box.createHorizontalStrut(5));
+		pn3.add(btnLamMoi);
+		pn3.add(Box.createHorizontalStrut(5));
+		pn3.add(btnXuatHoaDon);
+		pn.add(Box.createVerticalStrut(10));
+		pn.add(pn3);
+		
 		
 		pnCen.add(pn);
+		
+		
+		JPanel pnSouth = new JPanel();
+
+		String[] title = { "Mã HD", "Ngày lập HD", "Số lượng", "Mã NV", "Mã SP", "Đơn giá" };
+		modelTable = new DefaultTableModel(title, 0);
+		table = new JTable(modelTable);
+		JScrollPane scroll = new JScrollPane(table);
+
+		scroll.setPreferredSize(new Dimension(1000, 340));
+		pnSouth.add(new JScrollPane(scroll));
+
+		pnMain.add(pnSouth, BorderLayout.SOUTH);
 		pnMain.add(pnCen, BorderLayout.CENTER);
 		
 		add(pnMain);
@@ -283,9 +337,9 @@ public class ThemHoaDon extends JFrame implements ActionListener{
 		} else if (source.equals(itemTraCuuKH)) {
 			this.setVisible(false);
 			new TraCuuKhachHangQuanLy().setVisible(true);
-		} else if (source.equals(itemCapNhatKH)) {
-			this.setVisible(false);
-			new CapNhatThongTinKhachHangQuanLy().setVisible(true);
+//		} else if (source.equals(itemCapNhatKH)) {
+//			this.setVisible(false);
+//			new CapNhatThongTinKhachHangQuanLy().setVisible(true);
 		} else if (source.equals(itemTraCuuHD)) {
 			this.setVisible(false);
 

@@ -241,9 +241,9 @@ public class ThemSanPhamQuanLy extends JFrame implements ActionListener {
 		JLabel lblLoaiSanPham = new JLabel("Loại sản phẩm:");
 		cboLoaiSanPham = new JComboBox<>();
 
-		for (String loai : sanPhamController.getLoaiSP()) {
-			cboLoaiSanPham.addItem(loai);
-		}
+//		for (String loai : sanPhamController.getLoaiSP()) {
+//			cboLoaiSanPham.addItem(loai);
+//		}
 
 		pnLoaiSanPham.add(lblLoaiSanPham);
 		pnLoaiSanPham.add(cboLoaiSanPham);
@@ -253,9 +253,9 @@ public class ThemSanPhamQuanLy extends JFrame implements ActionListener {
 		pnTrangThai.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JLabel lblTrangThai = new JLabel("TTKD:");
 		cboTrangThai = new JComboBox<>();
-		for (String status : sanPhamController.getTTKD()) {
-			cboTrangThai.addItem(status);
-		}
+//		for (String status : sanPhamController.getTTKD()) {
+//			cboTrangThai.addItem(status);
+//		}
 		pnTrangThai.add(lblTrangThai);
 		pnTrangThai.add(cboTrangThai);
 

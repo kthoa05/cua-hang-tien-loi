@@ -7,34 +7,41 @@ import cua_hang_tien_loi.entity.SanPham;
 
 public class SanPhamController {
 
-	private DAO_SanPham daoSp;
+    private DAO_SanPham daoSp;
 
-	//add sp
-	public boolean themSanPham(SanPham sp) {
-		return daoSp.addSanPham(sp);
-	}
+    // Constructor để khởi tạo daoSp
+    public SanPhamController() {
+        daoSp = new DAO_SanPham(); // Khởi tạo đối tượng DAO_SanPham
+    }
 
-	public boolean capNhatSanPham(SanPham sp) {
-		return daoSp.updateSanPham(sp);
-	}
+    // Thêm sản phẩm
+    public boolean themSanPham(SanPham sp) {
+        System.out.println("Thêm sản phẩm với Tên: " + sp.getTenSP() + ", Loại: " + sp.getLoaiSP());
+        return daoSp.addSanPham(sp);
+    }
 
-	// cho phan TraCuuSP
-	public List<SanPham> timKiemSanPham(String maSp, String tenSp, String loai, boolean ttkd) {
-		return daoSp.findSanPham(maSp, tenSp, loai, ttkd);
-	}
+    // Cập nhật sản phẩm
+    public boolean capNhatSanPham(SanPham sp) {
+        return daoSp.updateSanPham(sp);
+    }
 
-	// loai sp
-	public List<String> getLoaiSP() {
-		return daoSp.getLoaiSP();
-	}
+    // Tìm kiếm sản phẩm
+    public List<SanPham> timKiemSanPham(String maSp, String tenSp, String loai, boolean ttkd) {
+        return daoSp.findSanPham(maSp, tenSp, loai, ttkd);
+    }
 
-	// ttkd
-	public List<String> getTTKD() {
-		return daoSp.getDSTinhTrangKD();
-	}
+    // Lấy danh sách loại sản phẩm
+    public List<String> getLoaiSP() {
+        return daoSp.getLoaiSP();
+    }
 
-	// get by id
-	public SanPham getById(String id) {
-		return daoSp.getSanPham(id);
-	}
+    // Lấy danh sách tình trạng kinh doanh
+    public List<String> getTTKD() {
+        return daoSp.getDSTinhTrangKD();
+    }
+
+    // Lấy sản phẩm theo ID
+    public SanPham getById(String id) {
+        return daoSp.getSanPham(id);
+    }
 }
