@@ -12,6 +12,7 @@ public class HoaDon {
 	private KhachHang kh;
 	private NhanVien nv;
 	private Date ngayLapHD;
+	private double tongTien;
 
 	private String auto_IDHoaDon() {
 		// auto gen id hóa đơn dạng HDXXXXXX
@@ -29,6 +30,15 @@ public class HoaDon {
 		this.kh = kh;
 		this.nv = nv;
 		this.ngayLapHD = ngayLapHD;
+	}
+
+	public HoaDon(String maHD, KhachHang kh, NhanVien nv, Date ngayLapHD, double tongTien) {
+		super();
+		this.maHD = maHD;
+		this.kh = kh;
+		this.nv = nv;
+		this.ngayLapHD = ngayLapHD;
+		this.tongTien = tongTien;
 	}
 
 	public String getMaHD() {
@@ -68,7 +78,7 @@ public class HoaDon {
 		return "HoaDon [maHD=" + maHD + ", kh=" + kh + ", nv=" + nv + ", ngayLapHD=" + ngayLapHD + ", tongTien=";
 	}
 
-	public long tongTien() {
+	public double tongTien() {
 		long tongTien = 0;
 		DAO_ChiTietHoaDon daoCTHD = new DAO_ChiTietHoaDon();
 		ArrayList<ChiTietHoaDon> listChiTietHoaDon = daoCTHD.getAllCTHDByHoaDon(this);

@@ -17,4 +17,9 @@ public class KhachHangController {
 	public List<KhachHang> getKhachHangForTraCuu(String ma, String ten, String sdt) {
 		return daoKH.getKhachHang(ma, ten, sdt);
 	}
+
+	// get ma kh
+	public List<String> getMaKH() {
+		return daoKH.getMaKH();
+	}
 }

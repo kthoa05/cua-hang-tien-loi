@@ -63,6 +63,11 @@ public class NhanVien {
 		this.trangThaiLamViec = trangThaiLamViec;
 	}
 
+	public NhanVien(String maNV) {
+		super();
+		this.maNV = maNV;
+	}
+
 	public String getImgPath() {
 		return imgPath;
 	}

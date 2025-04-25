@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import cua_hang_tien_loi.connectDB.ConnectDB;
 import cua_hang_tien_loi.entity.KhachHang;
@@ -81,5 +82,22 @@ public class DAO_KhachHang {
 			ex.printStackTrace();
 		}
 		return listKhachHang;
+	}
+
+	// get ma kh
+	public List<String> getMaKH() {
+		List<String> ds = new ArrayList<String>();
+		ConnectDB.getInstance();
+		Connection conn = ConnectDB.getConnection();
+		String sql = "SELECT maKH FROM KhachHang";
+		try (PreparedStatement ps = conn.prepareStatement(sql)) {
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				ds.add(rs.getString("maKH"));
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return ds;
 	}
 }
