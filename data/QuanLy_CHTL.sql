@@ -1,24 +1,11 @@
-﻿CREATE DATABASE QuanLy_CHTL
-ON PRIMARY
-    (NAME = 'QuanLy_CHTL_DATA',
-    FILENAME = 'C:\DL\QuanLy_CHTL_DATA.MDF',
-    SIZE = 10,
-    MAXSIZE = 40,
-    FILEGROWTH = 1)
-LOG ON 
-    (NAME = 'QuanLy_CHTL_LOG',
-    FILENAME = 'C:\DL\QuanLy_CHTL.LDF',
-    SIZE = 6,
-    MAXSIZE = 8,
-    FILEGROWTH = 1);
-
-USE QuanLy_CHTL;
+create database quanlychtl;
+use quanlychtl;
 
 CREATE TABLE KhachHang(
     maKH VARCHAR(10) PRIMARY KEY NOT NULL,
     tenKH NVARCHAR(100) NOT NULL,
     phai BIT NOT NULL CHECK (phai IN (0, 1)),  -- Giới tính phải là 0 hoặc 1
-    sdt VARCHAR(15) NOT NULL CHECK (sdt LIKE '0[0-9][0-9][0-9][0-9][0-9][0-9][0-9]')  -- Số điện thoại phải có định dạng hợp lệ
+    sdt VARCHAR(15) NOT NULL
 );
 
 CREATE TABLE NhanVien (
@@ -26,12 +13,12 @@ CREATE TABLE NhanVien (
     hoTen NVARCHAR(100) NOT NULL,
     phai BIT NOT NULL CHECK (phai IN (0, 1)),  -- Giới tính phải là 0 hoặc 1
     ngaySinh DATE NOT NULL,
-    sdt VARCHAR(15) NOT NULL CHECK (sdt LIKE '0[0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),  -- Số điện thoại phải có định dạng hợp lệ
-    email VARCHAR(255) NOT NULL CHECK (email LIKE '%_@__%.__%'),  -- Email phải có định dạng hợp lệ
-    cmnd VARCHAR(12) NOT NULL CHECK (cmnd LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),  -- CMND phải có 12 ký tự số
-    mk VARCHAR(100) NOT NULL CHECK (LEN(mk) >= 6),  -- Mật khẩu phải có độ dài tối thiểu là 6 ký tự
-    isAdmin BIT NOT NULL CHECK (isAdmin IN (0, 1)),  -- Trạng thái Admin phải là 0 hoặc 1
-    trangThaiLamViec BIT NOT NULL CHECK (trangThaiLamViec IN (0, 1)),  -- Trạng thái làm việc phải là 0 hoặc 1
+    sdt VARCHAR(15) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    cmnd VARCHAR(12) NOT NULL,
+    mk VARCHAR(100) NOT NULL,
+    isAdmin BIT NOT NULL,
+    trangThaiLamViec BIT NOT NULL,
     imgPath VARCHAR(255)
 );
 
@@ -39,7 +26,7 @@ CREATE TABLE HoaDon (
     maHD VARCHAR(10) PRIMARY KEY NOT NULL,
     maKH VARCHAR(10) NOT NULL,
     maNV VARCHAR(10) NOT NULL,
-    ngayLapHD DATE NOT NULL CHECK (ngayLapHD <= GETDATE()),  -- Ngày lập hóa đơn phải không lớn hơn ngày hiện tại
+    ngayLapHD DATE NOT NULL,
     FOREIGN KEY (maKH) REFERENCES KhachHang(maKH),
     FOREIGN KEY (maNV) REFERENCES NhanVien(maNV)
 );

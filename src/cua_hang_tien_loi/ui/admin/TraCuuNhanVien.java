@@ -194,7 +194,7 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 
 		pnMain.add(pnNorth, BorderLayout.NORTH);
 
-		// cen 
+		// cen
 		JPanel pnCen = new JPanel();
 
 		pnCen.setLayout(new BoxLayout(pnCen, BoxLayout.X_AXIS));
@@ -361,7 +361,7 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 		if (source.equals(btnLamMoi)) {
 			this.clear();
 		} else if (source.equals(btnTim)) {
-//			this.timKiem();
+			this.timKiem();
 		}
 	}
 

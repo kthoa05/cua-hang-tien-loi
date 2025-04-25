@@ -8,12 +8,14 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -25,6 +27,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import cua_hang_tien_loi.controller.HoaDonController;
+import cua_hang_tien_loi.controller.KhachHangController;
+import cua_hang_tien_loi.entity.HoaDon;
+import cua_hang_tien_loi.entity.NhanVien;
 import cua_hang_tien_loi.utils.StyleUtils;
 import cua_hang_tien_loi.utils.SystemUtils;
 
@@ -50,16 +56,18 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 	private JMenuItem itemDTTheoNam;
 	private JMenuItem itemQuayLai;
 	private JTextField txtTenKH;
-	private JTextField txtMaHD;
 	private JTextField txtSDTKH;
 	private JTextField txtTenNV;
-	private JTextField txtMaKH;
 	private JTextField txtNgayLap;
 	private DefaultTableModel modelTable;
 	private JTable table;
 	private Container pnCenter;
 	private JButton btnTim;
 	private JButton btnLamMoi;
+	private HoaDonController hdController;
+	private JComboBox<Object> cboMaHD;
+	private KhachHangController khController;
+	private JComboBox<Object> cboMaKH;
 
 	public TraCuuHoaDonQuanLy() {
 		// TODO Auto-generated constructor stub
@@ -200,17 +208,22 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 		lbTitle.setFont(new Font("Arial", Font.BOLD, 20));
 		lbTitle.setForeground(Color.BLACK);
 		pnCen.add(lbTitle);
-		
+
 		JPanel pn = new JPanel();
 		pn.setLayout(new BoxLayout(pn, BoxLayout.Y_AXIS));
-		
+
 		JPanel pn1 = new JPanel();
 		pn1.setLayout(new BoxLayout(pn1, BoxLayout.X_AXIS));
-		
+
 		JLabel lbTenKH = new JLabel("Tên KH:");
 		txtTenKH = new JTextField(25);
 		JLabel lbMaHD = new JLabel("Mã HD");
-		txtMaHD = new JTextField(25);
+		cboMaHD = new JComboBox<>();
+		cboMaHD.addItem("None");
+		for (String ma : hdController.getMaHoaDon()) {
+			cboMaHD.addItem(ma);
+		}
+
 		JLabel lbSDTKH = new JLabel("SĐT KH:");
 		txtSDTKH = new JTextField(25);
 		pn1.add(lbTenKH);
@@ -219,21 +232,25 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 		pn1.add(Box.createHorizontalStrut(10));
 		pn1.add(lbMaHD);
 		pn1.add(Box.createHorizontalStrut(10));
-		pn1.add(txtMaHD);
+		pn1.add(cboMaHD);
 		pn1.add(Box.createHorizontalStrut(10));
 		pn1.add(lbSDTKH);
 		pn1.add(Box.createHorizontalStrut(10));
 		pn1.add(txtSDTKH);
 		pn.add(Box.createVerticalStrut(10));
 		pn.add(pn1);
-		
+
 		JPanel pn2 = new JPanel();
 		pn2.setLayout(new BoxLayout(pn2, BoxLayout.X_AXIS));
-		
+
 		JLabel lbTenNV = new JLabel("Tên NV:");
 		txtTenNV = new JTextField(25);
 		JLabel lbMaKH = new JLabel("Mã KH");
-		txtMaKH = new JTextField(25);
+		cboMaKH = new JComboBox<>();
+		cboMaKH.addItem("None");
+		for (String maKH : khController.getMaKH()) {
+			cboMaKH.addItem(maKH);
+		}
 		JLabel lbNgayLap = new JLabel("Ngày lập:");
 		txtNgayLap = new JTextField(25);
 		pn2.add(lbTenNV);
@@ -242,16 +259,16 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 		pn2.add(Box.createHorizontalStrut(10));
 		pn2.add(lbMaKH);
 		pn2.add(Box.createHorizontalStrut(10));
-		pn2.add(txtMaKH);
+		pn2.add(cboMaKH);
 		pn2.add(Box.createHorizontalStrut(10));
 		pn2.add(lbNgayLap);
 		pn2.add(Box.createHorizontalStrut(10));
 		pn2.add(txtNgayLap);
 		pn.add(Box.createVerticalStrut(10));
 		pn.add(pn2);
-		
+
 		JPanel pn3 = new JPanel();
-		
+
 		pn3.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		btnTim = new JButton("Tìm kiếm", new ImageIcon("src/cua_hang_tien_loi/icon/search.png"));
 		btnLamMoi = new JButton("Làm mới", new ImageIcon("src/cua_hang_tien_loi/icon/reload.png"));
@@ -260,19 +277,18 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 		pn.add(pn3);
 		pnCen.add(pn);
 		pnMain.add(pnCen, BorderLayout.CENTER);
-		
+
 		JPanel pnSouth = new JPanel();
-		
-		String[] title = {"Mã HD", "Mã KH", "Ngày lập", "Tên KH", "Nhân viên", "SĐT", "Tổng tiền"};
+
+		String[] title = { "Mã HD", "Mã KH", "Ngày lập", "Tên KH", "Nhân viên", "SĐT", "Tổng tiền" };
 		modelTable = new DefaultTableModel(title, 0);
 		table = new JTable(modelTable);
 		JScrollPane scroll = new JScrollPane(table);
-		
+
 		scroll.setPreferredSize(new Dimension(1000, 350));
 		pnSouth.add(new JScrollPane(scroll));
-		
-		pnMain.add(pnSouth, BorderLayout.SOUTH);
 
+		pnMain.add(pnSouth, BorderLayout.SOUTH);
 
 		add(pnMain);
 
@@ -361,5 +377,43 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 		} else if (source.equals(itemQuayLai)) {
 			SystemUtils.quayLai(this);
 		}
+
+		// btn
+		else if (source.equals(btnLamMoi)) {
+			this.clear();
+		} else if (source.equals(btnTim)) {
+			this.traCuuHoaDon();
+		}
+	}
+
+	private void traCuuHoaDon() {
+
+		String ten = txtTenKH.getText();
+		String maHD = cboMaHD.getSelectedItem().toString();
+		String sdt = txtSDTKH.getText();
+		String tenNV = txtTenNV.getText();
+		String maKH = cboMaKH.getSelectedItem().toString();
+		String ngayLap = txtNgayLap.getText();
+
+		List<HoaDon> ds = hdController.traCuuHoaDon(tenNV, maHD, maKH, ngayLap, ten, sdt);
+
+		modelTable.setRowCount(0);
+
+		// load du lieu len table
+		for (HoaDon hd : ds) {
+			Object[] row = { hd.getMaHD(), hd.getKh().getMaKH(), hd.getNgayLapHD(), hd.getKh().getTenKH(),
+					hd.getNv().getHoTen(), hd.getKh().getSdt(), hd.tongTien() };
+			modelTable.addRow(row);
+		}
+	}
+
+	private void clear() {
+		txtTenKH.setText("");
+		cboMaKH.setSelectedIndex(0);
+		txtSDTKH.setText("");
+		txtTenNV.setText("");
+		cboMaHD.setSelectedIndex(0);
+		txtNgayLap.setText("");
+		txtTenKH.requestFocus();
 	}
 }

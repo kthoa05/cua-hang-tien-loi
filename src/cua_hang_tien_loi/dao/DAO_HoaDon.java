@@ -125,4 +125,66 @@ public class DAO_HoaDon {
 		return -1;
 	}
 
+	// tra cuu hoa don
+	public List<HoaDon> tracuuHoaDon(String tenKH, String maHD, String maKH, String ngayLapHD, String nhanVien,
+			String sdt) {
+		List<HoaDon> hoaDons = new ArrayList<>();
+		ConnectDB.getInstance();
+		Connection conn = ConnectDB.getConnection();
+		String sql = "SELECT h.maHD, h.maKH, h.ngayLapHD, kh.tenKH, nv.hoTen AS nhanVien, kh.sdt, SUM(cthd.thanhTien) AS tongTien "
+				+ "FROM HoaDon h " + "JOIN KhachHang kh ON h.maKH = kh.maKH " + "JOIN NhanVien nv ON h.maNV = nv.maNV "
+				+ "JOIN ChiTietHoaDon cthd ON h.maHD = cthd.maHD "
+				+ "WHERE (kh.tenKH LIKE ? OR h.maHD LIKE ? OR h.maKH LIKE ? OR h.ngayLapHD LIKE ? OR nv.hoTen LIKE ? OR kh.sdt LIKE ?) "
+				+ "GROUP BY h.maHD, h.maKH, h.ngayLapHD, kh.tenKH, nv.hoTen, kh.sdt " + "ORDER BY h.ngayLapHD";
+
+		try (PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setString(1, "%" + tenKH + "%");
+			ps.setString(2, "%" + maHD + "%");
+			ps.setString(3, "%" + maKH + "%");
+			ps.setString(4, "%" + ngayLapHD + "%");
+			ps.setString(5, "%" + nhanVien + "%");
+			ps.setString(6, "%" + sdt + "%");
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				String maHDResult = rs.getString("maHD");
+				String maKHResult = rs.getString("maKH");
+				String tenKHResult = rs.getString("tenKH");
+				String nhanVienResult = rs.getString("nhanVien");
+				String sdtResult = rs.getString("sdt");
+				Date ngayLapHDResult = rs.getDate("ngayLapHD");
+				double tongTien = rs.getDouble("tongTien");
+
+				KhachHang kh = new KhachHang(maKHResult, tenKHResult, sdtResult);
+				NhanVien nv = new NhanVien(nhanVienResult);
+
+				HoaDon hoaDon = new HoaDon(maHDResult, kh, nv, ngayLapHDResult, tongTien);
+				hoaDons.add(hoaDon);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return hoaDons;
+	}
+
+	// get mahd
+	public List<String> getMaHD() {
+		List<String> ds = new ArrayList<String>();
+		ConnectDB.getInstance();
+		Connection conn = ConnectDB.getConnection();
+		String sql = "SELECT maHD FROM HoaDon";
+		try (PreparedStatement ps = conn.prepareStatement(sql)) {
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				ds.add(rs.getString("maHD"));
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return ds;
+	}
+
 }
