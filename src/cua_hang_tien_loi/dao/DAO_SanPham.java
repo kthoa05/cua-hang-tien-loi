@@ -70,7 +70,7 @@ public class DAO_SanPham {
 		try {
 			s = conn.prepareStatement(sql);
 			s.setString(1, sp.getImgPath());
-			s.setString(2, sp.getMaSP());
+			s.setString(2, sp.auto_ID());
 			s.setString(3, sp.getTenSP());
 			s.setString(4, sp.getLoaiSP());
 			s.setBoolean(5, sp.isTTKD());
