@@ -27,13 +27,8 @@ import javax.swing.table.DefaultTableModel;
 
 import cua_hang_tien_loi.controller.SanPhamController;
 import cua_hang_tien_loi.entity.SanPham;
-import cua_hang_tien_loi.ui.admin.CapNhatSanPhamQuanLy;
-import cua_hang_tien_loi.ui.admin.CapNhatThongTinKhachHangQuanLy;
-import cua_hang_tien_loi.ui.admin.ThemSanPhamQuanLy;
-import cua_hang_tien_loi.ui.admin.ThemNhanVien;
 import cua_hang_tien_loi.ui.admin.ThongTinTaiKhoanQuanLy;
 import cua_hang_tien_loi.ui.admin.TraCuuKhachHangQuanLy;
-import cua_hang_tien_loi.ui.admin.TraCuuNhanVien;
 import cua_hang_tien_loi.ui.admin.TraCuuSanPhamQuanLy;
 import cua_hang_tien_loi.utils.StyleUtils;
 import cua_hang_tien_loi.utils.SystemUtils;
@@ -44,8 +39,6 @@ public class TraCuuSanPhamNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemTroGiup;
 	private JMenuItem itemDangXuat;
 	private JMenuItem itemTraCuuKH;
-	private JMenuItem itemThemKH;
-	private JMenuItem itemCapNhatKH;
 	private JMenuItem itemTraCuuHD;
 	private JMenuItem itemThemHD;
 	private JMenuItem itemCapNhatHD;
@@ -108,14 +101,8 @@ public class TraCuuSanPhamNhanVien extends JFrame implements ActionListener {
 		JMenu menuKhachHang = new JMenu("Khách hàng");
 		menuKhachHang.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/customer.png"));
 		itemTraCuuKH = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
-		itemThemKH = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatKH = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuKhachHang.add(itemTraCuuKH);
-		menuKhachHang.addSeparator();
-		menuKhachHang.add(itemThemKH);
-		menuKhachHang.addSeparator();
-		menuKhachHang.add(itemCapNhatKH);
 		menuBar.add(menuKhachHang);
 		menuBar.add(Box.createHorizontalStrut(25));
 
@@ -247,7 +234,6 @@ public class TraCuuSanPhamNhanVien extends JFrame implements ActionListener {
 
 		// khach hang
 		itemTraCuuKH.addActionListener(this);
-		itemCapNhatKH.addActionListener(this);
 
 		// hoa don
 		itemTraCuuHD.addActionListener(this);
@@ -290,9 +276,6 @@ public class TraCuuSanPhamNhanVien extends JFrame implements ActionListener {
 		} else if (source.equals(itemTraCuuKH)) {
 			this.setVisible(false);
 			new TraCuuKhachHangQuanLy().setVisible(true);
-		} else if (source.equals(itemCapNhatKH)) {
-			this.setVisible(false);
-			new CapNhatThongTinKhachHangQuanLy().setVisible(true);
 		} else if (source.equals(itemTraCuuHD)) {
 			this.setVisible(false);
 
