@@ -5,9 +5,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -23,9 +23,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import cua_hang_tien_loi.controller.HoaDonController;
+import cua_hang_tien_loi.entity.HoaDon;
 import cua_hang_tien_loi.utils.StyleUtils;
 import cua_hang_tien_loi.utils.SystemUtils;
 
@@ -55,6 +56,8 @@ public class ThongKeHoaDonQuanLy extends JFrame implements ActionListener {
 	private JComboBox cboThang;
 	private JComboBox cboNam;
 	private JButton btnTim;
+	private JButton btnThongKe;
+	private HoaDonController hdController;
 
 	public ThongKeHoaDonQuanLy() {
 		this.initUIThemHoaDon();
@@ -230,9 +233,9 @@ public class ThongKeHoaDonQuanLy extends JFrame implements ActionListener {
 		// button
 		JPanel pn2 = new JPanel();
 		pn2.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		btnTim = new JButton("Tìm kiếm", new ImageIcon("src/cua_hang_tien_loi/icon/search.png"));
+		btnThongKe = new JButton("Thống kê", new ImageIcon("src/cua_hang_tien_loi/icon/thongke.png"));
 		btnLamMoi = new JButton("Làm mới", new ImageIcon("src/cua_hang_tien_loi/icon/reload.png"));
-		pn2.add(btnTim);
+		pn2.add(btnThongKe);
 		pn2.add(btnLamMoi);
 		pn.add(Box.createVerticalStrut(10));
 		pn.add(pn2);
@@ -292,7 +295,7 @@ public class ThongKeHoaDonQuanLy extends JFrame implements ActionListener {
 
 		// btn
 		btnLamMoi.addActionListener(this);
-		btnTim.addActionListener(this);
+		btnThongKe.addActionListener(this);
 	}
 
 	@Override
@@ -340,9 +343,31 @@ public class ThongKeHoaDonQuanLy extends JFrame implements ActionListener {
 		// btn
 		else if (source.equals(btnLamMoi)) {
 			this.clear();
-		} else if (source.equals(btnTim)) {
-
+		} else if (source.equals(btnThongKe)) {
+			this.thongKe();
+			this.clear();
 		}
+	}
+
+	private void thongKe() {
+		String ngay = cboNgay.getSelectedItem().toString();
+		String thang = cboNgay.getSelectedItem().toString();
+		String nam = cboNgay.getSelectedItem().toString();
+
+		int ngayInt = Integer.parseInt(ngay);
+		int thangInt = Integer.parseInt(thang);
+		int namInt = Integer.parseInt(nam);
+
+//		"Mã HD", "Ngày lập HD", "Số lượng", "Mã NV", "Mã SP", "Đơn giá";
+		List<Object[]> ketQuaThongKe = hdController.thongKeHoaDon(ngayInt, thangInt, namInt);
+
+		modelTable.setRowCount(0);
+
+		// load du lieu len table
+		for (Object[] row : ketQuaThongKe) {
+			modelTable.addRow(row);
+		}
+
 	}
 
 	private void clear() {

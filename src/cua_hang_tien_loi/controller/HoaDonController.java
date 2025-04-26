@@ -24,4 +24,24 @@ public class HoaDonController {
 	public boolean themHoaDon(HoaDon hd) {
 		return daoHD.themHoaDon(hd);
 	}
+
+	// lay ngay len
+	public List<Integer> getNgay() {
+		return daoHD.getNgay();
+	}
+
+	// lay thang len
+	public List<Integer> getThang() {
+		return daoHD.getThang();
+	}
+
+	// lay nam len
+	public List<Integer> getNam() {
+		return daoHD.getNgay();
+	}
+
+	// thong ke
+	public List<Object[]> thongKeHoaDon(int ngay, int thang, int nam) {
+		return daoHD.thongKeChiTietHoaDon(ngay, thang, nam);
+	}
 }

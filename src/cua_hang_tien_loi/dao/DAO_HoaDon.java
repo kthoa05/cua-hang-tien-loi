@@ -206,4 +206,121 @@ public class DAO_HoaDon {
 		}
 	}
 
+	// lay ngay len cho combo box
+	public List<Integer> getNgay() {
+		List<Integer> ds = new ArrayList<Integer>();
+		ConnectDB.getInstance();
+		Connection conn = ConnectDB.getConnection();
+		String sql = "SELECT DAY(ngayLapHD) FROM HoaDon";
+		try (PreparedStatement ps = conn.prepareStatement(sql)) {
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				ds.add(rs.getInt("ngayLapHD"));
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return ds;
+	}
+
+	// lay thang len cho combo box
+	public List<Integer> getThang() {
+		List<Integer> ds = new ArrayList<Integer>();
+		ConnectDB.getInstance();
+		Connection conn = ConnectDB.getConnection();
+		String sql = "SELECT MONTH(ngayLapHD) FROM HoaDon";
+		try (PreparedStatement ps = conn.prepareStatement(sql)) {
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				ds.add(rs.getInt("ngayLapHD"));
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return ds;
+	}
+
+	// lay ngay len cho combo box
+	public List<Integer> getNam() {
+		List<Integer> ds = new ArrayList<Integer>();
+		ConnectDB.getInstance();
+		Connection conn = ConnectDB.getConnection();
+		String sql = "SELECT YEAR(ngayLapHD) FROM HoaDon";
+		try (PreparedStatement ps = conn.prepareStatement(sql)) {
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				ds.add(rs.getInt("ngayLapHD"));
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return ds;
+	}
+
+	// lay ngay thang nam cho thong ke
+//	public List<HoaDon> thongKeHoaDon(int ngay, int thang, int nam) {
+//		List<HoaDon> hoaDons = new ArrayList<>();
+//		ConnectDB.getInstance();
+//		Connection conn = ConnectDB.getConnection();
+//		String sql = "SELECT * FROM HoaDon WHERE DAY(ngayLapHD) = ? AND MONTH(ngayLapHD) = ? AND YEAR(ngayLapHD) = ? ";
+//
+//		try (PreparedStatement ps = conn.prepareStatement(sql)) {
+//			ps.setInt(1, ngay);
+//			ps.setInt(2, thang);
+//			ps.setInt(3, nam);
+//
+//			ResultSet rs = ps.executeQuery();
+//
+//			while (rs.next()) {
+//				String maHDResult = rs.getString("maHD");
+//				String maKHResult = rs.getString("maKH");
+//				String tenKHResult = rs.getString("tenKH");
+//				String nhanVienResult = rs.getString("nhanVien");
+//				String sdtResult = rs.getString("sdt");
+//				Date ngayLapHDResult = rs.getDate("ngayLapHD");
+//				double tongTien = rs.getDouble("tongTien");
+//
+//				KhachHang kh = new KhachHang(maKHResult, tenKHResult, sdtResult);
+//				NhanVien nv = new NhanVien(nhanVienResult);
+//
+//				HoaDon hoaDon = new HoaDon(maHDResult, kh, nv, ngayLapHDResult, tongTien);
+//				hoaDons.add(hoaDon);
+//			}
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//
+//		return hoaDons;
+//	}
+
+	// lay ngay thang nam cho thong ke
+	public List<Object[]> thongKeChiTietHoaDon(int ngay, int thang, int nam) {
+		List<Object[]> list = new ArrayList<>();
+		ConnectDB.getInstance();
+		Connection conn = ConnectDB.getConnection();
+		String sql = "SELECT hd.maHD, hd.ngayLapHD, nv.maNV, sp.maSP, cthd.soLuong, cthd.thanhTien " + "FROM HoaDon hd "
+				+ "INNER JOIN NhanVien nv ON hd.maNV = nv.maNV " + "JOIN ChiTietHoaDon cthd ON hd.maHD = cthd.maHD "
+				+ "INNER JOIN SanPham sp ON cthd.maSP = sp.maSP "
+				+ "WHERE DAY(hd.ngayLapHD) = ? AND MONTH(hd.ngayLapHD) = ? AND YEAR(hd.ngayLapHD) = ?";
+		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+			stmt.setInt(1, ngay);
+			stmt.setInt(2, thang);
+			stmt.setInt(3, nam);
+
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				Object[] row = { rs.getString("maHD"), rs.getDate("ngayLapHD"), rs.getString("maNV"),
+						rs.getString("maSP"), rs.getInt("soLuong"), rs.getLong("thanhTien") };
+				list.add(row);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
 }
