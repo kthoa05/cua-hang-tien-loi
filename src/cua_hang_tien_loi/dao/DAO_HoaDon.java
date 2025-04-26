@@ -21,6 +21,32 @@ public class DAO_HoaDon {
 	private NhanVienController nvController;
 	private KhachHangController khController;
 
+	// get hoa don by maHD
+	public HoaDon getHoaDonById(String maHD) {
+		HoaDon hoaDon = new HoaDon();
+		Connection conn = ConnectDB.getConnection();
+		String query = "SELECT * FROM HoaDon WHERE maHD = ?";
+
+		try (PreparedStatement ps = conn.prepareStatement(query)) {
+
+			ps.setString(1, maHD);
+
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					String maHoaDon = rs.getString("maHD");
+					Date ngayLap = rs.getDate("ngayLap");
+					String maNV = rs.getString("maNV");
+					hoaDon = new HoaDon(maHoaDon, new NhanVien(maNV), ngayLap);
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return hoaDon;
+	}
+
 	public List<HoaDon> getAllHoaDon() {
 		List<HoaDon> danhSachHoaDon = new ArrayList<>();
 		Connection conn = ConnectDB.getConnection();

@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import cua_hang_tien_loi.connectDB.ConnectDB;
+import cua_hang_tien_loi.controller.HoaDonController;
 import cua_hang_tien_loi.controller.SanPhamController;
 import cua_hang_tien_loi.entity.ChiTietHoaDon;
 import cua_hang_tien_loi.entity.HoaDon;
@@ -15,6 +16,36 @@ import cua_hang_tien_loi.entity.SanPham;
 
 public class DAO_ChiTietHoaDon {
 	private SanPhamController spController;
+	private HoaDonController hdController;
+
+	// get cthd by mahd
+	public ChiTietHoaDon getChiTietHoaDonById(String maHD) {
+		ConnectDB.getInstance();
+		Connection conn = ConnectDB.getConnection();
+		ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();
+		String query = "SELECT * FROM ChiTietHoaDon WHERE maHD = ?";
+
+		try (PreparedStatement ps = conn.prepareStatement(query)) {
+			ps.setString(1, maHD);
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					String maHoaDon = rs.getString("maHD");
+					String maSP = rs.getString("maSP");
+					int soLuong = rs.getInt("soLuong");
+					double thanhTien = rs.getDouble("thanhTien");
+
+					HoaDon hd = hdController.timHoaDonTheoMa(maHoaDon);
+					SanPham sp = spController.getById(maSP);
+					chiTietHoaDon = new ChiTietHoaDon(hd, sp, soLuong, thanhTien);
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return chiTietHoaDon;
+	}
 
 	public ArrayList<ChiTietHoaDon> getAllCTHDByHoaDon(HoaDon hoaDon) {
 		ArrayList<ChiTietHoaDon> listChiTietHoaDon = new ArrayList<>();
@@ -52,7 +83,7 @@ public class DAO_ChiTietHoaDon {
 			stmt.setString(1, chiTietHoaDon.getSp().getMaSP());
 			stmt.setString(2, chiTietHoaDon.getHd().getMaHD());
 			stmt.setInt(3, chiTietHoaDon.getSoLuong());
-			stmt.setLong(4, chiTietHoaDon.getThanhTien());
+			stmt.setDouble(4, chiTietHoaDon.getThanhTien());
 
 			int result = stmt.executeUpdate();
 			return result > 0;

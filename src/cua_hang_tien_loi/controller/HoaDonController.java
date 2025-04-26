@@ -44,4 +44,9 @@ public class HoaDonController {
 	public List<Object[]> thongKeHoaDon(int ngay, int thang, int nam) {
 		return daoHD.thongKeChiTietHoaDon(ngay, thang, nam);
 	}
+
+	// get hoa don by mahd
+	public HoaDon timHoaDonTheoMa(String maHD) {
+		return daoHD.getHoaDonById(maHD);
+	}
 }

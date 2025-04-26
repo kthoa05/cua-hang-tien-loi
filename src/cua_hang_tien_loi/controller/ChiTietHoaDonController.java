@@ -11,4 +11,9 @@ public class ChiTietHoaDonController {
 	public boolean themCTHD(ChiTietHoaDon cthd) {
 		return daoCTHD.addChiTietHoaDon(cthd);
 	}
+
+	// get mahd
+	public ChiTietHoaDon timChiTietTheoMa(String ma) {
+		return daoCTHD.getChiTietHoaDonById(ma);
+	}
 }

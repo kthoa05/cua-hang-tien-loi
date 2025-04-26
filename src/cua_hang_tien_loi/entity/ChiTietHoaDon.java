@@ -1,16 +1,17 @@
 package cua_hang_tien_loi.entity;
 
 public class ChiTietHoaDon {
+
 	private HoaDon hd;
 	private SanPham sp;
 	private int soLuong;
-	private long thanhTien;
+	private double thanhTien;
 
 	public ChiTietHoaDon() {
 		super();
 	}
 
-	public ChiTietHoaDon(HoaDon hd, SanPham sp, int soLuong, long thanhTien) {
+	public ChiTietHoaDon(HoaDon hd, SanPham sp, int soLuong, double thanhTien) {
 		super();
 		this.hd = hd;
 		this.sp = sp;
@@ -42,7 +43,7 @@ public class ChiTietHoaDon {
 		this.soLuong = soLuong;
 	}
 
-	public long getThanhTien() {
+	public double getThanhTien() {
 		return thanhTien;
 	}
 

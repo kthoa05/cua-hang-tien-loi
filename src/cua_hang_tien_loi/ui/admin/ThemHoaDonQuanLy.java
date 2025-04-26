@@ -2,11 +2,15 @@ package cua_hang_tien_loi.ui.admin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Date;
 
 import javax.swing.BorderFactory;
@@ -28,10 +32,8 @@ import javax.swing.table.DefaultTableModel;
 
 import cua_hang_tien_loi.controller.ChiTietHoaDonController;
 import cua_hang_tien_loi.controller.HoaDonController;
-import cua_hang_tien_loi.dao.DAO_HoaDon;
 import cua_hang_tien_loi.entity.ChiTietHoaDon;
 import cua_hang_tien_loi.entity.HoaDon;
-import cua_hang_tien_loi.entity.KhachHang;
 import cua_hang_tien_loi.entity.NhanVien;
 import cua_hang_tien_loi.entity.SanPham;
 import cua_hang_tien_loi.utils.StyleUtils;
@@ -370,7 +372,48 @@ public class ThemHoaDonQuanLy extends JFrame implements ActionListener {
 		} else if (source.equals(btnThem)) {
 			this.themHoaDon();
 		} else if (source.equals(btnXuatHoaDon)) {
+			this.xuatHoaDon();
+		}
+	}
 
+	private void xuatHoaDon() {
+		String maHD = txtMaHD.getText();
+
+		HoaDon hoaDon = hdController.timHoaDonTheoMa(maHD);
+		ChiTietHoaDon chiTietHD = cthdController.timChiTietTheoMa(maHD);
+
+		int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xuất hóa đơn?", "Xác nhận",
+				JOptionPane.YES_NO_OPTION);
+		if (confirm == JOptionPane.YES_OPTION) {
+			if (hoaDon == null || chiTietHD == null) {
+				JOptionPane.showMessageDialog(this, "Không tìm thấy hóa đơn để xuất.", "Lỗi",
+						JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			File file = new File("HoaDon_" + maHD + ".txt");
+			try (PrintWriter writer = new PrintWriter(file)) {
+				writer.println("=========== HÓA ĐƠN ===========");
+				writer.println("Mã hóa đơn:     " + hoaDon.getMaHD());
+				writer.println("Ngày lập:       " + hoaDon.getNgayLapHD());
+				writer.println("Nhân viên:      " + hoaDon.getNv().getMaNV());
+				writer.println("--------------------------------");
+				writer.println("Sản phẩm:       " + chiTietHD.getSp().getMaSP());
+				writer.println("Số lượng:       " + chiTietHD.getSoLuong());
+				writer.println("Thành tiền:     " + chiTietHD.getThanhTien());
+				writer.println("--------------------------------");
+				writer.println("TỔNG TIỀN:      " + hoaDon.getTongTien());
+				writer.println("================================");
+
+				JOptionPane.showMessageDialog(this, "Xuất hóa đơn thành công" + file.getAbsolutePath(), "Thông báo",
+						JOptionPane.INFORMATION_MESSAGE);
+				Desktop.getDesktop().open(file);
+
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(this, "Lỗi khi xuất hóa đơn" + e.getMessage(), "Lỗi",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		} else {
+			JOptionPane.showMessageDialog(this, "Hủy xuất hóa đơn.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
@@ -396,7 +439,7 @@ public class ThemHoaDonQuanLy extends JFrame implements ActionListener {
 					JOptionPane.INFORMATION_MESSAGE);
 			this.clear();
 		} else {
-			JOptionPane.showMessageDialog(this, "Có lỗi khi thêm hóa đơn.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Thêm hóa đơn không thành công.", "Lỗi", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

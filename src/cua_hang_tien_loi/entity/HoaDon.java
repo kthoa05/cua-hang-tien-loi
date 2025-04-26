@@ -8,6 +8,10 @@ import cua_hang_tien_loi.dao.DAO_ChiTietHoaDon;
 import cua_hang_tien_loi.dao.DAO_HoaDon;
 
 public class HoaDon {
+	public HoaDon() {
+		super();
+	}
+
 	private String maHD;
 	private KhachHang kh;
 	private NhanVien nv;
