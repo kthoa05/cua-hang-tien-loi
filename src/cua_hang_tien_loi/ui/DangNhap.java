@@ -17,9 +17,12 @@ public class DangNhap extends JFrame implements ActionListener {
 	private JButton btnDangNhap, btnThoat, btnQuenMK;
 	private JToggleButton btnHienMatKhau;
 	private static NhanVienController nvController;
-	public static NhanVien thongTinNV = nvController.getThongTinTaiKhoan(txtTaiKhoan.getText(), txtMatKhau.toString());
+	//public static NhanVien thongTinNV = nvController.getThongTinTaiKhoan(txtTaiKhoan.getText(), txtMatKhau.toString());
+	public static NhanVien thongTinNV;
+
 
 	public DangNhap() {
+		 nvController = new NhanVienController();
 		setTitle("Quản lý cửa hàng tiện lợi - Đăng nhập");
 		setSize(580, 370);
 		setLocationRelativeTo(null);
@@ -146,6 +149,16 @@ public class DangNhap extends JFrame implements ActionListener {
 	}
 
 	private void dangNhap() {
+		String taiKhoan = txtTaiKhoan.getText().trim();
+		String matKhau = new String(txtMatKhau.getPassword()).trim();
+
+		thongTinNV = nvController.getThongTinTaiKhoan(taiKhoan, matKhau);
+
+		if (thongTinNV == null) {
+			JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
 		if (thongTinNV.isAdmin()) {
 			this.setVisible(false);
 			new TrangChuQuanLy().setVisible(true);
@@ -153,8 +166,8 @@ public class DangNhap extends JFrame implements ActionListener {
 			this.setVisible(false);
 			new TrangChuDangNhapNhanVien().setVisible(true);
 		}
-
 	}
+
 
 	private void anHienMatKhau() {
 		if (btnHienMatKhau.isSelected()) {
@@ -166,3 +179,4 @@ public class DangNhap extends JFrame implements ActionListener {
 		}
 	}
 }
+		

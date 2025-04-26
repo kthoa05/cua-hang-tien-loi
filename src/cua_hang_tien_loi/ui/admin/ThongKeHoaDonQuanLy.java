@@ -195,21 +195,21 @@ public class ThongKeHoaDonQuanLy extends JFrame implements ActionListener {
 		pn1.setLayout(new BoxLayout(pn1, BoxLayout.X_AXIS));
 		JLabel lblNgay = new JLabel("Thời gian thống kê:");
 		cboNgay = new JComboBox<>();
-		for (int ngay : hdController.getNgay()) {
-			cboNgay.addItem(ngay);
-		}
+//		for (int ngay : hdController.getNgay()) {
+//			cboNgay.addItem(ngay);
+//		}
 		cboNgay.setPreferredSize(new Dimension(220, 25));
 		JLabel lblThang = new JLabel("Tháng:");
 		cboThang = new JComboBox<>();
-		for (int thang : hdController.getThang()) {
-			cboThang.addItem(thang);
-		}
+//		for (int thang : hdController.getThang()) {
+//			cboThang.addItem(thang);
+//		}
 		cboThang.setPreferredSize(new Dimension(220, 25));
 		JLabel lblNam = new JLabel("Năm:");
 		cboNam = new JComboBox<>();
-		for (int nam : hdController.getNam()) {
-			cboThang.addItem(nam);
-		}
+//		for (int nam : hdController.getNam()) {
+//			cboThang.addItem(nam);
+//		}
 		cboNam.setPreferredSize(new Dimension(220, 25));
 		pn1.add(lblNgay);
 		pn1.add(Box.createHorizontalStrut(10));
@@ -388,4 +388,5 @@ public class ThongKeHoaDonQuanLy extends JFrame implements ActionListener {
 		cboThang.setSelectedIndex(0);
 		cboNam.setSelectedIndex(0);
 	}
+	
 }

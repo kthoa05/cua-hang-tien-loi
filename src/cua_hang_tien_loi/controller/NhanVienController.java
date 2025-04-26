@@ -7,46 +7,50 @@ import cua_hang_tien_loi.entity.NhanVien;
 
 public class NhanVienController {
 
-	private DAO_NhanVien daoNV;
+    private DAO_NhanVien daoNV;
 
-	public boolean themNhanVien(NhanVien nv) {
-		return daoNV.addNhanVien(nv);
-	}
+    // Constructor để khởi tạo đối tượng daoNV
+    public NhanVienController() {
+        this.daoNV = new DAO_NhanVien();
+    }
 
-	// auth
-	public boolean isAdmin(String sdt, String mk) {
-		NhanVien nv = daoNV.getTaiKhoan(sdt, mk);
-		return nv.isAdmin();
-	}
+    public boolean themNhanVien(NhanVien nv) {
+        return daoNV.addNhanVien(nv);
+    }
 
-	// get all for class ThongTinTaiKhoanQuanLy
-	public NhanVien getThongTinTaiKhoan(String sdt, String mk) {
-		return daoNV.getTaiKhoan(sdt, mk);
-	}
+    // auth
+    public boolean isAdmin(String sdt, String mk) {
+        NhanVien nv = daoNV.getTaiKhoan(sdt, mk);
+        return nv.isAdmin();
+    }
 
-	// get phai
-	public List<String> getPhai() {
-		return daoNV.getPhai();
-	}
+    // get all for class ThongTinTaiKhoanQuanLy
+    public NhanVien getThongTinTaiKhoan(String sdt, String mk) {
+        return daoNV.getTaiKhoan(sdt, mk);
+    }
 
-	// get ttlv
-	public List<String> getTrangThaiLamViec() {
-		return daoNV.getTrangThaiLV();
-	}
+    // get phai
+    public List<String> getPhai() {
+        return daoNV.getPhai();
+    }
 
-	// get for TraCuuNhanVien
-	public List<NhanVien> getNV(String ma, String ten, Boolean phai, String sdt, String cccd) {
-		return daoNV.findNhanVien(ma, ten, phai, sdt, cccd);
-	}
+    // get ttlv
+    public List<String> getTrangThaiLamViec() {
+        return daoNV.getTrangThaiLV();
+    }
 
-	// cap nhat
-	public boolean capNhatNhanVien(NhanVien nv) {
-		return daoNV.updateNhanVien(nv);
-	}
+    // get for TraCuuNhanVien
+    public List<NhanVien> getNV(String ma, String ten, Boolean phai, String sdt, String cccd) {
+        return daoNV.findNhanVien(ma, ten, phai, sdt, cccd);
+    }
 
-	// get all nv
-	public NhanVien getNhanVien(String id) {
-		return daoNV.getNhanVienByID(id);
-	}
+    // cap nhat
+    public boolean capNhatNhanVien(NhanVien nv) {
+        return daoNV.updateNhanVien(nv);
+    }
 
+    // get all nv
+    public NhanVien getNhanVien(String id) {
+        return daoNV.getNhanVienByID(id);
+    }
 }

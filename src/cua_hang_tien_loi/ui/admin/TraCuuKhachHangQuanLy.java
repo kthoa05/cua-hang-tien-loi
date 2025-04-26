@@ -399,4 +399,6 @@ public class TraCuuKhachHangQuanLy extends JFrame implements ActionListener {
 			this.lamMoiForm();
 		}
 	}
+	
+	
 }
