@@ -45,19 +45,16 @@ public class ThongKeHoaDonQuanLy extends JFrame implements ActionListener {
 	private JMenuItem itemTraCuuNV;
 	private JMenuItem itemThemNV;
 	private JMenuItem itemCapNhatNV;
-	private JMenuItem itemDTTheoNgay;
-	private JMenuItem itemDTTheoThang;
-	private JMenuItem itemDTTheoNam;
 	private JMenuItem itemQuayLai;
 	private JButton btnLamMoi;
 	private DefaultTableModel modelTable;
 	private JTable table;
-	private JComboBox cboNgay;
-	private JComboBox cboThang;
-	private JComboBox cboNam;
-	private JButton btnTim;
+	private JComboBox<Object> cboNgay;
+	private JComboBox<Object> cboThang;
+	private JComboBox<Object> cboNam;
 	private JButton btnThongKe;
 	private HoaDonController hdController;
+	private JMenuItem itemThongKeHoaDon;
 
 	public ThongKeHoaDonQuanLy() {
 		this.initUIThemHoaDon();
@@ -166,17 +163,9 @@ public class ThongKeHoaDonQuanLy extends JFrame implements ActionListener {
 		JMenu itemDoanhThu = new JMenu("Doanh thu");
 		itemDoanhThu.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/doanhthu.png"));
 
-		itemDTTheoNgay = StyleUtils.createItemMenu("Theo ngày", "src/cua_hang_tien_loi/icon/day.png");
-		itemDTTheoThang = StyleUtils.createItemMenu("Theo tháng", "src/cua_hang_tien_loi/icon/month.png");
-		itemDTTheoNam = StyleUtils.createItemMenu("Theo năm", "src/cua_hang_tien_loi/icon/year.png");
+		itemThongKeHoaDon = StyleUtils.createItemMenu("Hoá đơn", "src/cua_hang_tien_loi/icon/invoice.png");
 
-		itemDoanhThu.add(itemDTTheoNgay);
-		itemDoanhThu.addSeparator();
-		itemDoanhThu.add(itemDTTheoThang);
-		itemDoanhThu.addSeparator();
-		itemDoanhThu.add(itemDTTheoNam);
-
-		menuThongKe.add(itemDoanhThu);
+		menuThongKe.add(itemThongKeHoaDon);
 
 		menuBar.add(menuThongKe);
 		menuBar.add(Box.createHorizontalStrut(25));
@@ -206,15 +195,21 @@ public class ThongKeHoaDonQuanLy extends JFrame implements ActionListener {
 		pn1.setLayout(new BoxLayout(pn1, BoxLayout.X_AXIS));
 		JLabel lblNgay = new JLabel("Thời gian thống kê:");
 		cboNgay = new JComboBox<>();
-		cboNgay.addItem("1");
+		for (int ngay : hdController.getNgay()) {
+			cboNgay.addItem(ngay);
+		}
 		cboNgay.setPreferredSize(new Dimension(220, 25));
 		JLabel lblThang = new JLabel("Tháng:");
 		cboThang = new JComboBox<>();
-		cboThang.addItem("1");
+		for (int thang : hdController.getThang()) {
+			cboThang.addItem(thang);
+		}
 		cboThang.setPreferredSize(new Dimension(220, 25));
 		JLabel lblNam = new JLabel("Năm:");
 		cboNam = new JComboBox<>();
-		cboNam.addItem("2000");
+		for (int nam : hdController.getNam()) {
+			cboThang.addItem(nam);
+		}
 		cboNam.setPreferredSize(new Dimension(220, 25));
 		pn1.add(lblNgay);
 		pn1.add(Box.createHorizontalStrut(10));
@@ -283,9 +278,7 @@ public class ThongKeHoaDonQuanLy extends JFrame implements ActionListener {
 		itemThemNV.addActionListener(this);
 
 		// thong ke
-		itemDTTheoNgay.addActionListener(this);
-		itemDTTheoThang.addActionListener(this);
-		itemDTTheoNam.addActionListener(this);
+		itemThongKeHoaDon.addActionListener(this);
 
 		// quay lai
 		itemQuayLai.addActionListener(this);
@@ -303,31 +296,43 @@ public class ThongKeHoaDonQuanLy extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		Object source = e.getSource();
 
+		// he thong
 		if (source.equals(itemTaiKhoan)) {
 			new ThongTinTaiKhoanQuanLy().setVisible(true);
 		} else if (source.equals(itemTroGiup)) {
 			SystemUtils.openFile("/Users/lethoa/Documents/giaykhamsuckhoe.pdf");
 		} else if (source.equals(itemDangXuat)) {
 			SystemUtils.dangXuat(this);
-		} else if (source.equals(itemThemSP)) {
+		}
+
+		// san pham
+		else if (source.equals(itemThemSP)) {
 			this.setVisible(false);
 			new ThemSanPhamQuanLy().setVisible(true);
 		} else if (source.equals(itemCapNhatSp)) {
 			this.setVisible(false);
 			new CapNhatSanPhamQuanLy().setVisible(true);
-		} else if (source.equals(itemTraCuuKH)) {
+		} else if (source.equals(itemTraCuuSP)) {
+			this.setVisible(false);
+			new TraCuuSanPhamQuanLy().setVisible(true);
+		}
+		// khach hang
+		else if (source.equals(itemTraCuuKH)) {
 			this.setVisible(false);
 			new TraCuuKhachHangQuanLy().setVisible(true);
-		} else if (source.equals(itemTraCuuHD)) {
-			this.setVisible(false);
+		}
 
+		// hoa don
+		else if (source.equals(itemTraCuuHD)) {
+			this.setVisible(false);
+			new TraCuuHoaDonQuanLy().setVisible(true);
 		} else if (source.equals(itemThemHD)) {
 			this.setVisible(false);
+			new ThemHoaDonQuanLy().setVisible(true);
+		}
 
-		} else if (source.equals(itemCapNhatHD)) {
-			this.setVisible(false);
-
-		} else if (source.equals(itemTraCuuNV)) {
+		// nhan vien
+		else if (source.equals(itemTraCuuNV)) {
 			this.setVisible(false);
 			new TraCuuNhanVien().setVisible(true);
 		} else if (source.equals(itemThemNV)) {
@@ -336,7 +341,15 @@ public class ThongKeHoaDonQuanLy extends JFrame implements ActionListener {
 		} else if (source.equals(itemCapNhatNV)) {
 			this.setVisible(false);
 			new CapNhatNhanVien().setVisible(true);
-		} else if (source.equals(itemQuayLai)) {
+		}
+
+		// thong ke
+		else if (source.equals(itemThongKeHoaDon)) {
+			new ThongKeHoaDonQuanLy().setVisible(true);
+		}
+
+		// quay lai
+		else if (source.equals(itemQuayLai)) {
 			SystemUtils.quayLai(this);
 		}
 
@@ -374,9 +387,5 @@ public class ThongKeHoaDonQuanLy extends JFrame implements ActionListener {
 		cboNgay.setSelectedIndex(0);
 		cboThang.setSelectedIndex(0);
 		cboNam.setSelectedIndex(0);
-	}
-
-	public static void main(String[] args) {
-		new ThongKeHoaDonQuanLy().setVisible(true);
 	}
 }
