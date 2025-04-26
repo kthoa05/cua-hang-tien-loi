@@ -2,7 +2,6 @@ package cua_hang_tien_loi.ui.nv;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -24,18 +23,14 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import cua_hang_tien_loi.controller.HoaDonController;
-import cua_hang_tien_loi.controller.KhachHangController;
 import cua_hang_tien_loi.entity.HoaDon;
-import cua_hang_tien_loi.entity.NhanVien;
 import cua_hang_tien_loi.utils.StyleUtils;
 import cua_hang_tien_loi.utils.SystemUtils;
 
-public class TraCuuHoaDonNhanVien extends JFrame implements ActionListener {
-
+public class ThongKeHoaDonNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemTaiKhoan;
 	private JMenuItem itemTroGiup;
 	private JMenuItem itemDangXuat;
@@ -43,6 +38,7 @@ public class TraCuuHoaDonNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemTraCuuSP;
 	private JMenuItem itemCapNhatSp;
 	private JMenuItem itemTraCuuKH;
+	private JMenuItem itemCapNhatKH;
 	private JMenuItem itemTraCuuHD;
 	private JMenuItem itemThemHD;
 	private JMenuItem itemCapNhatHD;
@@ -50,27 +46,24 @@ public class TraCuuHoaDonNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemThemNV;
 	private JMenuItem itemCapNhatNV;
 	private JMenuItem itemQuayLai;
-	private JTextField txtTenKH;
-	private JTextField txtSDTKH;
-	private JTextField txtTenNV;
-	private JTextField txtNgayLap;
+	private JButton btnLamMoi;
 	private DefaultTableModel modelTable;
 	private JTable table;
-	private JButton btnTim;
-	private JButton btnLamMoi;
+	private JComboBox<Object> cboNgay;
+	private JComboBox<Object> cboThang;
+	private JComboBox<Object> cboNam;
+	private JButton btnThongKe;
 	private HoaDonController hdController;
-	private JComboBox<Object> cboMaHD;
-	private KhachHangController khController;
-	private JComboBox<Object> cboMaKH;
 	private JMenuItem itemThongKeHoaDon;
 
-	public TraCuuHoaDonNhanVien() {
-		// TODO Auto-generated constructor stub
-		this.UITraCuuHoaDonQuanLy();
+	public ThongKeHoaDonNhanVien() {
+		this.initUIThemHoaDon();
 	}
 
-	private void UITraCuuHoaDonQuanLy() {
-		setTitle("Quản lý cửa hàng tiện lợi - Tra cứu hoá đơn");
+	// giao dien
+
+	private void initUIThemHoaDon() {
+		setTitle("Quản lý cửa hàng tiện lợi - Trang chủ");
 		setSize(1000, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -82,6 +75,7 @@ public class TraCuuHoaDonNhanVien extends JFrame implements ActionListener {
 		// north
 		JPanel pnNorth = new JPanel();
 		pnNorth.setLayout(new FlowLayout(FlowLayout.LEFT));
+//			pnNorth.setBackground(Color.decode("#FAFAFA"));
 		pnNorth.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
 		pnNorth.setPreferredSize(new Dimension(750, 40));
 
@@ -124,8 +118,11 @@ public class TraCuuHoaDonNhanVien extends JFrame implements ActionListener {
 		JMenu menuKhachHang = new JMenu("Khách hàng");
 		menuKhachHang.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/customer.png"));
 		itemTraCuuKH = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
+		itemCapNhatKH = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuKhachHang.add(itemTraCuuKH);
+		menuKhachHang.addSeparator();
+		menuKhachHang.add(itemCapNhatKH);
 		menuBar.add(menuKhachHang);
 		menuBar.add(Box.createHorizontalStrut(25));
 
@@ -163,6 +160,9 @@ public class TraCuuHoaDonNhanVien extends JFrame implements ActionListener {
 		JMenu menuThongKe = new JMenu("Thống kê");
 		menuThongKe.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/thongke.png"));
 
+		JMenu itemDoanhThu = new JMenu("Doanh thu");
+		itemDoanhThu.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/doanhthu.png"));
+
 		itemThongKeHoaDon = StyleUtils.createItemMenu("Hoá đơn", "src/cua_hang_tien_loi/icon/invoice.png");
 
 		menuThongKe.add(itemThongKeHoaDon);
@@ -183,94 +183,72 @@ public class TraCuuHoaDonNhanVien extends JFrame implements ActionListener {
 		// cen
 		JPanel pnCen = new JPanel();
 
-		// CAN LAM
-		JLabel lbTitle = StyleUtils.createHeaderTitle("TRA CỨU HÓA ĐƠN");
-
-		lbTitle.setFont(new Font("Arial", Font.BOLD, 20));
-		lbTitle.setForeground(Color.BLACK);
-		pnCen.add(lbTitle);
-
 		JPanel pn = new JPanel();
 		pn.setLayout(new BoxLayout(pn, BoxLayout.Y_AXIS));
+		JLabel lbTitle = StyleUtils.createHeaderTitle("THỐNG KÊ HÓA ĐƠN THEO NGÀY");
+		lbTitle.setAlignmentX(CENTER_ALIGNMENT);
+		lbTitle.setFont(new Font("Arial", Font.BOLD, 20));
+		lbTitle.setForeground(Color.BLACK);
+		pn.add(lbTitle);
 
 		JPanel pn1 = new JPanel();
 		pn1.setLayout(new BoxLayout(pn1, BoxLayout.X_AXIS));
-
-		JLabel lbTenKH = new JLabel("Tên KH:");
-		txtTenKH = new JTextField(25);
-		JLabel lbMaHD = new JLabel("Mã HD");
-		cboMaHD = new JComboBox<>();
-		cboMaHD.addItem("None");
-		for (String ma : hdController.getMaHoaDon()) {
-			cboMaHD.addItem(ma);
+		JLabel lblNgay = new JLabel("Thời gian thống kê:");
+		cboNgay = new JComboBox<>();
+		for (int ngay : hdController.getNgay()) {
+			cboNgay.addItem(ngay);
 		}
-
-		JLabel lbSDTKH = new JLabel("SĐT KH:");
-		txtSDTKH = new JTextField(25);
-		pn1.add(lbTenKH);
+		cboNgay.setPreferredSize(new Dimension(220, 25));
+		JLabel lblThang = new JLabel("Tháng:");
+		cboThang = new JComboBox<>();
+		for (int thang : hdController.getThang()) {
+			cboThang.addItem(thang);
+		}
+		cboThang.setPreferredSize(new Dimension(220, 25));
+		JLabel lblNam = new JLabel("Năm:");
+		cboNam = new JComboBox<>();
+		for (int nam : hdController.getNam()) {
+			cboThang.addItem(nam);
+		}
+		cboNam.setPreferredSize(new Dimension(220, 25));
+		pn1.add(lblNgay);
 		pn1.add(Box.createHorizontalStrut(10));
-		pn1.add(txtTenKH);
+		pn1.add(cboNgay);
 		pn1.add(Box.createHorizontalStrut(10));
-		pn1.add(lbMaHD);
+		pn1.add(lblThang);
 		pn1.add(Box.createHorizontalStrut(10));
-		pn1.add(cboMaHD);
+		pn1.add(cboThang);
 		pn1.add(Box.createHorizontalStrut(10));
-		pn1.add(lbSDTKH);
+		pn1.add(lblNam);
 		pn1.add(Box.createHorizontalStrut(10));
-		pn1.add(txtSDTKH);
-		pn.add(Box.createVerticalStrut(10));
+		pn1.add(cboNam);
+		pn.add(Box.createVerticalStrut(20));
 		pn.add(pn1);
 
+		// button
 		JPanel pn2 = new JPanel();
-		pn2.setLayout(new BoxLayout(pn2, BoxLayout.X_AXIS));
-
-		JLabel lbTenNV = new JLabel("Tên NV:");
-		txtTenNV = new JTextField(25);
-		JLabel lbMaKH = new JLabel("Mã KH");
-		cboMaKH = new JComboBox<>();
-		cboMaKH.addItem("None");
-		for (String maKH : khController.getMaKH()) {
-			cboMaKH.addItem(maKH);
-		}
-		JLabel lbNgayLap = new JLabel("Ngày lập:");
-		txtNgayLap = new JTextField(25);
-		pn2.add(lbTenNV);
-		pn2.add(Box.createHorizontalStrut(10));
-		pn2.add(txtTenNV);
-		pn2.add(Box.createHorizontalStrut(10));
-		pn2.add(lbMaKH);
-		pn2.add(Box.createHorizontalStrut(10));
-		pn2.add(cboMaKH);
-		pn2.add(Box.createHorizontalStrut(10));
-		pn2.add(lbNgayLap);
-		pn2.add(Box.createHorizontalStrut(10));
-		pn2.add(txtNgayLap);
+		pn2.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		btnThongKe = new JButton("Thống kê", new ImageIcon("src/cua_hang_tien_loi/icon/thongke.png"));
+		btnLamMoi = new JButton("Làm mới", new ImageIcon("src/cua_hang_tien_loi/icon/reload.png"));
+		pn2.add(btnThongKe);
+		pn2.add(btnLamMoi);
 		pn.add(Box.createVerticalStrut(10));
 		pn.add(pn2);
 
-		JPanel pn3 = new JPanel();
-
-		pn3.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		btnTim = new JButton("Tìm kiếm", new ImageIcon("src/cua_hang_tien_loi/icon/search.png"));
-		btnLamMoi = new JButton("Làm mới", new ImageIcon("src/cua_hang_tien_loi/icon/reload.png"));
-		pn3.add(btnTim);
-		pn3.add(btnLamMoi);
-		pn.add(Box.createVerticalStrut(10));
-		pn.add(pn3);
 		pnCen.add(pn);
-		pnMain.add(pnCen, BorderLayout.CENTER);
 
 		JPanel pnSouth = new JPanel();
 
-		String[] title = { "Mã HD", "Mã KH", "Ngày lập", "Tên KH", "Nhân viên", "SĐT", "Tổng tiền" };
+		String[] title = { "Mã HD", "Ngày lập HD", "Số lượng", "Mã NV", "Mã SP", "Đơn giá" };
 		modelTable = new DefaultTableModel(title, 0);
 		table = new JTable(modelTable);
 		JScrollPane scroll = new JScrollPane(table);
 
-		scroll.setPreferredSize(new Dimension(1000, 350));
+		scroll.setPreferredSize(new Dimension(1000, 340));
 		pnSouth.add(new JScrollPane(scroll));
 
 		pnMain.add(pnSouth, BorderLayout.SOUTH);
+		pnMain.add(pnCen, BorderLayout.CENTER);
 
 		add(pnMain);
 
@@ -288,6 +266,7 @@ public class TraCuuHoaDonNhanVien extends JFrame implements ActionListener {
 
 		// khach hang
 		itemTraCuuKH.addActionListener(this);
+		itemCapNhatKH.addActionListener(this);
 
 		// hoa don
 		itemTraCuuHD.addActionListener(this);
@@ -300,11 +279,16 @@ public class TraCuuHoaDonNhanVien extends JFrame implements ActionListener {
 
 		// thong ke
 		itemThongKeHoaDon.addActionListener(this);
+
 		// quay lai
 		itemQuayLai.addActionListener(this);
 
 		// key f1
 		SystemUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
+
+		// btn
+		btnLamMoi.addActionListener(this);
+		btnThongKe.addActionListener(this);
 	}
 
 	@Override
@@ -349,39 +333,36 @@ public class TraCuuHoaDonNhanVien extends JFrame implements ActionListener {
 		// btn
 		else if (source.equals(btnLamMoi)) {
 			this.clear();
-		} else if (source.equals(btnTim)) {
-			this.traCuuHoaDon();
+		} else if (source.equals(btnThongKe)) {
+			this.thongKe();
+			this.clear();
 		}
 	}
 
-	private void traCuuHoaDon() {
+	private void thongKe() {
+		String ngay = cboNgay.getSelectedItem().toString();
+		String thang = cboNgay.getSelectedItem().toString();
+		String nam = cboNgay.getSelectedItem().toString();
 
-		String ten = txtTenKH.getText();
-		String maHD = cboMaHD.getSelectedItem().toString();
-		String sdt = txtSDTKH.getText();
-		String tenNV = txtTenNV.getText();
-		String maKH = cboMaKH.getSelectedItem().toString();
-		String ngayLap = txtNgayLap.getText();
+		int ngayInt = Integer.parseInt(ngay);
+		int thangInt = Integer.parseInt(thang);
+		int namInt = Integer.parseInt(nam);
 
-		List<HoaDon> ds = hdController.traCuuHoaDon(tenNV, maHD, maKH, ngayLap, ten, sdt);
+//		"Mã HD", "Ngày lập HD", "Số lượng", "Mã NV", "Mã SP", "Đơn giá";
+		List<Object[]> ketQuaThongKe = hdController.thongKeHoaDon(ngayInt, thangInt, namInt);
 
 		modelTable.setRowCount(0);
 
 		// load du lieu len table
-		for (HoaDon hd : ds) {
-			Object[] row = { hd.getMaHD(), hd.getKh().getMaKH(), hd.getNgayLapHD(), hd.getKh().getTenKH(),
-					hd.getNv().getHoTen(), hd.getKh().getSdt(), hd.tongTien() };
+		for (Object[] row : ketQuaThongKe) {
 			modelTable.addRow(row);
 		}
+
 	}
 
 	private void clear() {
-		txtTenKH.setText("");
-		cboMaKH.setSelectedIndex(0);
-		txtSDTKH.setText("");
-		txtTenNV.setText("");
-		cboMaHD.setSelectedIndex(0);
-		txtNgayLap.setText("");
-		txtTenKH.requestFocus();
+		cboNgay.setSelectedIndex(0);
+		cboThang.setSelectedIndex(0);
+		cboNam.setSelectedIndex(0);
 	}
 }

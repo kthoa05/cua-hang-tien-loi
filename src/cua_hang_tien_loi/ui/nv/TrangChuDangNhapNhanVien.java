@@ -20,10 +20,19 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import cua_hang_tien_loi.ui.DangNhap;
+import cua_hang_tien_loi.ui.admin.CapNhatNhanVien;
 import cua_hang_tien_loi.ui.admin.CapNhatSanPhamQuanLy;
+import cua_hang_tien_loi.ui.admin.ThemHoaDonQuanLy;
+import cua_hang_tien_loi.ui.admin.ThemNhanVien;
 import cua_hang_tien_loi.ui.admin.ThemSanPhamQuanLy;
+import cua_hang_tien_loi.ui.admin.ThongKeHoaDonQuanLy;
 import cua_hang_tien_loi.ui.admin.ThongTinTaiKhoanQuanLy;
+import cua_hang_tien_loi.ui.admin.TraCuuHoaDonQuanLy;
+import cua_hang_tien_loi.ui.admin.TraCuuKhachHangQuanLy;
+import cua_hang_tien_loi.ui.admin.TraCuuNhanVien;
+import cua_hang_tien_loi.ui.admin.TraCuuSanPhamQuanLy;
 import cua_hang_tien_loi.utils.StyleUtils;
+import cua_hang_tien_loi.utils.SystemUtils;
 
 public class TrangChuDangNhapNhanVien extends JFrame implements ActionListener {
 
@@ -36,10 +45,8 @@ public class TrangChuDangNhapNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemTraCuuHD;
 	private JMenuItem itemThemHD;
 	private JMenuItem itemCapNhatHD;
-	private JMenuItem itemDTTheoNgay;
-	private JMenuItem itemDTTheoThang;
-	private JMenuItem itemDTTheoNam;
 	private JMenuItem itemQuayLai;
+	private JMenuItem itemThongKeHoaDon;
 
 	public TrangChuDangNhapNhanVien() {
 		// TODO Auto-generated constructor stub
@@ -116,20 +123,9 @@ public class TrangChuDangNhapNhanVien extends JFrame implements ActionListener {
 		JMenu menuThongKe = new JMenu("Thống kê");
 		menuThongKe.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/thongke.png"));
 
-		JMenu itemDoanhThu = new JMenu("Doanh thu");
-		itemDoanhThu.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/doanhthu.png"));
+		itemThongKeHoaDon = StyleUtils.createItemMenu("Hoá đơn", "src/cua_hang_tien_loi/icon/invoice.png");
 
-		itemDTTheoNgay = StyleUtils.createItemMenu("Theo ngày", "src/cua_hang_tien_loi/icon/day.png");
-		itemDTTheoThang = StyleUtils.createItemMenu("Theo tháng", "src/cua_hang_tien_loi/icon/month.png");
-		itemDTTheoNam = StyleUtils.createItemMenu("Theo năm", "src/cua_hang_tien_loi/icon/year.png");
-
-		itemDoanhThu.add(itemDTTheoNgay);
-		itemDoanhThu.addSeparator();
-		itemDoanhThu.add(itemDTTheoThang);
-		itemDoanhThu.addSeparator();
-		itemDoanhThu.add(itemDTTheoNam);
-
-		menuThongKe.add(itemDoanhThu);
+		menuThongKe.add(itemThongKeHoaDon);
 
 		menuBar.add(menuThongKe);
 		menuBar.add(Box.createHorizontalStrut(25));
@@ -174,9 +170,7 @@ public class TrangChuDangNhapNhanVien extends JFrame implements ActionListener {
 		itemThemHD.addActionListener(this);
 
 		// thong ke
-		itemDTTheoNgay.addActionListener(this);
-		itemDTTheoThang.addActionListener(this);
-		itemDTTheoNam.addActionListener(this);
+		itemThongKeHoaDon.addActionListener(this);
 
 		// quay lai
 		itemQuayLai.addActionListener(this);
@@ -192,12 +186,38 @@ public class TrangChuDangNhapNhanVien extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		Object source = e.getSource();
 
+		// he thong
 		if (source.equals(itemTaiKhoan)) {
-			this.thongTinTaiKhoan();
+			new ThongTinTaiKhoanNhanVien().setVisible(true);
 		} else if (source.equals(itemTroGiup)) {
-
+			SystemUtils.openFile("/Users/lethoa/Documents/giaykhamsuckhoe.pdf");
 		} else if (source.equals(itemDangXuat)) {
-			this.dangXuat();
+			SystemUtils.dangXuat(this);
+		}
+
+		// khach hang
+		else if (source.equals(itemTraCuuKH)) {
+			this.setVisible(false);
+			new TraCuuKhachHangNhanVien().setVisible(true);
+		}
+
+		// hoa don
+		else if (source.equals(itemTraCuuHD)) {
+			this.setVisible(false);
+			new TraCuuHoaDonNhanVien().setVisible(true);
+		} else if (source.equals(itemThemHD)) {
+			this.setVisible(false);
+			new ThemHoaDonNhanVien().setVisible(true);
+		}
+
+		// thong ke
+		else if (source.equals(itemThongKeHoaDon)) {
+			new ThongKeHoaDonNhanVien().setVisible(true);
+		}
+
+		// quay lai
+		else if (source.equals(itemQuayLai)) {
+			SystemUtils.quayLai(this);
 		}
 	}
 

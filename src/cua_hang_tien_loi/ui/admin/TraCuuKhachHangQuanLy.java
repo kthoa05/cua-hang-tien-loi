@@ -64,7 +64,7 @@ public class TraCuuKhachHangQuanLy extends JFrame implements ActionListener {
 	}
 
 	private void UIThemKhachHangQuanLy() {
-		setTitle("Quản lý cửa hàng tiện lợi - Trang chủ");
+		setTitle("Quản lý cửa hàng tiện lợi - Tra cứu khách hàng");
 		setSize(1000, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

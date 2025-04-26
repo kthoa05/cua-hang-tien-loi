@@ -155,7 +155,4 @@ public class ThongTinTaiKhoanQuanLy extends JFrame {
 		add(pnMain);
 	}
 
-	public static void main(String[] args) {
-		new ThongTinTaiKhoanQuanLy().setVisible(true);
-	}
 }
