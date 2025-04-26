@@ -60,6 +60,7 @@ public class TraCuuKhachHangQuanLy extends JFrame implements ActionListener {
 	private KhachHangController khController;
 
 	public TraCuuKhachHangQuanLy() {
+		khController = new KhachHangController();
 		UIThemKhachHangQuanLy();
 	}
 

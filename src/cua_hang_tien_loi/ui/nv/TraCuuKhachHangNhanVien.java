@@ -60,6 +60,7 @@ public class TraCuuKhachHangNhanVien extends JFrame implements ActionListener {
 	private KhachHangController khController;
 
 	public TraCuuKhachHangNhanVien() {
+		this.khController = new KhachHangController();
 		UIThemKhachHangQuanLy();
 	}
 
@@ -298,21 +299,23 @@ public class TraCuuKhachHangNhanVien extends JFrame implements ActionListener {
 	}
 
 	private void timKhachHang() {
-		String ma = txtMaKH.getText().trim();
-		String ten = txtTenKH.getText();
-		String sdt = txtSdt.getText();
-
-		List<KhachHang> dskh = khController.getKhachHangForTraCuu(ma, ten, sdt);
-
-		model.setRowCount(0);
-
-		// load du lieu len table
-		for (KhachHang khItem : dskh) {
-			Object[] row = { khItem.getMaKH(), khItem.getTenKH(), khItem.getSdt(), khItem.isPhai() ? "Nữ" : "Nam" };
-			model.addRow(row);
-		}
-
+	    if (khController != null) {
+	        String ma = txtMaKH.getText().trim();
+	        String ten = txtTenKH.getText();
+	        String sdt = txtSdt.getText();
+	        List<KhachHang> dskh = khController.getKhachHangForTraCuu(ma, ten, sdt);
+	        model.setRowCount(0);
+	        // load dữ liệu lên table
+	        for (KhachHang khItem : dskh) {
+	            Object[] row = { khItem.getMaKH(), khItem.getTenKH(), khItem.getSdt(), khItem.isPhai() ? "Nữ" : "Nam" };
+	            model.addRow(row);
+	        }
+	    } else {
+	        // Xử lý trường hợp khController là null
+	        System.err.println("KhachHangController chưa được khởi tạo.");
+	    }
 	}
+
 
 	private void lamMoiForm() {
 		txtMaKH.setText("");

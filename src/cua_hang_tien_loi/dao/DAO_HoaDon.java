@@ -115,8 +115,8 @@ public class DAO_HoaDon {
 		ConnectDB.getInstance();
 		Connection conn = ConnectDB.getConnection();
 		try {
-			String sql = "insert into HoaDon(maHoaDon, ngaylap, maNhanVien, maKhachHang) values (?, ?, ?, ?)";
-			PreparedStatement stmt = conn.prepareCall(sql);
+			String sql = "insert into HoaDon(maHD, ngaylap, maNV, maKhachHang) values (?, ?, ?, ?)";
+			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, hoaDon.getMaHD());
 			stmt.setDate(2, hoaDon.getNgayLapHD());
 			stmt.setString(3, hoaDon.getNv().getMaNV());
@@ -138,7 +138,7 @@ public class DAO_HoaDon {
 					+ "FROM            ChiTietHoaDon INNER JOIN\n"
 					+ "                         HoaDon ON ChiTietHoaDon.maHD = HoaDon.maHD\n"
 					+ "where			HoaDon.maHD = ?";
-			PreparedStatement stmt = conn.prepareCall(sql);
+			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, maHoaDon);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {

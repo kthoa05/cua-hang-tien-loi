@@ -3,11 +3,17 @@ package cua_hang_tien_loi.controller;
 import java.util.List;
 
 import cua_hang_tien_loi.dao.DAO_HoaDon;
+import cua_hang_tien_loi.dao.DAO_KhachHang;
 import cua_hang_tien_loi.entity.HoaDon;
 
 public class HoaDonController {
-
+	
 	private DAO_HoaDon daoHD;
+	
+	public HoaDonController() {
+	    daoHD = new DAO_HoaDon(); // Khởi tạo ở đây
+	}
+
 
 	// tra cuu hoa don
 	public List<HoaDon> traCuuHoaDon(String tenKH, String maHD, String maKH, String ngayLapHD, String nhanVien,

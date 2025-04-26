@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -65,7 +66,7 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 	// giao diện
 	private void UITraCuuNhanVien() {
 		setTitle("Quản lý cửa hàng tiện lợi - Trang chủ");
-		setSize(1000, 750);
+		setSize(1000, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -177,60 +178,92 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 		// cen
 		JPanel pnCen = new JPanel();
 
-		pnCen.setLayout(new BoxLayout(pnCen, BoxLayout.X_AXIS));
+		
+		JPanel pn = new JPanel();
+		pn.setLayout(new BoxLayout(pn, BoxLayout.Y_AXIS));
 
 		// tieu de
-		JPanel pnTieuDe = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-		JLabel lblTieuDe = StyleUtils.createHeaderTitle("TRA CỨU NHÂN VIÊN");
-		pnTieuDe.add(lblTieuDe);
-		pnCen.add(pnTieuDe);
+		JLabel lbTitle = StyleUtils.createHeaderTitle("TRA CỨU NHÂN VIÊN");
+
+		lbTitle.setFont(new Font("Arial", Font.BOLD, 20));
+		lbTitle.setForeground(Color.BLACK);
+		pn.add(lbTitle);
 
 		// form
 		JPanel pnTimKiem = new JPanel();
-		pnTimKiem.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-
-		// ma nv
-		JLabel lblMa = StyleUtils.createLabel("Mã nhân viên:");
-		txtMa = new JTextField(10);
-
-		// tennv
-		JLabel lblTen = StyleUtils.createLabel("Tên nhân viên:");
-		txtTen = new JTextField(15);
-
-		// sdt
-		JLabel lblSdt = StyleUtils.createLabel("SĐT:");
-		txtSdt = new JTextField(15);
-
-		// CAN TEST - LOAD DU LIEU TU TABLE LEN
-		JLabel lblLoai = StyleUtils.createLabel("Giới tính:");
-		cbGT = new JComboBox<>();
-		for (String gt : nvController.getPhai()) {
-			cbGT.addItem(gt);
-		}
-
+		pnTimKiem.setLayout(new BoxLayout(pnTimKiem, BoxLayout.X_AXIS));
+		
+		JLabel lblMa = new JLabel("Mã nhân viên:");
+		txtMa = new JTextField(25);
+		JLabel lblTen = new JLabel("Tên nhân viên:");
+		txtTen = new JTextField(25);
+		
+		pnTimKiem.add(lblMa);
+		pnTimKiem.add(Box.createHorizontalStrut(10));
+		pnTimKiem.add(txtMa);
+		pnTimKiem.add(Box.createHorizontalStrut(10));
+		pnTimKiem.add(lblTen);
+		pnTimKiem.add(Box.createHorizontalStrut(10));
+		pnTimKiem.add(txtTen);
+		pn.add(Box.createVerticalStrut(10));
+		pn.add(pnTimKiem);
+		
+		JPanel pn2 = new JPanel();
+		pn2.setLayout(new BoxLayout(pn2, BoxLayout.X_AXIS));
+		JLabel lblSdt = new JLabel("SĐT:");
+		txtSdt = new JTextField(25);
+		
 		// cmnd
-		JLabel lblCccd = StyleUtils.createLabel("CCCD:");
-		txtCccd = new JTextField(15);
+		JLabel lblCccd = new JLabel("CCCD:");
+		txtCccd = new JTextField(25);
 
+		
+		pn2.add(lblSdt);
+		pn2.add(Box.createHorizontalStrut(60));
+		pn2.add(txtSdt);
+		pn2.add(Box.createHorizontalStrut(10));
+		pn2.add(lblCccd);
+		pn2.add(Box.createHorizontalStrut(55));
+		pn2.add(txtCccd);
+		pn.add(Box.createVerticalStrut(10));
+		pn.add(pn2);
+		
+		JPanel pn3 = new JPanel();
+		pn3.setLayout(new BoxLayout(pn3, BoxLayout.X_AXIS));
+		
+		JLabel lblGT = new JLabel("Giới tính:");
+		cbGT = new JComboBox<>();
+//		for (String gt : nvController.getPhai()) {
+//			cbGT.addItem(gt);
+//		}
+		pn3.add(lblGT);
+		pn3.add(Box.createHorizontalStrut(35));
+		pn3.add(cbGT);
+		pn.add(Box.createVerticalStrut(10));
+		pn.add(pn3);
+		
+		JPanel pn4 = new JPanel();
+
+		pn4.setLayout(new FlowLayout(FlowLayout.RIGHT));
+
+		
 		// btn
 		btnTim = new JButton("Tìm kiếm", new ImageIcon("src/cua_hang_tien_loi/icon/search.png"));
 		btnLamMoi = new JButton("Làm mới", new ImageIcon("src/cua_hang_tien_loi/icon/lammoi.png"));
 
-		pnTimKiem.add(lblMa);
-		pnTimKiem.add(txtMa);
-		pnTimKiem.add(lblTen);
-		pnTimKiem.add(txtTen);
-		pnTimKiem.add(lblSdt);
-		pnTimKiem.add(txtSdt);
-		pnTimKiem.add(lblLoai);
-		pnTimKiem.add(cbGT);
-		pnTimKiem.add(lblCccd);
-		pnTimKiem.add(txtCccd);
-		pnTimKiem.add(btnTim);
-		pnTimKiem.add(btnLamMoi);
+		
+		
+		
+		pn4.add(btnTim);
+		pn4.add(Box.createVerticalStrut(10));
+		pn4.add(btnLamMoi);
+		pn.add(Box.createVerticalStrut(10));
+		pn.add(pn4);
+		
+	
 
-		pnCen.add(pnTimKiem);
+		pnCen.add(pn);
 
 		// table
 		JPanel pnKetQua = new JPanel();
@@ -240,14 +273,16 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 		String[] cols = { "Mã NV", "Tên NV", "Giới tính", "CCCD", "Mật khẩu", "SĐT", "Email", "TTLV" };
 		modelTable = new DefaultTableModel(cols, 0);
 		table = new JTable(modelTable);
-		table.setPreferredScrollableViewportSize(new Dimension(550, 150));
 		JScrollPane scroll = new JScrollPane(table);
+		scroll.setPreferredSize(new Dimension(1000, 300));
 
-		pnKetQua.add(scroll, BorderLayout.CENTER);
+		pnKetQua.add(scroll);
 
-		pnCen.add(pnKetQua);
+		
 
 		pnMain.add(pnCen, BorderLayout.CENTER);
+		
+		pnMain.add(pnKetQua, BorderLayout.SOUTH);
 
 		add(pnMain);
 

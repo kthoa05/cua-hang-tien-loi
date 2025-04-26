@@ -65,7 +65,8 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 	private JMenuItem itemThongKeHoaDon;
 
 	public TraCuuHoaDonQuanLy() {
-		// TODO Auto-generated constructor stub
+		this.hdController = new HoaDonController();
+		this.khController = new KhachHangController();
 		this.UITraCuuHoaDonQuanLy();
 	}
 
@@ -184,14 +185,14 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 		JPanel pnCen = new JPanel();
 
 		// CAN LAM
+		JPanel pn = new JPanel();
+		pn.setLayout(new BoxLayout(pn, BoxLayout.Y_AXIS));
 		JLabel lbTitle = StyleUtils.createHeaderTitle("TRA CỨU HÓA ĐƠN");
 
 		lbTitle.setFont(new Font("Arial", Font.BOLD, 20));
 		lbTitle.setForeground(Color.BLACK);
-		pnCen.add(lbTitle);
+		pn.add(lbTitle);
 
-		JPanel pn = new JPanel();
-		pn.setLayout(new BoxLayout(pn, BoxLayout.Y_AXIS));
 
 		JPanel pn1 = new JPanel();
 		pn1.setLayout(new BoxLayout(pn1, BoxLayout.X_AXIS));
@@ -268,7 +269,7 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 		JScrollPane scroll = new JScrollPane(table);
 
 		scroll.setPreferredSize(new Dimension(1000, 350));
-		pnSouth.add(new JScrollPane(scroll));
+		pnSouth.add(scroll);
 
 		pnMain.add(pnSouth, BorderLayout.SOUTH);
 
@@ -302,6 +303,8 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 		itemThongKeHoaDon.addActionListener(this);
 		// quay lai
 		itemQuayLai.addActionListener(this);
+		btnTim.addActionListener(this);
+		btnLamMoi.addActionListener(this);
 
 		// key f1
 		SystemUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
