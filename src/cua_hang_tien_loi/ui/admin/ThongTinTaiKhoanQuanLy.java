@@ -105,7 +105,7 @@ public class ThongTinTaiKhoanQuanLy extends JFrame {
 
 		// gioi tinh
 		JPanel pnGT = new JPanel();
-		JLabel lblGT = StyleUtils.createLabel("Họ tên NV:");
+		JLabel lblGT = StyleUtils.createLabel("Giới tính:");
 		boolean gt = DangNhap.thongTinNV.isPhai();
 		String gtText = gt ? "Nữ" : "Nam";
 		JLabel lblInputGT = new JLabel(gtText);

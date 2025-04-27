@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -71,6 +73,8 @@ public class ThemHoaDonQuanLy extends JFrame implements ActionListener {
 	private JMenuItem itemThongKeHoaDon;
 
 	public ThemHoaDonQuanLy() {
+		cthdController = new ChiTietHoaDonController();
+		hdController = new HoaDonController();
 		this.initUIThemHoaDon();
 	}
 
@@ -303,6 +307,10 @@ public class ThemHoaDonQuanLy extends JFrame implements ActionListener {
 
 		// quay lai
 		itemQuayLai.addActionListener(this);
+		
+		btnThem.addActionListener(this);
+		btnLamMoi.addActionListener(this);
+		btnXuatHoaDon.addActionListener(this);
 
 		// key f1
 		SystemUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
@@ -421,31 +429,53 @@ public class ThemHoaDonQuanLy extends JFrame implements ActionListener {
 		}
 	}
 
+
+
+
 	private void themHoaDon() {
-		String maHD = txtMaHD.getText();
-		String ngay = txtNgayLapHD.getText();
-		Date ngayLap = Date.valueOf(ngay);
-		int soLuong = Integer.parseInt(txtDonGia.getText());
-		String maNV = txtMaNV.getText();
-		String maSP = txtSP.getText();
-		double donGia = Double.parseDouble(txtDonGia.getText());
+	    String maHD = txtMaHD.getText();
+	    String ngay = txtNgayLapHD.getText();
+	    Date ngayLap = null;
+	    try {
+	        // Kiểm tra và chuyển đổi chuỗi ngày tháng
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	        sdf.setLenient(false);
+	        java.util.Date utilDate = sdf.parse(ngay);
+	        ngayLap = new Date(utilDate.getTime());
+	    } catch (ParseException e) {
+	        JOptionPane.showMessageDialog(this, "Định dạng ngày không hợp lệ. Vui lòng nhập ngày theo định dạng yyyy-MM-dd.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+	        return;
+	    }
 
-		HoaDon hoaDon = new HoaDon(maHD, new NhanVien(maNV), ngayLap);
-		ChiTietHoaDon chiTietHD = new ChiTietHoaDon(hoaDon, new SanPham(maSP), soLuong, (long) (soLuong * donGia));
+	    int soLuong = Integer.parseInt(txtSoLuong.getText());
+	    String maNV = txtMaNV.getText();
+	    String maSP = txtSP.getText();
+	    double donGia = Double.parseDouble(txtDonGia.getText());
 
-		hoaDon.setTongTien(hoaDon.tongTien());
+	    HoaDon hoaDon = new HoaDon(maHD, new NhanVien(maNV), ngayLap);
+	    ChiTietHoaDon chiTietHD = new ChiTietHoaDon(hoaDon, new SanPham(maSP), soLuong, (long) (soLuong * donGia));
 
-		boolean statusInsertHD = hdController.themHoaDon(hoaDon);
-		boolean statusInsertCTHD = cthdController.themCTHD(chiTietHD);
+	    // Bỏ qua việc kiểm tra và thiết lập KhachHang
+	    // hoaDon.setKh(khachHang);
 
-		if (statusInsertHD && statusInsertCTHD) {
-			JOptionPane.showMessageDialog(this, "Hóa đơn đã được thêm thành công!", "Thông báo",
-					JOptionPane.INFORMATION_MESSAGE);
-			this.clear();
-		} else {
-			JOptionPane.showMessageDialog(this, "Thêm hóa đơn không thành công.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-		}
+	    hoaDon.setTongTien(hoaDon.tongTien());
+
+	    boolean statusInsertHD = hdController.themHoaDon(hoaDon);
+	    boolean statusInsertCTHD = cthdController.themCTHD(chiTietHD);
+
+	    if (statusInsertHD && statusInsertCTHD) {
+	        JOptionPane.showMessageDialog(this, "Hóa đơn đã được thêm thành công!", "Thông báo",
+	                JOptionPane.INFORMATION_MESSAGE);
+	        this.clear();
+	    } else {
+	        JOptionPane.showMessageDialog(this, "Thêm hóa đơn không thành công.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+	    }
 	}
+
+
+
+
+
 
 	private void clear() {
 		txtMaHD.setText("");

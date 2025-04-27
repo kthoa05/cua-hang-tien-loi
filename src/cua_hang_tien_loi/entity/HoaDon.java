@@ -102,7 +102,7 @@ public class HoaDon {
 		DAO_ChiTietHoaDon daoCTHD = new DAO_ChiTietHoaDon();
 		ArrayList<ChiTietHoaDon> listChiTietHoaDon = daoCTHD.getAllCTHDByHoaDon(this);
 		for (ChiTietHoaDon cthd : listChiTietHoaDon) {
-			tongTien += cthd.getSoLuong();
+			tongTien += cthd.getThanhTien();
 		}
 
 		return tongTien;

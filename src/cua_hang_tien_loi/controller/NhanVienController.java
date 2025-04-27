@@ -33,6 +33,10 @@ public class NhanVienController {
     public List<String> getPhai() {
         return daoNV.getPhai();
     }
+    
+    public String getImg(String maNV,String hoTen) {
+    	return daoNV.getImg(maNV, hoTen);
+    }
 
     // get ttlv
     public List<String> getTrangThaiLamViec() {
@@ -40,8 +44,18 @@ public class NhanVienController {
     }
 
     // get for TraCuuNhanVien
-    public List<NhanVien> getNV(String ma, String ten, Boolean phai, String sdt, String cccd) {
-        return daoNV.findNhanVien(ma, ten, phai, sdt, cccd);
+    public List<NhanVien> getNV(String maNV, String hoTen, String sdt, boolean gioiTinh, String cmnd) {
+        return daoNV.findNhanVienPhanTraCuu(maNV, hoTen, sdt, gioiTinh, cmnd);
+    }
+    
+    //get for CapNhatNhanVien
+    public List<NhanVien> getNV(String maNV, String hoTen) {
+        return daoNV.findNhanVienPhanTraCuu(maNV, hoTen);
+    }
+    
+    //get ma for CapNhatNhanVien'
+    public NhanVien getNV(String maNV) {
+        return daoNV.findNhanVienPhanTraCuu(maNV);
     }
 
     // cap nhat
@@ -53,4 +67,6 @@ public class NhanVienController {
     public NhanVien getNhanVien(String id) {
         return daoNV.getNhanVienByID(id);
     }
+
+	
 }

@@ -63,19 +63,19 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener, Mous
 	private JTextField txtDonGia;
 	private JTextField txtMaSP;
 	private JTextField txtTenSp;
-	private JComboBox<String> txtTTKD;
+	private JComboBox<String> cboTTKD;
 	private JButton btnCapNhat;
 	private JLabel lblImage;
 	private String pathImg;
-	private SanPhamController sanPhamController;
 	private JButton btnTimKiem;
 	private SanPhamController spController;
 	private DefaultTableModel modelTable;
 	private JTable table;
 	private JMenuItem itemThongKeHoaDon;
+	private JComboBox<Object> cboLoaiSP;
 
 	public CapNhatSanPhamQuanLy() {
-		// TODO Auto-generated constructor stub
+		spController = new SanPhamController();
 		this.UICapNhatSanPham();
 	}
 
@@ -122,8 +122,8 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener, Mous
 		itemThemSP = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
 		itemCapNhatSp = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
-		menuHeThong.add(itemTaiKhoan);
-		menuHeThong.addSeparator();
+		menuSanPham.add(itemTraCuuSP);
+		menuSanPham.addSeparator();
 		menuSanPham.add(itemThemSP);
 		menuSanPham.addSeparator();
 		menuSanPham.add(itemCapNhatSp);
@@ -242,6 +242,8 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener, Mous
 		txtTenSanPham = new JTextField(20);
 		JLabel lblTrangThai = new JLabel("TTKD:");
 		cboTrangThai = new JComboBox<>();
+		cboTrangThai.addItem("Kinh doanh");
+		cboTrangThai.addItem("Ngừng kinh doanh");
 		cboTrangThai.setPreferredSize(new Dimension(203, 22));
 		pnTenSanPham.add(lblTenSanPham);
 		pnTenSanPham.add(Box.createHorizontalStrut(2));
@@ -275,7 +277,7 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener, Mous
 
 		btnLamMoi = new JButton("Làm mới", new ImageIcon("src/cua_hang_tien_loi/icon/lammoi.png"));
 		btnCapNhat = new JButton("Cập nhật", new ImageIcon("src/cua_hang_tien_loi/icon/edit.png"));
-
+		pnBtn.add(btnCapNhat);
 		pnBtn.add(btnLamMoi);
 
 		// add vo pn
@@ -301,15 +303,27 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener, Mous
 
 		JLabel lblTenSp = new JLabel("Tên SP:");
 		txtTenSp = new JTextField(10);
+		
+		JLabel lblLoaiSP = new JLabel("Loại SP:");
+		cboLoaiSP = new JComboBox<>();
+		cboLoaiSP.setPreferredSize(new Dimension(200, 22));
+		for (String loai : spController.getLoaiSP()) {
+			cboLoaiSP.addItem(loai);
+		}
 
 		JLabel lblTTKD = new JLabel("TTKD:");
-		String[] item = { "Kinh doanh", "Ngừng kinh doanh" };
-		txtTTKD = new JComboBox<String>(item);
+//		String[] item = { "Kinh doanh", "Ngừng kinh doanh" };
+
+
+
+		cboTTKD = new JComboBox<String>();
+		cboTTKD.addItem("Kinh doanh");
+		cboTTKD.addItem("Ngừng kinh doanh");
 
 		btnTimKiem = new JButton("Tìm kiếm", new ImageIcon("src/cua_hang_tien_loi/icon/search.png"));
 
 		String[] title = { "Mã sản phẩm", "Tên sản phẩm", "Loại sản phẩm", "Chất liệu", "Đơn giá", "TTKD" };
-		modelTable = new DefaultTableModel(title, 0);
+	modelTable = new DefaultTableModel(title, 0);
 		table = new JTable(modelTable);
 
 		// add vo panel
@@ -317,14 +331,22 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener, Mous
 		pnSouth.add(txtMaSP);
 		pnSouth.add(lblTenSp);
 		pnSouth.add(txtTenSp);
+		pnSouth.add(lblLoaiSP);
+		pnSouth.add(cboLoaiSP);
 		pnSouth.add(lblTTKD);
-		pnSouth.add(txtTTKD);
+		pnSouth.add(cboTTKD);
 		pnSouth.add(Box.createHorizontalStrut(40));
 		pnSouth.add(btnTimKiem);
 		pnSouth.add(Box.createVerticalStrut(40));
+		String[] cols = { "Mã SP", "Tên SP", "Loại SP", "Giá", "Chất liệu", "Trạng thái kinh doanh" };
+		modelTable = new DefaultTableModel(cols, 0);
+		table = new JTable(modelTable);
+		
+		table.setPreferredScrollableViewportSize(new Dimension(545, 150));
 		JScrollPane scroll = new JScrollPane(table);
 		scroll.setPreferredSize(new Dimension(1000, 150));
-		pnSouth.add(new JScrollPane(scroll));
+		pnSouth.add(scroll);
+
 
 		pnMain.add(pnSouth, BorderLayout.SOUTH);
 
@@ -370,6 +392,9 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener, Mous
 
 		// key f1
 		SystemUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
+		
+		//table
+		table.addMouseListener(this);
 	}
 
 	@Override
@@ -444,52 +469,48 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener, Mous
 		}
 	}
 
+	
 	private void timKiemSanPham() {
-		String ma = txtMaSanPham.getText();
-		String ten = txtTenSanPham.getText();
-		String ttkd = cboTrangThai.getSelectedItem().toString();
-		boolean ttkdBoolean = ttkd.equals("Kinh Doanh") ? true : false;
-
-		List<SanPham> dssp = sanPhamController.timKiemSanPham(ma, ten, null, ttkdBoolean);
-
-		// do du lieu len form
-		for (SanPham sp : dssp) {
-			Object[] row = { sp.getMaSP(), sp.getTenSP(), sp.getLoaiSP(), sp.getChatLieu(), sp.getDonGia(),
-					sp.isTTKD() ? "Kinh doanh" : "Không kinh doanh" };
-			modelTable.addRow(row);
-		}
-
+	    String maSP = txtMaSP.getText();
+	    String tenSP = txtTenSp.getText();
+	    String loaiSP = cboLoaiSP.getSelectedItem().toString();
+	    String ttkd = cboTTKD.getSelectedItem().toString();
+	    boolean ttkdStatus = ttkd.equals("Kinh doanh") ? true : false;
+	    System.out.println("Mã SP: " + maSP); // Thêm dòng log để kiểm tra giá trị
+	    List<SanPham> dssp = spController.timKiemSanPham(maSP, tenSP, loaiSP, ttkdStatus);
+	    String img = spController.getImg(maSP, tenSP, loaiSP, ttkd);
+	    modelTable.setRowCount(0);
+	    // load du lieu len table
+	    for (SanPham sp : dssp) {
+	        Object[] row = { sp.getMaSP(), sp.getTenSP(), sp.getLoaiSP(), sp.getDonGia(), sp.getChatLieu(),
+	                sp.isTTKD() ? "Ngừng Kinh doanh" : "Kinh doanh" };
+	        lblImage.setIcon(new ImageIcon(img));
+	        modelTable.addRow(row);
+	        System.out.println(sp);
+	    }
+	    System.out.println("Số lượng sản phẩm tìm thấy: " + dssp.size());
 	}
+
 
 	// btn cap nhat
-	private void capNhatSanPham() {
-		String ma = txtMaSanPham.getText();
-		String ten = txtTenSanPham.getText();
-		String ttkd = cboTrangThai.getSelectedItem().toString();
-		double donGia = Double.parseDouble(txtDonGia.getText());
-		String chatLieu = txtChatLieu.getText();
+	 private void capNhatSanPham() {
+		 String pathImg = SystemUtils.imagePath;
 
-		boolean ttkdBoolean = ttkd.equals("Kinh Doanh") ? true : false;
+	     String ma = txtMaSanPham.getText();
+	     String ten = txtTenSanPham.getText();
+	     String ttkd = cboTrangThai.getSelectedItem() != null ? cboTrangThai.getSelectedItem().toString() : "";
+	     double donGia = Double.parseDouble(txtDonGia.getText());
+	     String chatLieu = txtChatLieu.getText();
+	     boolean ttkdBoolean = ttkd.equals("Kinh Doanh");
+	     SanPham sp = new SanPham(pathImg, ma, ten, chatLieu, ttkdBoolean, donGia, chatLieu);
+	     boolean statusCapNhatSP = spController.capNhatSanPham(sp);
+	     if (statusCapNhatSP) {
+	         JOptionPane.showMessageDialog(this, "Cập nhật sản phẩm thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+	     } else {
+	         JOptionPane.showMessageDialog(this, "Cập nhật sản phẩm thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+	     }
+	 }
 
-		SanPham sp = new SanPham(pathImg, ma, ten, chatLieu, ttkdBoolean, donGia, chatLieu);
-
-		boolean statusCapNhatSP = sanPhamController.capNhatSanPham(sp);
-		if (!statusCapNhatSP) {
-			JOptionPane.showMessageDialog(this, "Cập nhật sản phẩm sản phẩm thành công", "Thông báo",
-					JOptionPane.INFORMATION_MESSAGE);
-		} else {
-			JOptionPane.showMessageDialog(this, "Cập nhật sản phẩm thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
-	private void dangXuat() {
-		int choice = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Thông báo",
-				JOptionPane.YES_NO_OPTION);
-		if (choice == JOptionPane.YES_OPTION) {
-			this.setVisible(false);
-			new DangNhap().setVisible(true);
-		}
-	}
 
 	// btn lam moi
 	private void clearTxtField() {
@@ -500,6 +521,7 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener, Mous
 		txtTenSanPham.setText("");
 		txtDonGia.setText("");
 		txtChatLieu.setText("");
+		modelTable.setRowCount(0);
 	}
 
 	@Override
@@ -507,13 +529,13 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener, Mous
 		// TODO Auto-generated method stub
 		int row = table.getSelectedRow();
 //		"Mã sản phẩm", "Tên sản phẩm", "Loại sản phẩm", "Chất liệu", "Đơn giá", "TTKD" 
-		txtMaSanPham.setText(modelTable.getValueAt(row, 1).toString());
-		txtTenSanPham.setText(modelTable.getValueAt(row, 2).toString());
-		String loai = modelTable.getValueAt(row, 3).toString();
+		txtMaSanPham.setText(modelTable.getValueAt(row,0).toString());
+		txtTenSanPham.setText(modelTable.getValueAt(row, 1).toString());
+		String loai = modelTable.getValueAt(row, 2).toString();
 		cboLoaiSanPham.setSelectedItem(loai);
-		txtChatLieu.setText(modelTable.getValueAt(row, 4).toString());
-		txtDonGia.setText(modelTable.getValueAt(row, 5).toString());
-		String ttkd = modelTable.getValueAt(row, 6).toString();
+		txtChatLieu.setText(modelTable.getValueAt(row, 3).toString());
+		txtDonGia.setText(modelTable.getValueAt(row, 4).toString());
+		String ttkd = modelTable.getValueAt(row, 5).toString();
 		cboTrangThai.setSelectedItem(ttkd);
 	}
 

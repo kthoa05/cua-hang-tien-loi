@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -72,7 +73,7 @@ public class CapNhatNhanVien extends JFrame implements ActionListener, MouseList
 	private JMenuItem itemThongKeHoaDon;
 
 	public CapNhatNhanVien() {
-		// TODO Auto-generated constructor stub
+		nvController = new NhanVienController();
 		this.UICapNhatNhanVien();
 	}
 
@@ -280,6 +281,8 @@ public class CapNhatNhanVien extends JFrame implements ActionListener, MouseList
 		pnTTLV.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JLabel lblTTLV = new JLabel("TTLV:");
 		cboTTLV = new JComboBox<>();
+		cboTTLV.addItem("1");
+		cboTTLV.addItem("0");
 		for (String ttlv : nvController.getTrangThaiLamViec()) {
 			cboTTLV.addItem(ttlv);
 		}
@@ -390,6 +393,8 @@ public class CapNhatNhanVien extends JFrame implements ActionListener, MouseList
 		btnLamMoi.addActionListener(this);
 		btnTimKiem.addActionListener(this);
 
+		// table
+		table.addMouseListener(this);
 	}
 
 	@Override
@@ -463,6 +468,7 @@ public class CapNhatNhanVien extends JFrame implements ActionListener, MouseList
 			this.clear();
 		} else if (source.equals(btnTimKiem)) {
 			this.timKiem();
+			this.mouseClicked(null);
 		}
 	}
 
@@ -472,15 +478,18 @@ public class CapNhatNhanVien extends JFrame implements ActionListener, MouseList
 		String gioiTinh = cboGt.getSelectedItem().toString();
 		String cccd = txtCccd.getText();
 		String ttlv = cboTTLV.getSelectedItem().toString();
-
 		boolean gt = gioiTinh.equals("Nữ") ? true : false;
 		boolean status = ttlv.equals("Đang làm việc") ? true : false;
 
-		NhanVien nv = new NhanVien(ten, status, sdt, sdt, gt, ten, gioiTinh, cccd, ttlv);
+		String ma = txtMaNV.getText();
 
+		NhanVien nvByMa = nvController.getNV(ma);
+
+		NhanVien nv = new NhanVien(nvByMa.getMaNV(), ten, gt, nvByMa.getNgaySinh(), sdt, nvByMa.getEmail(), cccd,
+				nvByMa.getMk(), nvByMa.isAdmin(), status, nvByMa.getImgPath());
 		boolean statusCapNhatNV = nvController.capNhatNhanVien(nv);
-		if (!statusCapNhatNV) {
-			JOptionPane.showMessageDialog(this, "Cập nhật nhân viên sản phẩm thành công", "Thông báo",
+		if (statusCapNhatNV) {
+			JOptionPane.showMessageDialog(this, "Cập nhật nhân viên thành công", "Thông báo",
 					JOptionPane.INFORMATION_MESSAGE);
 			modelTable.setRowCount(0);
 		} else {
@@ -489,10 +498,12 @@ public class CapNhatNhanVien extends JFrame implements ActionListener, MouseList
 	}
 
 	private void timKiem() {
+		String pathImg = SystemUtils.imagePath;
+		System.out.println("img: " + pathImg);
 		String ma = txtMaNV.getText();
 		String ten = txtTenNV.getText();
 
-		List<NhanVien> dsnv = nvController.getNV(ma, ten, null, null, null);
+		List<NhanVien> dsnv = nvController.getNV(ma, ten);
 
 		modelTable.setRowCount(0);
 
@@ -500,6 +511,7 @@ public class CapNhatNhanVien extends JFrame implements ActionListener, MouseList
 		for (NhanVien nv : dsnv) {
 			Object[] row = { nv.getMaNV(), nv.getHoTen(), nv.isPhai() ? "Nữ" : "Nam", nv.getCmnd(), nv.getMk(),
 					nv.getSdt(), nv.getEmail(), nv.isTrangThaiLamViec() ? "Đang làm việc" : "Ngưng làm việc" };
+			lblImage.setIcon(new ImageIcon(nvController.getImg(ma, ten)));
 			modelTable.addRow(row);
 		}
 	}
@@ -514,13 +526,16 @@ public class CapNhatNhanVien extends JFrame implements ActionListener, MouseList
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		int row = table.getSelectedRow();
-		txtTen.setText(modelTable.getValueAt(row, 2).toString());
-		txtSdt.setText(modelTable.getValueAt(row, 6).toString());
-		String gt = modelTable.getValueAt(row, 3).toString();
-		cboGt.setSelectedItem(gt);
-		txtCccd.setText(modelTable.getValueAt(row, 4).toString());
-		String ttlv = modelTable.getValueAt(row, 8).toString();
-		cboTTLV.setSelectedItem(ttlv);
+		if (row >= 0) {
+			txtTen.setText(modelTable.getValueAt(row, 1).toString());
+			txtSdt.setText(modelTable.getValueAt(row, 5).toString());
+			String gt = modelTable.getValueAt(row, 2).toString();
+			cboGt.setSelectedItem(gt);
+			txtCccd.setText(modelTable.getValueAt(row, 3).toString());
+			String ttlv = modelTable.getValueAt(row, 7).toString();
+			cboTTLV.setSelectedItem(ttlv);
+		} 
+
 	}
 
 	@Override

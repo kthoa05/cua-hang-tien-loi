@@ -67,6 +67,7 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 	public TraCuuHoaDonQuanLy() {
 		this.hdController = new HoaDonController();
 		this.khController = new KhachHangController();
+	
 		this.UITraCuuHoaDonQuanLy();
 	}
 
@@ -188,7 +189,7 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 		JPanel pn = new JPanel();
 		pn.setLayout(new BoxLayout(pn, BoxLayout.Y_AXIS));
 		JLabel lbTitle = StyleUtils.createHeaderTitle("TRA CỨU HÓA ĐƠN");
-
+		lbTitle.setAlignmentX(CENTER_ALIGNMENT);
 		lbTitle.setFont(new Font("Arial", Font.BOLD, 20));
 		lbTitle.setForeground(Color.BLACK);
 		pn.add(lbTitle);
@@ -389,7 +390,7 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 		String maKH = cboMaKH.getSelectedItem().toString();
 		String ngayLap = txtNgayLap.getText();
 
-		List<HoaDon> ds = hdController.traCuuHoaDon(tenNV, maHD, maKH, ngayLap, ten, sdt);
+		List<HoaDon> ds = hdController.traCuuHoaDon(ten, maHD, maKH, ngayLap, tenNV, sdt);
 
 		modelTable.setRowCount(0);
 

@@ -202,6 +202,7 @@ public class TrangChuDangNhapNhanVien extends JFrame implements ActionListener {
 
 		// thong ke
 		else if (source.equals(itemThongKeHoaDon)) {
+			this.setVisible(false);
 			new ThongKeHoaDonNhanVien().setVisible(true);
 		}
 

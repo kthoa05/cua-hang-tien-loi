@@ -60,7 +60,7 @@ public class ThemSanPhamQuanLy extends JFrame implements ActionListener {
 	private JMenuItem itemThongKeHoaDon;
 
 	public ThemSanPhamQuanLy() {
-		// TODO Auto-generated constructor stub
+		sanPhamController = new SanPhamController();
 		this.UIFormThemSanPham();
 	}
 
@@ -428,18 +428,25 @@ public class ThemSanPhamQuanLy extends JFrame implements ActionListener {
 
 	// btn them
 	private void themSanPham() {
+
+		String pathImg = SystemUtils.imagePath;
+
 		String ma = txtMaSanPham.getText();
 		String ten = txtTenSanPham.getText();
+		String loai = cboLoaiSanPham.getSelectedItem().toString();
 		String ttkd = cboTrangThai.getSelectedItem().toString();
 		double donGia = Double.parseDouble(txtDonGia.getText());
 		String chatLieu = txtChatLieu.getText();
 
 		boolean ttkdBoolean = ttkd.equals("Kinh Doanh") ? true : false;
 
-		SanPham sp = new SanPham(pathImg, ma, ten, chatLieu, ttkdBoolean, donGia, chatLieu);
+		SanPham maSP = new SanPham();
+		SanPham sp = new SanPham(pathImg, ma, ten, loai, ttkdBoolean, donGia, chatLieu);
 
 		boolean statusThemSP = sanPhamController.themSanPham(sp);
-		if (!statusThemSP) {
+		
+		System.out.println("str img: " + pathImg);
+		if (statusThemSP) {
 			JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công", "Thông báo",
 					JOptionPane.INFORMATION_MESSAGE);
 		} else {

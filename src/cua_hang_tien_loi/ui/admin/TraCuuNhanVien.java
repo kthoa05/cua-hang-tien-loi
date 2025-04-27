@@ -59,6 +59,7 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemThongKeHoaDon;
 
 	public TraCuuNhanVien() {
+		nvController = new NhanVienController();
 		// TODO Auto-generated constructor stub
 		this.UITraCuuNhanVien();
 	}
@@ -234,9 +235,9 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 		
 		JLabel lblGT = new JLabel("Giới tính:");
 		cbGT = new JComboBox<>();
-//		for (String gt : nvController.getPhai()) {
-//			cbGT.addItem(gt);
-//		}
+		for (String gt : nvController.getPhai()) {
+			cbGT.addItem(gt);
+		}
 		pn3.add(lblGT);
 		pn3.add(Box.createHorizontalStrut(35));
 		pn3.add(cbGT);
@@ -315,7 +316,8 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 
 		// quay lai
 		itemQuayLai.addActionListener(this);
-
+		btnTim.addActionListener(this);
+		btnLamMoi.addActionListener(this);
 		// key f1
 		SystemUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
 	}
@@ -390,25 +392,38 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 	}
 
 	private void timKiem() {
-		String ma = txtMa.getText();
-		String ten = txtTen.getText();
-		String phai = cbGT.getSelectedItem().toString();
-		String sdt = txtSdt.getText();
-		String cccd = txtCccd.getText();
+	    String ma = txtMa.getText();
+	    String ten = txtTen.getText();
+	    String phai = cbGT.getSelectedItem().toString();
+	    String sdt = txtSdt.getText();
+	    String cccd = txtCccd.getText();
+	    boolean gtBoolean = phai.equals("Nữ");
 
-		boolean gtBoolean = phai.equals("Nữ") ? true : false;
+	    // Log các giá trị đầu vào
+	    System.out.println("Ma: " + ma);
+	    System.out.println("Ten: " + ten);
+	    System.out.println("Phai: " + phai);
+	    System.out.println("Sdt: " + sdt);
+	    System.out.println("Cccd: " + cccd);
 
-		List<NhanVien> dsnv = nvController.getNV(ma, ten, gtBoolean, sdt, cccd);
+	    List<NhanVien> dsnv = nvController.getNV(ma, ten, sdt, gtBoolean, cccd);
 
-		modelTable.setRowCount(0);
+	    // Log danh sách nhân viên trả về
+	    System.out.println("Danh sách nhân viên: " + dsnv);
 
-		// load du lieu len table
-		for (NhanVien nv : dsnv) {
-			Object[] row = { nv.getMaNV(), nv.getHoTen(), nv.isPhai() ? "Nữ" : "Nam", nv.getCmnd(), nv.getMk(),
-					nv.getSdt(), nv.getEmail(), nv.isTrangThaiLamViec() ? "Đang làm việc" : "Ngưng làm việc" };
-			modelTable.addRow(row);
-		}
+	    modelTable.setRowCount(0);
+	    for (NhanVien nv : dsnv) {
+	        Object[] row = { nv.getMaNV(), nv.getHoTen(), nv.isPhai() ? "Nữ" : "Nam", nv.getCmnd(), nv.getMk(), nv.getSdt(), nv.getEmail(), nv.isTrangThaiLamViec() ? "Đang làm việc" : "Ngưng làm việc" };
+	        modelTable.addRow(row);
+	    }
+
+	    // Log sau khi cập nhật bảng
+	    System.out.println("Bảng đã được cập nhật.");
 	}
+
+
+
+	
 
 	private void clear() {
 		txtMa.setText("");

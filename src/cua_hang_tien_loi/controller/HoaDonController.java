@@ -43,7 +43,7 @@ public class HoaDonController {
 
 	// lay nam len
 	public List<Integer> getNam() {
-		return daoHD.getNgay();
+		return daoHD.getNam();
 	}
 
 	// thong ke

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -26,6 +27,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import cua_hang_tien_loi.controller.KhachHangController;
 import cua_hang_tien_loi.controller.SanPhamController;
 import cua_hang_tien_loi.entity.SanPham;
 import cua_hang_tien_loi.utils.StyleUtils;
@@ -60,13 +62,14 @@ public class TraCuuSanPhamQuanLy extends JFrame implements ActionListener {
 	private JMenuItem itemThongKeHoaDon;
 
 	public TraCuuSanPhamQuanLy() {
+		spController = new SanPhamController();
 		// TODO Auto-generated constructor stub
 		this.UITraCuuSanPhamQuanLy();
 	}
 
 	private void UITraCuuSanPhamQuanLy() {
 		setTitle("Quản lý cửa hàng tiện lợi - Tra cứu sản phẩm");
-		setSize(1000, 500);
+		setSize(1000, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -176,28 +179,43 @@ public class TraCuuSanPhamQuanLy extends JFrame implements ActionListener {
 
 		// cen
 		JPanel pnCen = new JPanel();
-
-		pnCen.setLayout(new BoxLayout(pnCen, BoxLayout.X_AXIS));
+		
+		JPanel pn = new JPanel();
+		pn.setLayout(new BoxLayout(pn, BoxLayout.Y_AXIS));
+		pnCen.add(pn);
 
 		// tieu de
-		JPanel pnTieuDe = new JPanel(new FlowLayout(FlowLayout.CENTER));
-
-		JLabel lblTieuDe = StyleUtils.createHeaderTitle("TRA CỨU SẢN PHẨM");
-		pnTieuDe.add(lblTieuDe);
-		pnCen.add(pnTieuDe);
+		JLabel lbTitle = StyleUtils.createHeaderTitle("TRA CỨU SẢN PHẨM");
+		lbTitle.setAlignmentX(CENTER_ALIGNMENT);
+		lbTitle.setFont(new Font("Arial", Font.BOLD, 20));
+		lbTitle.setForeground(Color.BLACK);
+		pn.add(lbTitle);
 
 		// form
-		JPanel pnTimKiem = new JPanel();
-		pnTimKiem.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-
-		JLabel lblMa = StyleUtils.createLabel("Mã sản phẩm:");
-		txtMa = new JTextField(10);
-
-		JLabel lblTen = StyleUtils.createLabel("Tên sản phẩm:");
-		txtTen = new JTextField(15);
-
+		JPanel pn1 = new JPanel();
+		pn1.setLayout(new BoxLayout(pn1, BoxLayout.X_AXIS));
+		
+		JLabel lblMa = new JLabel("Mã sản phẩm:");
+		txtMa = new JTextField(25);
+		
+		JLabel lblTen = new JLabel("Tên sản phẩm:");
+		txtTen = new JTextField(25);
+		
+		pn1.add(lblMa);
+		pn1.add(Box.createHorizontalStrut(10));
+		pn1.add(txtMa);
+		pn1.add(Box.createHorizontalStrut(10));
+		pn1.add(lblTen);
+		pn1.add(Box.createHorizontalStrut(10));
+		pn1.add(txtTen);
+		pn.add(Box.createVerticalStrut(10));
+		pn.add(pn1);
+		
+		
+		JPanel pn2 = new JPanel();
+		pn2.setLayout(new BoxLayout(pn2, BoxLayout.X_AXIS));
 		// CAN TEST - LOAD DU LIEU TU TABLE LEN
-		JLabel lblLoai = StyleUtils.createLabel("Loại:");
+		JLabel lblLoai = new JLabel("Loại:");
 		cbLoai = new JComboBox<>();
 		cbLoai.addItem("Tất cả");
 		for (String loai : spController.getLoaiSP()) {
@@ -205,29 +223,36 @@ public class TraCuuSanPhamQuanLy extends JFrame implements ActionListener {
 		}
 
 		// CAN TEST - LOAD DU LIEU TU TABLE LEN
-		JLabel lblTTKD = StyleUtils.createLabel("TTKD:");
+		JLabel lblTTKD = new JLabel("TTKD:");
 		cbTTKD = new JComboBox<>();
 		cbTTKD.addItem("Tất cả");
 		for (String ttkd : spController.getTTKD()) {
 			cbTTKD.addItem(ttkd);
 		}
-
+		pn2.add(lblLoai);
+		pn2.add(Box.createHorizontalStrut(58));
+		pn2.add(cbLoai);
+		pn2.add(Box.createHorizontalStrut(10));
+		pn2.add(lblTTKD);
+		pn2.add(Box.createHorizontalStrut(58));
+		pn2.add(cbTTKD);
+		pn.add(Box.createVerticalStrut(10));
+		pn.add(pn2);
+		
 		// btn
+		JPanel pn3 = new JPanel();
+		pn3.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		btnTim = new JButton("Tìm kiếm", new ImageIcon("src/cua_hang_tien_loi/icon/search.png"));
-		btnLamMoi = new JButton("Làm mới", new ImageIcon("src/cua_hang_tien_loi/icon/lammoi.png"));
+		btnLamMoi = new JButton("Làm mới", new ImageIcon("src/cua_hang_tien_loi/icon/reload.png"));
+		pn3.add(btnTim);
+		pn3.add(btnLamMoi);
+		pn.add(Box.createVerticalStrut(10));
+		pn.add(pn3);
 
-		pnTimKiem.add(lblMa);
-		pnTimKiem.add(txtMa);
-		pnTimKiem.add(lblTen);
-		pnTimKiem.add(txtTen);
-		pnTimKiem.add(lblLoai);
-		pnTimKiem.add(cbLoai);
-		pnTimKiem.add(lblTTKD);
-		pnTimKiem.add(cbTTKD);
-		pnTimKiem.add(btnTim);
-		pnTimKiem.add(btnLamMoi);
+		
+		
 
-		pnCen.add(pnTimKiem);
+		
 
 		// table
 		JPanel pnKetQua = new JPanel();
@@ -239,12 +264,14 @@ public class TraCuuSanPhamQuanLy extends JFrame implements ActionListener {
 		table = new JTable(modelTable);
 		table.setPreferredScrollableViewportSize(new Dimension(550, 150));
 		JScrollPane scroll = new JScrollPane(table);
+		scroll.setPreferredSize(new Dimension(1000, 350));
 
-		pnKetQua.add(scroll, BorderLayout.CENTER);
+		pnKetQua.add(scroll);
 
-		pnCen.add(pnKetQua);
+		
 
 		pnMain.add(pnCen, BorderLayout.CENTER);
+		pnMain.add(pnKetQua, BorderLayout.SOUTH);
 
 		add(pnMain);
 
@@ -372,15 +399,22 @@ public class TraCuuSanPhamQuanLy extends JFrame implements ActionListener {
 		// load du lieu len table
 		for (SanPham sp : dssp) {
 			Object[] row = { sp.getMaSP(), sp.getTenSP(), sp.getLoaiSP(), sp.getDonGia(), sp.getChatLieu(),
-					sp.isTTKD() ? "Kinh doanh" : "Ngừng kinh doanh" };
+					sp.isTTKD() ? "Ngừng Kinh doanh" : "Kinh doanh" };
 			modelTable.addRow(row);
+			System.out.println(sp);
 		}
-	}
+
+		System.out.println("Số lượng sản phẩm tìm thấy: " + dssp.size());
+		 
+ }
+
+
 
 	// lam moi
 	private void clear() {
 		txtMa.setText("");
 		txtTen.setText("");
+		modelTable.setRowCount(0);
 	}
 
 }

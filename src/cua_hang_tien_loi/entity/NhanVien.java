@@ -24,6 +24,10 @@ public class NhanVien {
 		return finalId;
 	}
 
+	public NhanVien() {
+		super();
+	}
+
 	public NhanVien(String maNV, String hoTen, boolean phai, String sdt, String email, String cmnd, String mk,
 			boolean trangThaiLamViec) {
 		super();

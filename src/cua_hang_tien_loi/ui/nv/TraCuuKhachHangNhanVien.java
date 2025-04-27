@@ -321,7 +321,7 @@ public class TraCuuKhachHangNhanVien extends JFrame implements ActionListener {
 		txtMaKH.setText("");
 		txtTenKH.setText("");
 		txtSdt.setText("");
-		table.clearSelection();
+		model.setRowCount(0);
 	}
 
 	@Override

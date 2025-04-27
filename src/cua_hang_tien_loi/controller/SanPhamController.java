@@ -3,6 +3,11 @@ package cua_hang_tien_loi.controller;
 import java.util.List;
 
 import cua_hang_tien_loi.dao.DAO_SanPham;
+//import cua_hang_tien_loi.dao.File;
+//import cua_hang_tien_loi.dao.JFileChooser;
+
+
+
 import cua_hang_tien_loi.entity.SanPham;
 
 public class SanPhamController {
@@ -30,6 +35,7 @@ public class SanPhamController {
         return daoSp.findSanPham(maSp, tenSp, loai, ttkd);
     }
 
+
     // Lấy danh sách loại sản phẩm
     public List<String> getLoaiSP() {
         return daoSp.getLoaiSP();
@@ -44,4 +50,9 @@ public class SanPhamController {
     public SanPham getById(String id) {
         return daoSp.getSanPham(id);
     }
+    
+    public String getImg(String maSP,String tenSP, String loaiSP, String ttkdStatus) {
+    	return daoSp.getImg(maSP, tenSP, loaiSP, ttkdStatus);
+    }
+
 }

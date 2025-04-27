@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -67,7 +69,7 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemThongKeHoaDon;
 
 	public ThemNhanVien() {
-		// TODO Auto-generated constructor stub
+		nvController = new NhanVienController();
 		this.UIThemNhanVien();
 	}
 
@@ -236,14 +238,14 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		JLabel lblGioiTinh = StyleUtils.createLabel2("Giới tính:", 100, 180);
 		cbboGt = new JComboBox<>();
 		for (String gt : nvController.getPhai()) {
-			cbboGt.addItem(cbboGt);
+			cbboGt.addItem(gt);
 		}
 
 		// add ho ten gt vo pn
 		pnHoTenGT.add(lblHoTen);
 		pnHoTenGT.add(txtHoTen);
 		pnHoTenGT.add(lblGioiTinh);
-		pnHoTenGT.add(txtGioiTinh);
+		pnHoTenGT.add(cbboGt);
 
 		pnFormOfCen.add(pnHoTenGT);
 
@@ -439,30 +441,38 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 	}
 
 	// btn them
+	
 	private void themNhanVien() {
-		String ma = txtMaNV.getText();
-		String ten = txtHoTen.getText();
-		String phai = txtGioiTinh.getSelectedItem().toString();
-		String ngaySinh = txtNgaySinh.getText();
-		String sdt = txtSdt.getText();
-		String email = txtEmail.getText();
-		String cmnd = txtCmnd.getText();
-		String mk = txtMatKhau.getText();
-
-		LocalDate ns = LocalDate.parse(ngaySinh);
-		boolean gt = phai.equals("Nam") ? false : true;
-
-		NhanVien nv = new NhanVien(ma, ten, gt, ns, sdt, email, cmnd, mk, false, true, pathImg);
-
-		boolean statusThemNV = nvController.themNhanVien(nv);
-		if (!statusThemNV) {
-			JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công", "Thông báo",
-					JOptionPane.INFORMATION_MESSAGE);
-		} else {
-			JOptionPane.showMessageDialog(this, "Thêm nhân viên thất bại", "Thông báo",
-					JOptionPane.INFORMATION_MESSAGE);
-		}
+		String pathImg = SystemUtils.imagePath;
+	    String ma = txtMaNV.getText();
+	    String ten = txtHoTen.getText();
+	    String phai = cbboGt.getSelectedItem().toString();
+	    String ngaySinh = txtNgaySinh.getText();
+	    String sdt = txtSdt.getText();
+	    String email = txtEmail.getText();
+	    String cmnd = txtCmnd.getText();
+	    String mk = txtMatKhau.getText();
+	    
+	    // Định dạng ngày tháng
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	    LocalDate ns;
+	    try {
+	        ns = LocalDate.parse(ngaySinh, formatter);
+	    } catch (DateTimeParseException e) {
+	        JOptionPane.showMessageDialog(this, "Định dạng ngày sinh không hợp lệ. Vui lòng nhập theo định dạng dd-MM-yyyy.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+	        return;
+	    }
+	    
+	    boolean gt = phai.equals("Nam") ? false : true;
+	    NhanVien nv = new NhanVien(ma, ten, gt, ns, sdt, email, cmnd, mk, false, true, pathImg);
+	    boolean statusThemNV = nvController.themNhanVien(nv);
+	    if (statusThemNV) {
+	        JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+	    } else {
+	        JOptionPane.showMessageDialog(this, "Thêm nhân viên thất bại", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+	    }
 	}
+
 
 	// btn lam moi
 	private void clearTxtField() {

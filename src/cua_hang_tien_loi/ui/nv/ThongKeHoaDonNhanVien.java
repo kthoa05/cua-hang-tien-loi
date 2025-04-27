@@ -57,6 +57,7 @@ public class ThongKeHoaDonNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemThongKeHoaDon;
 
 	public ThongKeHoaDonNhanVien() {
+		hdController = new HoaDonController();
 		this.initUIThemHoaDon();
 	}
 
@@ -208,7 +209,7 @@ public class ThongKeHoaDonNhanVien extends JFrame implements ActionListener {
 		JLabel lblNam = new JLabel("Năm:");
 		cboNam = new JComboBox<>();
 		for (int nam : hdController.getNam()) {
-			cboThang.addItem(nam);
+			cboNam.addItem(nam);
 		}
 		cboNam.setPreferredSize(new Dimension(220, 25));
 		pn1.add(lblNgay);
@@ -335,14 +336,13 @@ public class ThongKeHoaDonNhanVien extends JFrame implements ActionListener {
 			this.clear();
 		} else if (source.equals(btnThongKe)) {
 			this.thongKe();
-			this.clear();
 		}
 	}
 
 	private void thongKe() {
 		String ngay = cboNgay.getSelectedItem().toString();
-		String thang = cboNgay.getSelectedItem().toString();
-		String nam = cboNgay.getSelectedItem().toString();
+		String thang = cboThang.getSelectedItem().toString();
+		String nam = cboNam.getSelectedItem().toString();
 
 		int ngayInt = Integer.parseInt(ngay);
 		int thangInt = Integer.parseInt(thang);
@@ -364,5 +364,6 @@ public class ThongKeHoaDonNhanVien extends JFrame implements ActionListener {
 		cboNgay.setSelectedIndex(0);
 		cboThang.setSelectedIndex(0);
 		cboNam.setSelectedIndex(0);
+		modelTable.setRowCount(0);
 	}
 }

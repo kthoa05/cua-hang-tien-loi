@@ -15,8 +15,8 @@ import cua_hang_tien_loi.entity.HoaDon;
 import cua_hang_tien_loi.entity.SanPham;
 
 public class DAO_ChiTietHoaDon {
-	private SanPhamController spController;
 	private HoaDonController hdController;
+	private SanPhamController spController = new SanPhamController();
 
 	// get cthd by mahd
 	public ChiTietHoaDon getChiTietHoaDonById(String maHD) {
@@ -48,30 +48,42 @@ public class DAO_ChiTietHoaDon {
 	}
 
 	public ArrayList<ChiTietHoaDon> getAllCTHDByHoaDon(HoaDon hoaDon) {
-		ArrayList<ChiTietHoaDon> listChiTietHoaDon = new ArrayList<>();
-		ConnectDB.getInstance();
-		Connection conn = ConnectDB.getConnection();
-		try {
-			String sql = "Select * from ChiTietHoaDon where maHoaDon = ?";
-			PreparedStatement stmt = conn.prepareCall(sql);
-			stmt.setString(1, hoaDon.getMaHD());
+	    ArrayList<ChiTietHoaDon> listChiTietHoaDon = new ArrayList<>();
+	    ConnectDB.getInstance();
+	    Connection conn = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
 
-			ResultSet rs = stmt.executeQuery();
+	    try {
+	        conn = ConnectDB.getConnection();
+	        String sql = "SELECT * FROM ChiTietHoaDon WHERE maHD = ?";
+	        stmt = conn.prepareStatement(sql);
+	        stmt.setString(1, hoaDon.getMaHD());
+	        rs = stmt.executeQuery();
 
-			while (rs.next()) {
-				SanPham sanPham = spController.getById(rs.getString(1));
+	        while (rs.next()) {
+	            SanPham sanPham = spController.getById(rs.getString("maSP")); // Lấy sản phẩm
+	            int soLuong = rs.getInt("soLuong");
+	            long thanhTien = rs.getLong("thanhTien");
 
-				int soLuong = rs.getInt(3);
-				long thanhTien = rs.getLong(4);
+	            ChiTietHoaDon cthd = new ChiTietHoaDon(hoaDon, sanPham, soLuong, thanhTien);
+	            listChiTietHoaDon.add(cthd);
+	        }
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    } finally {
+	        try {
+	            if (rs != null) rs.close();
+	            if (stmt != null) stmt.close();
+	            if (conn != null) conn.close();
+	        } catch (SQLException ex) {
+	            ex.printStackTrace();
+	        }
+	    }
 
-				ChiTietHoaDon CTHD = new ChiTietHoaDon(hoaDon, sanPham, soLuong, thanhTien);
-				listChiTietHoaDon.add(CTHD);
-			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-		return listChiTietHoaDon;
+	    return listChiTietHoaDon;
 	}
+
 
 	// add cthd
 	public boolean addChiTietHoaDon(ChiTietHoaDon chiTietHoaDon) {

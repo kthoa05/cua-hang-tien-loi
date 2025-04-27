@@ -25,6 +25,7 @@ package cua_hang_tien_loi.utils;
 	public class SystemUtils {
 
 		private static String pathImg;
+		public static String imagePath;
 
 		// key f1
 		public static void setF1ToKey(JPanel pnMain, String keyStroke, JMenuItem menuItem) {
@@ -83,12 +84,13 @@ package cua_hang_tien_loi.utils;
 		    
 		    if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 		        File file = fileChooser.getSelectedFile();
-		        String imagePath = file.getAbsolutePath();
+		        imagePath = file.getAbsolutePath();
 		        
 		        // Cập nhật hình ảnh trong JLabel
 		        lblImage.setIcon(new ImageIcon(imagePath));
-		        lblImage.setText(""); // Nếu cần, xóa text
 		        lblImage.setIcon(new ImageIcon(new ImageIcon(imagePath).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
+		        lblImage.setText(""); // Nếu cần, xóa text
+
 
 		        return imagePath; // Trả về đường dẫn ảnh
 		    }
