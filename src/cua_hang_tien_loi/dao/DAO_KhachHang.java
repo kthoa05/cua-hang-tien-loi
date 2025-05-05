@@ -20,7 +20,7 @@ public class DAO_KhachHang {
         KhachHang kh = new KhachHang();
         try {
             String sql = "SELECT * FROM KhachHang WHERE maKH = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql); // Sử dụng prepareStatement
+            PreparedStatement stmt = conn.prepareStatement(sql); 
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {

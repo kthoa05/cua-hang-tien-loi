@@ -17,12 +17,10 @@ public class DangNhap extends JFrame implements ActionListener {
 	private JButton btnDangNhap, btnThoat, btnQuenMK;
 	private JToggleButton btnHienMatKhau;
 	private static NhanVienController nvController;
-	//public static NhanVien thongTinNV = nvController.getThongTinTaiKhoan(txtTaiKhoan.getText(), txtMatKhau.toString());
 	public static NhanVien thongTinNV;
 
-
 	public DangNhap() {
-		 nvController = new NhanVienController();
+		nvController = new NhanVienController();
 		setTitle("Quản lý cửa hàng tiện lợi - Đăng nhập");
 		setSize(580, 370);
 		setLocationRelativeTo(null);
@@ -95,7 +93,7 @@ public class DangNhap extends JFrame implements ActionListener {
 		btnHienMatKhau.setPreferredSize(new Dimension(30, 30));
 
 		pnMatKhauInput.add(txtMatKhau);
-		pnMatKhauInput.add(Box.createRigidArea(new Dimension(5, 0))); // khoảng cách giữa field và nút
+		pnMatKhauInput.add(Box.createRigidArea(new Dimension(5, 0))); // kc giua field vs nut
 		pnMatKhauInput.add(btnHienMatKhau);
 
 		pnMatKhau.add(lblMatKhau);
@@ -168,7 +166,6 @@ public class DangNhap extends JFrame implements ActionListener {
 		}
 	}
 
-
 	private void anHienMatKhau() {
 		if (btnHienMatKhau.isSelected()) {
 			txtMatKhau.setEchoChar((char) 0);
@@ -179,4 +176,3 @@ public class DangNhap extends JFrame implements ActionListener {
 		}
 	}
 }
-		

@@ -45,10 +45,8 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener, Mous
 	private JMenuItem itemCapNhatSp;
 	private JMenuItem itemTraCuuKH;
 	private JMenuItem itemThemKH;
-	private JMenuItem itemCapNhatKH;
 	private JMenuItem itemTraCuuHD;
 	private JMenuItem itemThemHD;
-	private JMenuItem itemCapNhatHD;
 	private JMenuItem itemTraCuuNV;
 	private JMenuItem itemThemNV;
 	private JMenuItem itemCapNhatNV;
@@ -134,14 +132,9 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener, Mous
 		JMenu menuKhachHang = new JMenu("Khách hàng");
 		menuKhachHang.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/customer.png"));
 		itemTraCuuKH = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
-		itemThemKH = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatKH = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
+
 
 		menuKhachHang.add(itemTraCuuKH);
-		menuKhachHang.addSeparator();
-		menuKhachHang.add(itemThemKH);
-		menuKhachHang.addSeparator();
-		menuKhachHang.add(itemCapNhatKH);
 		menuBar.add(menuKhachHang);
 		menuBar.add(Box.createHorizontalStrut(25));
 
@@ -150,13 +143,10 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener, Mous
 		menuHoaDon.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/invoice.png"));
 		itemTraCuuHD = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
 		itemThemHD = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatHD = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuHoaDon.add(itemTraCuuHD);
 		menuHoaDon.addSeparator();
 		menuHoaDon.add(itemThemHD);
-		menuHoaDon.addSeparator();
-		menuHoaDon.add(itemCapNhatHD);
 		menuBar.add(menuHoaDon);
 		menuBar.add(Box.createHorizontalStrut(25));
 
@@ -366,8 +356,6 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener, Mous
 
 		// khach hang
 		itemTraCuuKH.addActionListener(this);
-		itemCapNhatKH.addActionListener(this);
-		itemThemKH.addActionListener(this);
 
 		// hoa don
 		itemTraCuuHD.addActionListener(this);
@@ -533,8 +521,8 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener, Mous
 		txtTenSanPham.setText(modelTable.getValueAt(row, 1).toString());
 		String loai = modelTable.getValueAt(row, 2).toString();
 		cboLoaiSanPham.setSelectedItem(loai);
-		txtChatLieu.setText(modelTable.getValueAt(row, 3).toString());
-		txtDonGia.setText(modelTable.getValueAt(row, 4).toString());
+		txtChatLieu.setText(modelTable.getValueAt(row, 4).toString());
+		txtDonGia.setText(modelTable.getValueAt(row, 3).toString());
 		String ttkd = modelTable.getValueAt(row, 5).toString();
 		cboTrangThai.setSelectedItem(ttkd);
 	}
@@ -561,5 +549,8 @@ public class CapNhatSanPhamQuanLy extends JFrame implements ActionListener, Mous
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+	public static void main(String[] args) {
+		new CapNhatSanPhamQuanLy().setVisible(true);
 	}
 }

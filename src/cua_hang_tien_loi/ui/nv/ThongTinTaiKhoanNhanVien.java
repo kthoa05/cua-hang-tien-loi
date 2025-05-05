@@ -25,7 +25,7 @@ public class ThongTinTaiKhoanNhanVien extends JFrame {
 
 	private void UIThongTinTaiKhoan() {
 		setTitle("Quản lý cửa hàng tiện lợi - Thông tin tài khoản");
-		setSize(600, 500);
+		setSize(590, 300);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

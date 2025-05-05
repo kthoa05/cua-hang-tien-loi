@@ -46,7 +46,6 @@ public class TraCuuKhachHangQuanLy extends JFrame implements ActionListener {
 	private JMenuItem itemTraCuuKH;
 	private JMenuItem itemTraCuuHD;
 	private JMenuItem itemThemHD;
-	private JMenuItem itemCapNhatHD;
 	private JMenuItem itemTraCuuNV;
 	private JMenuItem itemThemNV;
 	private JMenuItem itemCapNhatNV;
@@ -129,13 +128,10 @@ public class TraCuuKhachHangQuanLy extends JFrame implements ActionListener {
 		menuHoaDon.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/invoice.png"));
 		itemTraCuuHD = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
 		itemThemHD = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatHD = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuHoaDon.add(itemTraCuuHD);
 		menuHoaDon.addSeparator();
 		menuHoaDon.add(itemThemHD);
-		menuHoaDon.addSeparator();
-		menuHoaDon.add(itemCapNhatHD);
 		menuBar.add(menuHoaDon);
 		menuBar.add(Box.createHorizontalStrut(25));
 

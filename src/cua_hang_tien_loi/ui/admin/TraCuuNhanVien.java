@@ -41,7 +41,6 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemTraCuuKH;
 	private JMenuItem itemTraCuuHD;
 	private JMenuItem itemThemHD;
-	private JMenuItem itemCapNhatHD;
 	private JMenuItem itemTraCuuNV;
 	private JMenuItem itemThemNV;
 	private JMenuItem itemCapNhatNV;
@@ -66,7 +65,7 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 
 	// giao diện
 	private void UITraCuuNhanVien() {
-		setTitle("Quản lý cửa hàng tiện lợi - Trang chủ");
+		setTitle("Quản lý cửa hàng tiện lợi - Tra cứu nhân viên");
 		setSize(1000, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -130,13 +129,10 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 		menuHoaDon.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/invoice.png"));
 		itemTraCuuHD = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
 		itemThemHD = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatHD = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuHoaDon.add(itemTraCuuHD);
 		menuHoaDon.addSeparator();
 		menuHoaDon.add(itemThemHD);
-		menuHoaDon.addSeparator();
-		menuHoaDon.add(itemCapNhatHD);
 		menuBar.add(menuHoaDon);
 		menuBar.add(Box.createHorizontalStrut(25));
 
@@ -179,7 +175,6 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 		// cen
 		JPanel pnCen = new JPanel();
 
-		
 		JPanel pn = new JPanel();
 		pn.setLayout(new BoxLayout(pn, BoxLayout.Y_AXIS));
 
@@ -194,12 +189,12 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 		// form
 		JPanel pnTimKiem = new JPanel();
 		pnTimKiem.setLayout(new BoxLayout(pnTimKiem, BoxLayout.X_AXIS));
-		
+
 		JLabel lblMa = new JLabel("Mã nhân viên:");
 		txtMa = new JTextField(25);
 		JLabel lblTen = new JLabel("Tên nhân viên:");
 		txtTen = new JTextField(25);
-		
+
 		pnTimKiem.add(lblMa);
 		pnTimKiem.add(Box.createHorizontalStrut(10));
 		pnTimKiem.add(txtMa);
@@ -209,17 +204,16 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 		pnTimKiem.add(txtTen);
 		pn.add(Box.createVerticalStrut(10));
 		pn.add(pnTimKiem);
-		
+
 		JPanel pn2 = new JPanel();
 		pn2.setLayout(new BoxLayout(pn2, BoxLayout.X_AXIS));
 		JLabel lblSdt = new JLabel("SĐT:");
 		txtSdt = new JTextField(25);
-		
+
 		// cmnd
 		JLabel lblCccd = new JLabel("CCCD:");
 		txtCccd = new JTextField(25);
 
-		
 		pn2.add(lblSdt);
 		pn2.add(Box.createHorizontalStrut(60));
 		pn2.add(txtSdt);
@@ -229,10 +223,10 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 		pn2.add(txtCccd);
 		pn.add(Box.createVerticalStrut(10));
 		pn.add(pn2);
-		
+
 		JPanel pn3 = new JPanel();
 		pn3.setLayout(new BoxLayout(pn3, BoxLayout.X_AXIS));
-		
+
 		JLabel lblGT = new JLabel("Giới tính:");
 		cbGT = new JComboBox<>();
 		for (String gt : nvController.getPhai()) {
@@ -243,26 +237,20 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 		pn3.add(cbGT);
 		pn.add(Box.createVerticalStrut(10));
 		pn.add(pn3);
-		
+
 		JPanel pn4 = new JPanel();
 
 		pn4.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
-		
 		// btn
 		btnTim = new JButton("Tìm kiếm", new ImageIcon("src/cua_hang_tien_loi/icon/search.png"));
 		btnLamMoi = new JButton("Làm mới", new ImageIcon("src/cua_hang_tien_loi/icon/lammoi.png"));
 
-		
-		
-		
 		pn4.add(btnTim);
 		pn4.add(Box.createVerticalStrut(10));
 		pn4.add(btnLamMoi);
 		pn.add(Box.createVerticalStrut(10));
 		pn.add(pn4);
-		
-	
 
 		pnCen.add(pn);
 
@@ -279,10 +267,8 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 
 		pnKetQua.add(scroll);
 
-		
-
 		pnMain.add(pnCen, BorderLayout.CENTER);
-		
+
 		pnMain.add(pnKetQua, BorderLayout.SOUTH);
 
 		add(pnMain);
@@ -392,43 +378,41 @@ public class TraCuuNhanVien extends JFrame implements ActionListener {
 	}
 
 	private void timKiem() {
-	    String ma = txtMa.getText();
-	    String ten = txtTen.getText();
-	    String phai = cbGT.getSelectedItem().toString();
-	    String sdt = txtSdt.getText();
-	    String cccd = txtCccd.getText();
-	    boolean gtBoolean = phai.equals("Nữ");
+		String ma = txtMa.getText();
+		String ten = txtTen.getText();
+		String phai = cbGT.getSelectedItem().toString();
+		String sdt = txtSdt.getText();
+		String cccd = txtCccd.getText();
+		boolean gtBoolean = phai.equals("Nữ");
 
-	    // Log các giá trị đầu vào
-	    System.out.println("Ma: " + ma);
-	    System.out.println("Ten: " + ten);
-	    System.out.println("Phai: " + phai);
-	    System.out.println("Sdt: " + sdt);
-	    System.out.println("Cccd: " + cccd);
+		// Log các giá trị đầu vào
+		System.out.println("Ma: " + ma);
+		System.out.println("Ten: " + ten);
+		System.out.println("Phai: " + phai);
+		System.out.println("Sdt: " + sdt);
+		System.out.println("Cccd: " + cccd);
 
-	    List<NhanVien> dsnv = nvController.getNV(ma, ten, sdt, gtBoolean, cccd);
+		List<NhanVien> dsnv = nvController.getNV(ma, ten, sdt, gtBoolean, cccd);
 
-	    // Log danh sách nhân viên trả về
-	    System.out.println("Danh sách nhân viên: " + dsnv);
+		// Log danh sách nhân viên trả về
+		System.out.println("Danh sách nhân viên: " + dsnv);
 
-	    modelTable.setRowCount(0);
-	    for (NhanVien nv : dsnv) {
-	        Object[] row = { nv.getMaNV(), nv.getHoTen(), nv.isPhai() ? "Nữ" : "Nam", nv.getCmnd(), nv.getMk(), nv.getSdt(), nv.getEmail(), nv.isTrangThaiLamViec() ? "Đang làm việc" : "Ngưng làm việc" };
-	        modelTable.addRow(row);
-	    }
+		modelTable.setRowCount(0);
+		for (NhanVien nv : dsnv) {
+			Object[] row = { nv.getMaNV(), nv.getHoTen(), nv.isPhai() ? "Nữ" : "Nam", nv.getCmnd(), nv.getMk(),
+					nv.getSdt(), nv.getEmail(), nv.isTrangThaiLamViec() ? "Đang làm việc" : "Ngưng làm việc" };
+			modelTable.addRow(row);
+		}
 
-	    // Log sau khi cập nhật bảng
-	    System.out.println("Bảng đã được cập nhật.");
+		// Log sau khi cập nhật bảng
+		System.out.println("Bảng đã được cập nhật.");
 	}
-
-
-
-	
 
 	private void clear() {
 		txtMa.setText("");
 		txtTen.setText("");
 		txtSdt.setText("");
 		txtCccd.setText("");
+		modelTable.setRowCount(0);
 	}
 }

@@ -34,18 +34,10 @@ public class ThongKeHoaDonNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemTaiKhoan;
 	private JMenuItem itemTroGiup;
 	private JMenuItem itemDangXuat;
-	private JMenuItem itemThemSP;
-	private JMenuItem itemTraCuuSP;
-	private JMenuItem itemCapNhatSp;
 	private JMenuItem itemTraCuuKH;
-	private JMenuItem itemCapNhatKH;
 	private JMenuItem itemTraCuuHD;
 	private JMenuItem itemThemHD;
-	private JMenuItem itemCapNhatHD;
-	private JMenuItem itemTraCuuNV;
-	private JMenuItem itemThemNV;
-	private JMenuItem itemCapNhatNV;
-	private JMenuItem itemQuayLai;
+	JMenuItem itemQuayLai;
 	private JButton btnLamMoi;
 	private DefaultTableModel modelTable;
 	private JTable table;
@@ -57,7 +49,7 @@ public class ThongKeHoaDonNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemThongKeHoaDon;
 
 	public ThongKeHoaDonNhanVien() {
-		hdController = new HoaDonController();
+		hdController = new HoaDonController(null);
 		this.initUIThemHoaDon();
 	}
 
@@ -100,30 +92,12 @@ public class ThongKeHoaDonNhanVien extends JFrame implements ActionListener {
 		menuBar.add(menuHeThong);
 		menuBar.add(Box.createHorizontalStrut(25));
 
-		// san pham
-		JMenu menuSanPham = new JMenu("Sản phẩm");
-		menuSanPham.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/product.png"));
-		itemTraCuuSP = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
-		itemThemSP = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatSp = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
-
-		menuSanPham.add(itemTraCuuSP);
-		menuSanPham.addSeparator();
-		menuSanPham.add(itemThemSP);
-		menuSanPham.addSeparator();
-		menuSanPham.add(itemCapNhatSp);
-		menuBar.add(menuSanPham);
-		menuBar.add(Box.createHorizontalStrut(25));
-
 		// khach hang
 		JMenu menuKhachHang = new JMenu("Khách hàng");
 		menuKhachHang.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/customer.png"));
 		itemTraCuuKH = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
-		itemCapNhatKH = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuKhachHang.add(itemTraCuuKH);
-		menuKhachHang.addSeparator();
-		menuKhachHang.add(itemCapNhatKH);
 		menuBar.add(menuKhachHang);
 		menuBar.add(Box.createHorizontalStrut(25));
 
@@ -132,29 +106,11 @@ public class ThongKeHoaDonNhanVien extends JFrame implements ActionListener {
 		menuHoaDon.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/invoice.png"));
 		itemTraCuuHD = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
 		itemThemHD = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatHD = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuHoaDon.add(itemTraCuuHD);
 		menuHoaDon.addSeparator();
 		menuHoaDon.add(itemThemHD);
-		menuHoaDon.addSeparator();
-		menuHoaDon.add(itemCapNhatHD);
 		menuBar.add(menuHoaDon);
-		menuBar.add(Box.createHorizontalStrut(25));
-
-		// nhan vien
-		JMenu menuNhanVien = new JMenu("Nhân viên");
-		menuNhanVien.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/employee.png"));
-		itemTraCuuNV = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
-		itemThemNV = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatNV = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
-
-		menuNhanVien.add(itemTraCuuNV);
-		menuNhanVien.addSeparator();
-		menuNhanVien.add(itemThemNV);
-		menuNhanVien.addSeparator();
-		menuNhanVien.add(itemCapNhatNV);
-		menuBar.add(menuNhanVien);
 		menuBar.add(Box.createHorizontalStrut(25));
 
 		// thong ke
@@ -260,23 +216,12 @@ public class ThongKeHoaDonNhanVien extends JFrame implements ActionListener {
 		itemTroGiup.addActionListener(this);
 		itemDangXuat.addActionListener(this);
 
-		// san pham
-		itemTraCuuSP.addActionListener(this);
-		itemCapNhatSp.addActionListener(this);
-		itemThemSP.addActionListener(this);
-
 		// khach hang
 		itemTraCuuKH.addActionListener(this);
-		itemCapNhatKH.addActionListener(this);
 
 		// hoa don
 		itemTraCuuHD.addActionListener(this);
 		itemThemHD.addActionListener(this);
-
-		// nhan vien
-		itemTraCuuNV.addActionListener(this);
-		itemCapNhatNV.addActionListener(this);
-		itemThemNV.addActionListener(this);
 
 		// thong ke
 		itemThongKeHoaDon.addActionListener(this);
@@ -365,5 +310,9 @@ public class ThongKeHoaDonNhanVien extends JFrame implements ActionListener {
 		cboThang.setSelectedIndex(0);
 		cboNam.setSelectedIndex(0);
 		modelTable.setRowCount(0);
+	}
+	
+	public static void main(String[] args) {
+		new ThongKeHoaDonNhanVien().setVisible(true);
 	}
 }

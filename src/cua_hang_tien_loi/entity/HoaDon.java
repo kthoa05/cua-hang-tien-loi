@@ -60,6 +60,7 @@ public class HoaDon {
 		this.ngayLapHD = ngayLap;
 	}
 
+
 	public String getMaHD() {
 		return maHD;
 	}
@@ -91,22 +92,21 @@ public class HoaDon {
 	public void setNgayLapHD(Date ngayLapHD) {
 		this.ngayLapHD = ngayLapHD;
 	}
-
 	@Override
 	public String toString() {
-		return "HoaDon [maHD=" + maHD + ", kh=" + kh + ", nv=" + nv + ", ngayLapHD=" + ngayLapHD + ", tongTien=";
+	    return "HoaDon [maHD=" + maHD + ", kh=" + kh + ", nv=" + nv + ", ngayLapHD=" + ngayLapHD + ", tongTien=" + tongTien + "]";
 	}
 
 	public double tongTien() {
-		long tongTien = 0;
-		DAO_ChiTietHoaDon daoCTHD = new DAO_ChiTietHoaDon();
-		ArrayList<ChiTietHoaDon> listChiTietHoaDon = daoCTHD.getAllCTHDByHoaDon(this);
-		for (ChiTietHoaDon cthd : listChiTietHoaDon) {
-			tongTien += cthd.getThanhTien();
-		}
-
-		return tongTien;
+	    double tongTien = 0;
+	    DAO_ChiTietHoaDon daoCTHD = new DAO_ChiTietHoaDon();
+	    ArrayList<ChiTietHoaDon> listChiTietHoaDon = daoCTHD.getAllCTHDByHoaDon(this);
+	    for (ChiTietHoaDon cthd : listChiTietHoaDon) {
+	        tongTien += cthd.getThanhTien();
+	    }
+	    return tongTien;
 	}
+
 
 	public double getTongTien() {
 		return tongTien;

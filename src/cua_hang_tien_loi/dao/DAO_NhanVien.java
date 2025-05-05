@@ -42,7 +42,6 @@ public class DAO_NhanVien {
 			s.setString(11, nv.getImgPath());
 			int rowsAffected = s.executeUpdate();
 
-			// Move the print statement inside the method
 			System.out.println("Cập nhật NV với mã: " + nv.getMaNV());
 
 			if (rowsAffected > 0) {
@@ -71,7 +70,7 @@ public class DAO_NhanVien {
 			s.setBoolean(8, nv.isAdmin());
 			s.setBoolean(9, nv.isTrangThaiLamViec());
 			s.setString(10, nv.getImgPath());
-			s.setString(11, nv.getSdt()); // Sử dụng sdt và cmnd để xác định nhân viên
+			s.setString(11, nv.getSdt()); 
 			s.setString(12, nv.getCmnd());
 
 			int rowsAffected = s.executeUpdate();
@@ -192,8 +191,8 @@ public class DAO_NhanVien {
 		}
 		return dsnv;
 	}
-	
-	//lay NhanVien len by maNV
+
+	// lay NhanVien len by maNV
 	public NhanVien findNhanVienPhanTraCuu(String maNV) {
 		ConnectDB.getInstance();
 		Connection conn = ConnectDB.getConnection();
@@ -327,24 +326,23 @@ public class DAO_NhanVien {
 
 	// get img NV for tim kiem o CapNhatNhanVien:
 	public String getImg(String ma, String ten) {
-	    Connection conn = ConnectDB.getConnection();
-	    String sql = "SELECT imgPath FROM NhanVien WHERE maNV = ? OR hoTen = ?";
-	    String pathImg = "null";
-	    try (PreparedStatement ps = conn.prepareStatement(sql)) {
-	        ps.setString(1, ma != null && !ma.isEmpty() ? ma : null);
-	        ps.setString(2, ten != null && !ten.isEmpty() ? ten : null);
+		Connection conn = ConnectDB.getConnection();
+		String sql = "SELECT imgPath FROM NhanVien WHERE maNV = ? OR hoTen = ?";
+		String pathImg = "null";
+		try (PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setString(1, ma != null && !ma.isEmpty() ? ma : null);
+			ps.setString(2, ten != null && !ten.isEmpty() ? ten : null);
 
-	        ResultSet rs = ps.executeQuery();
-	        if (rs.next()) {
-	            pathImg = rs.getString("imgPath");
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				pathImg = rs.getString("imgPath");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-	    return pathImg;
+		return pathImg;
 	}
-
 
 	// get List NV for TraCuuNhanVien dua tren 4 field maNV, tenNV, phai, sdt, cccd
 	public List<NhanVien> findNhanVien(String ma, String ten, Boolean gt, String sdt, String cccd) {

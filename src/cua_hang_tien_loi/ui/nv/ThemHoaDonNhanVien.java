@@ -25,7 +25,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -34,8 +33,20 @@ import cua_hang_tien_loi.controller.ChiTietHoaDonController;
 import cua_hang_tien_loi.controller.HoaDonController;
 import cua_hang_tien_loi.entity.ChiTietHoaDon;
 import cua_hang_tien_loi.entity.HoaDon;
+import cua_hang_tien_loi.entity.KhachHang;
 import cua_hang_tien_loi.entity.NhanVien;
 import cua_hang_tien_loi.entity.SanPham;
+import cua_hang_tien_loi.ui.admin.CapNhatNhanVien;
+import cua_hang_tien_loi.ui.admin.CapNhatSanPhamQuanLy;
+import cua_hang_tien_loi.ui.admin.ThemHoaDonQuanLy;
+import cua_hang_tien_loi.ui.admin.ThemNhanVien;
+import cua_hang_tien_loi.ui.admin.ThemSanPhamQuanLy;
+import cua_hang_tien_loi.ui.admin.ThongKeHoaDonQuanLy;
+import cua_hang_tien_loi.ui.admin.ThongTinTaiKhoanQuanLy;
+import cua_hang_tien_loi.ui.admin.TraCuuHoaDonQuanLy;
+import cua_hang_tien_loi.ui.admin.TraCuuKhachHangQuanLy;
+import cua_hang_tien_loi.ui.admin.TraCuuNhanVien;
+import cua_hang_tien_loi.ui.admin.TraCuuSanPhamQuanLy;
 import cua_hang_tien_loi.utils.StyleUtils;
 import cua_hang_tien_loi.utils.SystemUtils;
 
@@ -43,17 +54,9 @@ public class ThemHoaDonNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemTaiKhoan;
 	private JMenuItem itemTroGiup;
 	private JMenuItem itemDangXuat;
-	private JMenuItem itemThemSP;
-	private JMenuItem itemTraCuuSP;
-	private JMenuItem itemCapNhatSp;
 	private JMenuItem itemTraCuuKH;
-	private JMenuItem itemCapNhatKH;
 	private JMenuItem itemTraCuuHD;
 	private JMenuItem itemThemHD;
-	private JMenuItem itemCapNhatHD;
-	private JMenuItem itemTraCuuNV;
-	private JMenuItem itemThemNV;
-	private JMenuItem itemCapNhatNV;
 	private JMenuItem itemQuayLai;
 	private JTextField txtMaHD;
 	private JTextField txtNgayLapHD;
@@ -69,15 +72,18 @@ public class ThemHoaDonNhanVien extends JFrame implements ActionListener {
 	private ChiTietHoaDonController cthdController;
 	private HoaDonController hdController;
 	private JMenuItem itemThongKeHoaDon;
+	private JTextField txtMaKH;
 
 	public ThemHoaDonNhanVien() {
+		cthdController = new ChiTietHoaDonController();
+		hdController = new HoaDonController();
 		this.initUIThemHoaDon();
 	}
 
 	// giao dien
 
 	private void initUIThemHoaDon() {
-		setTitle("Quản lý cửa hàng tiện lợi - Trang chủ");
+		setTitle("Quản lý cửa hàng tiện lợi - Thêm hóa đơn");
 		setSize(1000, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -113,30 +119,12 @@ public class ThemHoaDonNhanVien extends JFrame implements ActionListener {
 		menuBar.add(menuHeThong);
 		menuBar.add(Box.createHorizontalStrut(25));
 
-		// san pham
-		JMenu menuSanPham = new JMenu("Sản phẩm");
-		menuSanPham.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/product.png"));
-		itemTraCuuSP = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
-		itemThemSP = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatSp = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
-
-		menuSanPham.add(itemTraCuuSP);
-		menuSanPham.addSeparator();
-		menuSanPham.add(itemThemSP);
-		menuSanPham.addSeparator();
-		menuSanPham.add(itemCapNhatSp);
-		menuBar.add(menuSanPham);
-		menuBar.add(Box.createHorizontalStrut(25));
-
 		// khach hang
 		JMenu menuKhachHang = new JMenu("Khách hàng");
 		menuKhachHang.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/customer.png"));
 		itemTraCuuKH = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
-		itemCapNhatKH = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuKhachHang.add(itemTraCuuKH);
-		menuKhachHang.addSeparator();
-		menuKhachHang.add(itemCapNhatKH);
 		menuBar.add(menuKhachHang);
 		menuBar.add(Box.createHorizontalStrut(25));
 
@@ -145,29 +133,11 @@ public class ThemHoaDonNhanVien extends JFrame implements ActionListener {
 		menuHoaDon.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/invoice.png"));
 		itemTraCuuHD = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
 		itemThemHD = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatHD = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuHoaDon.add(itemTraCuuHD);
 		menuHoaDon.addSeparator();
 		menuHoaDon.add(itemThemHD);
-		menuHoaDon.addSeparator();
-		menuHoaDon.add(itemCapNhatHD);
 		menuBar.add(menuHoaDon);
-		menuBar.add(Box.createHorizontalStrut(25));
-
-		// nhan vien
-		JMenu menuNhanVien = new JMenu("Nhân viên");
-		menuNhanVien.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/employee.png"));
-		itemTraCuuNV = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
-		itemThemNV = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatNV = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
-
-		menuNhanVien.add(itemTraCuuNV);
-		menuNhanVien.addSeparator();
-		menuNhanVien.add(itemThemNV);
-		menuNhanVien.addSeparator();
-		menuNhanVien.add(itemCapNhatNV);
-		menuBar.add(menuNhanVien);
 		menuBar.add(Box.createHorizontalStrut(25));
 
 		// thong ke
@@ -245,9 +215,13 @@ public class ThemHoaDonNhanVien extends JFrame implements ActionListener {
 		// button
 		JPanel pn3 = new JPanel();
 		pn3.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		JLabel lblMaKH = new JLabel("Mã KH:");
+		txtMaKH = new JTextField(25);
 		btnThem = new JButton("Thêm", new ImageIcon("src/cua_hang_tien_loi/icon/add.png"));
 		btnLamMoi = new JButton("Làm mới", new ImageIcon("src/cua_hang_tien_loi/icon/reload.png"));
 		btnXuatHoaDon = new JButton("Xuất hóa đơn", new ImageIcon("src/cua_hang_tien_loi/icon/xuathd.png"));
+		pn3.add(lblMaKH);
+		pn3.add(txtMaKH);
 		pn3.add(btnThem);
 		pn3.add(Box.createHorizontalStrut(5));
 		pn3.add(btnLamMoi);
@@ -258,17 +232,6 @@ public class ThemHoaDonNhanVien extends JFrame implements ActionListener {
 
 		pnCen.add(pn);
 
-		JPanel pnSouth = new JPanel();
-
-		String[] title = { "Mã HD", "Ngày lập HD", "Số lượng", "Mã NV", "Mã SP", "Tên SP", "Tổng tiền" };
-		modelTable = new DefaultTableModel(title, 0);
-		table = new JTable(modelTable);
-		JScrollPane scroll = new JScrollPane(table);
-
-		scroll.setPreferredSize(new Dimension(1000, 340));
-		pnSouth.add(new JScrollPane(scroll));
-
-		pnMain.add(pnSouth, BorderLayout.SOUTH);
 		pnMain.add(pnCen, BorderLayout.CENTER);
 
 		add(pnMain);
@@ -280,29 +243,22 @@ public class ThemHoaDonNhanVien extends JFrame implements ActionListener {
 		itemTroGiup.addActionListener(this);
 		itemDangXuat.addActionListener(this);
 
-		// san pham
-		itemTraCuuSP.addActionListener(this);
-		itemCapNhatSp.addActionListener(this);
-		itemThemSP.addActionListener(this);
-
 		// khach hang
 		itemTraCuuKH.addActionListener(this);
-		itemCapNhatKH.addActionListener(this);
 
 		// hoa don
 		itemTraCuuHD.addActionListener(this);
 		itemThemHD.addActionListener(this);
-
-		// nhan vien
-		itemTraCuuNV.addActionListener(this);
-		itemCapNhatNV.addActionListener(this);
-		itemThemNV.addActionListener(this);
 
 		// thong ke
 		itemThongKeHoaDon.addActionListener(this);
 
 		// quay lai
 		itemQuayLai.addActionListener(this);
+
+		btnThem.addActionListener(this);
+		btnLamMoi.addActionListener(this);
+		btnXuatHoaDon.addActionListener(this);
 
 		// key f1
 		SystemUtils.setF1ToKey(pnMain, "F1", itemQuayLai);
@@ -312,12 +268,11 @@ public class ThemHoaDonNhanVien extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object source = e.getSource();
-
 		// he thong
 		if (source.equals(itemTaiKhoan)) {
 			new ThongTinTaiKhoanNhanVien().setVisible(true);
 		} else if (source.equals(itemTroGiup)) {
-			SystemUtils.openFile("/Users/lethoa/Documents/giaykhamsuckhoe.pdf");
+			SystemUtils.openFile("C:/hd/BaoCaoHSK_Nhom18.docx");
 		} else if (source.equals(itemDangXuat)) {
 			SystemUtils.dangXuat(this);
 		}
@@ -339,6 +294,7 @@ public class ThemHoaDonNhanVien extends JFrame implements ActionListener {
 
 		// thong ke
 		else if (source.equals(itemThongKeHoaDon)) {
+			this.setVisible(false);
 			new ThongKeHoaDonNhanVien().setVisible(true);
 		}
 
@@ -376,13 +332,13 @@ public class ThemHoaDonNhanVien extends JFrame implements ActionListener {
 				writer.println("=========== HÓA ĐƠN ===========");
 				writer.println("Mã hóa đơn:     " + hoaDon.getMaHD());
 				writer.println("Ngày lập:       " + hoaDon.getNgayLapHD());
-				writer.println("Nhân viên:      " + hoaDon.getNv().getMaNV());
+				writer.println("Nhân viên:      " + hoaDon.getNv().getHoTen());
 				writer.println("--------------------------------");
 				writer.println("Sản phẩm:       " + chiTietHD.getSp().getMaSP());
 				writer.println("Số lượng:       " + chiTietHD.getSoLuong());
 				writer.println("Thành tiền:     " + chiTietHD.getThanhTien());
 				writer.println("--------------------------------");
-				writer.println("TỔNG TIỀN:      " + hoaDon.getTongTien());
+				writer.println("TỔNG TIỀN:      " + chiTietHD.getSoLuong() * chiTietHD.getThanhTien());
 				writer.println("================================");
 
 				JOptionPane.showMessageDialog(this, "Xuất hóa đơn thành công" + file.getAbsolutePath(), "Thông báo",
@@ -400,14 +356,16 @@ public class ThemHoaDonNhanVien extends JFrame implements ActionListener {
 
 	private void themHoaDon() {
 		String maHD = txtMaHD.getText();
-		String ngay = txtNgayLapHD.getText();
-		Date ngayLap = Date.valueOf(ngay);
-		int soLuong = Integer.parseInt(txtDonGia.getText());
+		String ngayLap = txtNgayLapHD.getText();
+		Date ngayLapHD = Date.valueOf(ngayLap);
+		String maKH = txtMaKH.getText();
+
+		int soLuong = Integer.parseInt(txtSoLuong.getText());
 		String maNV = txtMaNV.getText();
 		String maSP = txtSP.getText();
 		double donGia = Double.parseDouble(txtDonGia.getText());
 
-		HoaDon hoaDon = new HoaDon(maHD, new NhanVien(maNV), ngayLap);
+		HoaDon hoaDon = new HoaDon(maHD, new KhachHang(maKH), new NhanVien(maNV, null), ngayLapHD);
 		ChiTietHoaDon chiTietHD = new ChiTietHoaDon(hoaDon, new SanPham(maSP), soLuong, (long) (soLuong * donGia));
 
 		hoaDon.setTongTien(hoaDon.tongTien());
@@ -418,7 +376,6 @@ public class ThemHoaDonNhanVien extends JFrame implements ActionListener {
 		if (statusInsertHD && statusInsertCTHD) {
 			JOptionPane.showMessageDialog(this, "Hóa đơn đã được thêm thành công!", "Thông báo",
 					JOptionPane.INFORMATION_MESSAGE);
-			this.clear();
 		} else {
 			JOptionPane.showMessageDialog(this, "Thêm hóa đơn không thành công.", "Lỗi", JOptionPane.ERROR_MESSAGE);
 		}
@@ -434,4 +391,7 @@ public class ThemHoaDonNhanVien extends JFrame implements ActionListener {
 		txtMaHD.requestFocus();
 	}
 
+	public static void main(String[] args) {
+		new ThemHoaDonNhanVien().setVisible(true);
+	}
 }

@@ -27,8 +27,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import cua_hang_tien_loi.controller.ChiTietHoaDonController;
 import cua_hang_tien_loi.controller.HoaDonController;
 import cua_hang_tien_loi.controller.KhachHangController;
+import cua_hang_tien_loi.entity.ChiTietHoaDon;
 import cua_hang_tien_loi.entity.HoaDon;
 import cua_hang_tien_loi.entity.NhanVien;
 import cua_hang_tien_loi.utils.StyleUtils;
@@ -45,7 +47,6 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 	private JMenuItem itemTraCuuKH;
 	private JMenuItem itemTraCuuHD;
 	private JMenuItem itemThemHD;
-	private JMenuItem itemCapNhatHD;
 	private JMenuItem itemTraCuuNV;
 	private JMenuItem itemThemNV;
 	private JMenuItem itemCapNhatNV;
@@ -59,6 +60,7 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 	private JButton btnTim;
 	private JButton btnLamMoi;
 	private HoaDonController hdController;
+	private ChiTietHoaDonController cthdController;
 	private JComboBox<Object> cboMaHD;
 	private KhachHangController khController;
 	private JComboBox<Object> cboMaKH;
@@ -67,7 +69,7 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 	public TraCuuHoaDonQuanLy() {
 		this.hdController = new HoaDonController();
 		this.khController = new KhachHangController();
-	
+		this.cthdController = new ChiTietHoaDonController();
 		this.UITraCuuHoaDonQuanLy();
 	}
 
@@ -136,13 +138,11 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 		menuHoaDon.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/invoice.png"));
 		itemTraCuuHD = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
 		itemThemHD = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatHD = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuHoaDon.add(itemTraCuuHD);
 		menuHoaDon.addSeparator();
 		menuHoaDon.add(itemThemHD);
-		menuHoaDon.addSeparator();
-		menuHoaDon.add(itemCapNhatHD);
+		
 		menuBar.add(menuHoaDon);
 		menuBar.add(Box.createHorizontalStrut(25));
 
@@ -391,13 +391,14 @@ public class TraCuuHoaDonQuanLy extends JFrame implements ActionListener {
 		String ngayLap = txtNgayLap.getText();
 
 		List<HoaDon> ds = hdController.traCuuHoaDon(ten, maHD, maKH, ngayLap, tenNV, sdt);
-
+		ChiTietHoaDon cthd = cthdController.timChiTietTheoMa(maHD);
+		
 		modelTable.setRowCount(0);
 
 		// load du lieu len table
 		for (HoaDon hd : ds) {
 			Object[] row = { hd.getMaHD(), hd.getKh().getMaKH(), hd.getNgayLapHD(), hd.getKh().getTenKH(),
-					hd.getNv().getHoTen(), hd.getKh().getSdt(), hd.tongTien() };
+					hd.getNv().getHoTen(), hd.getKh().getSdt(), cthd.getThanhTien() * cthd.getSoLuong() };
 			modelTable.addRow(row);
 		}
 	}

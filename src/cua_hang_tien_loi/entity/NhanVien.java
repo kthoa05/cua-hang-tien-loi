@@ -67,9 +67,15 @@ public class NhanVien {
 		this.trangThaiLamViec = trangThaiLamViec;
 	}
 
-	public NhanVien(String maNV) {
+	public NhanVien(String hoTen) {
 		super();
-		this.maNV = maNV;
+		this.hoTen = hoTen;
+	}
+
+
+	public NhanVien(String maNV2, Object hoTen2) {
+		// TODO Auto-generated constructor stub
+		this.maNV = maNV2;
 	}
 
 	public String getImgPath() {

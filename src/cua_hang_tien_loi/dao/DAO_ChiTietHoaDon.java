@@ -15,8 +15,15 @@ import cua_hang_tien_loi.entity.HoaDon;
 import cua_hang_tien_loi.entity.SanPham;
 
 public class DAO_ChiTietHoaDon {
+	private HoaDonController hoaDonController;
 	private HoaDonController hdController;
-	private SanPhamController spController = new SanPhamController();
+	private SanPhamController spController;
+
+	public DAO_ChiTietHoaDon() {
+		this.hoaDonController = new HoaDonController();
+		this.spController = new SanPhamController();
+		this.hdController = new HoaDonController();
+	}
 
 	// get cthd by mahd
 	public ChiTietHoaDon getChiTietHoaDonById(String maHD) {
@@ -47,43 +54,37 @@ public class DAO_ChiTietHoaDon {
 		return chiTietHoaDon;
 	}
 
+	
 	public ArrayList<ChiTietHoaDon> getAllCTHDByHoaDon(HoaDon hoaDon) {
-	    ArrayList<ChiTietHoaDon> listChiTietHoaDon = new ArrayList<>();
-	    ConnectDB.getInstance();
-	    Connection conn = null;
-	    PreparedStatement stmt = null;
-	    ResultSet rs = null;
+		ArrayList<ChiTietHoaDon> listChiTietHoaDon = new ArrayList<>();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 
-	    try {
-	        conn = ConnectDB.getConnection();
-	        String sql = "SELECT * FROM ChiTietHoaDon WHERE maHD = ?";
-	        stmt = conn.prepareStatement(sql);
-	        stmt.setString(1, hoaDon.getMaHD());
-	        rs = stmt.executeQuery();
+		try {
+			conn = ConnectDB.getConnection();
+			if (conn == null || conn.isClosed()) {
+				conn = ConnectDB.getConnection();
+			}
 
-	        while (rs.next()) {
-	            SanPham sanPham = spController.getById(rs.getString("maSP")); // Lấy sản phẩm
-	            int soLuong = rs.getInt("soLuong");
-	            long thanhTien = rs.getLong("thanhTien");
+			String sql = "SELECT * FROM ChiTietHoaDon WHERE maHD = ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, hoaDon.getMaHD());
+			rs = stmt.executeQuery();
 
-	            ChiTietHoaDon cthd = new ChiTietHoaDon(hoaDon, sanPham, soLuong, thanhTien);
-	            listChiTietHoaDon.add(cthd);
-	        }
-	    } catch (SQLException ex) {
-	        ex.printStackTrace();
-	    } finally {
-	        try {
-	            if (rs != null) rs.close();
-	            if (stmt != null) stmt.close();
-	            if (conn != null) conn.close();
-	        } catch (SQLException ex) {
-	            ex.printStackTrace();
-	        }
-	    }
+			while (rs.next()) {
+				SanPham sanPham = spController.getById(rs.getString("maSP"));
+				int soLuong = rs.getInt("soLuong");
+				long thanhTien = rs.getLong("thanhTien");
 
-	    return listChiTietHoaDon;
+				ChiTietHoaDon cthd = new ChiTietHoaDon(hoaDon, sanPham, soLuong, thanhTien);
+				listChiTietHoaDon.add(cthd);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return listChiTietHoaDon;
 	}
-
 
 	// add cthd
 	public boolean addChiTietHoaDon(ChiTietHoaDon chiTietHoaDon) {
@@ -92,8 +93,8 @@ public class DAO_ChiTietHoaDon {
 		try {
 			String sql = "INSERT INTO ChiTietHoaDon (maHD, maSP, soLuong, thanhTien) VALUES (?, ?, ?, ?)";
 			PreparedStatement stmt = conn.prepareCall(sql);
-			stmt.setString(1, chiTietHoaDon.getSp().getMaSP());
-			stmt.setString(2, chiTietHoaDon.getHd().getMaHD());
+			stmt.setString(1, chiTietHoaDon.getHd().getMaHD());
+			stmt.setString(2, chiTietHoaDon.getSp().getMaSP());
 			stmt.setInt(3, chiTietHoaDon.getSoLuong());
 			stmt.setDouble(4, chiTietHoaDon.getThanhTien());
 

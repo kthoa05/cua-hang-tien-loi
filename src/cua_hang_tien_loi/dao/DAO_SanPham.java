@@ -18,7 +18,7 @@ public class DAO_SanPham {
 	private Connection Connection;
 
 	// get img NV for tim kiem o CapNhatSP:
-	public String getImg(String maSP,String tenSP, String loaiSP, String ttkdStatus) {
+	public String getImg(String maSP, String tenSP, String loaiSP, String ttkdStatus) {
 		ConnectDB.getInstance();
 		Connection conn = ConnectDB.getConnection();
 		String sql = "SELECT imgPath FROM SanPham WHERE maSP = ? AND tenSP = ? AND loaiSP = ? AND ttkd = ?";
@@ -90,9 +90,8 @@ public class DAO_SanPham {
 			String sql = "INSERT INTO SanPham (imgPath, tenSP, loaiSP, ttkd, donGia, chatLieu, maSP) VALUES (?, ?, ?, ?, ?, ?, ?)";
 			try (PreparedStatement s = conn.prepareStatement(sql)) {
 				String imgPath = sp.getImgPath();
-				// System.out.println("Giá trị imgPath trước khi thêm: " + imgPath);
 				if (imgPath == null || imgPath.isEmpty()) {
-					imgPath = "default_image.jpg"; // Thiết lập giá trị mặc định nếu imgPath bị null hoặc rỗng
+					imgPath = "default_image.jpg";
 				}
 
 				s.setString(1, imgPath);
@@ -124,10 +123,6 @@ public class DAO_SanPham {
 		PreparedStatement s = null;
 		try {
 			conn.setAutoCommit(false);
-
-			// Ghi log để kiểm tra giá trị trước khi cập nhật
-			System.out.println("Cập nhật sản phẩm: " + sp.getMaSP());
-			System.out.println("TTKD: " + (sp.isTTKD() ? "Không kinh doanh" : "Kinh doanh"));
 			s = conn.prepareStatement(sql);
 			s.setString(1, sp.getTenSP());
 			s.setString(2, sp.getLoaiSP());
@@ -135,18 +130,17 @@ public class DAO_SanPham {
 			s.setString(3, ttkdStr);
 			s.setDouble(4, sp.getDonGia());
 			s.setString(5, sp.getChatLieu());
-			String imgPath = sp.getImgPath() != null ? sp.getImgPath() : "default_image.jpg"; // Nếu null, dùng chuỗi
-																								// rỗng
+			String imgPath = sp.getImgPath() != null ? sp.getImgPath() : "default_image.jpg"; 
 			s.setString(6, imgPath);
 			s.setString(7, sp.getMaSP());
 
 			int affectedRows = s.executeUpdate();
 			if (affectedRows > 0) {
-				conn.commit(); // Cam kết thay đổi
+				conn.commit(); 
 				System.out.println("Cập nhật thành công!");
 				return true;
 			} else {
-				conn.rollback(); // Quay lại nếu không có dòng nào bị ảnh hưởng
+				conn.rollback();
 				System.out.println("Không có dòng nào bị ảnh hưởng, rollback.");
 			}
 		} catch (SQLException e) {
@@ -160,16 +154,15 @@ public class DAO_SanPham {
 			}
 			e.printStackTrace();
 		} finally {
-			// Đặt lại chế độ auto-commit cho kết nối
 			try {
 				if (conn != null) {
-					conn.setAutoCommit(true); // Đặt lại chế độ auto-commit về true
+					conn.setAutoCommit(true); 
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		return false; // Cập nhật thất bại
+		return false; 
 	}
 
 	// get for TraCuuSanPham dua tren 4 field masp, tensp, loai, ttkd

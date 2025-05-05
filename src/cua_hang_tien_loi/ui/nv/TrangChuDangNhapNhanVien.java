@@ -53,7 +53,7 @@ public class TrangChuDangNhapNhanVien extends JFrame implements ActionListener {
 
 	private void UITrangChuDangNhapNhanVien() {
 		setTitle("Quản lý cửa hàng tiện lợi - Trang chủ");
-		setSize(1000, 600);
+		setSize(1600, 900);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -101,13 +101,10 @@ public class TrangChuDangNhapNhanVien extends JFrame implements ActionListener {
 		menuHoaDon.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/invoice.png"));
 		itemTraCuuHD = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
 		itemThemHD = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatHD = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuHoaDon.add(itemTraCuuHD);
 		menuHoaDon.addSeparator();
 		menuHoaDon.add(itemThemHD);
-		menuHoaDon.addSeparator();
-		menuHoaDon.add(itemCapNhatHD);
 		menuBar.add(menuHoaDon);
 		menuBar.add(Box.createHorizontalStrut(25));
 
@@ -180,7 +177,7 @@ public class TrangChuDangNhapNhanVien extends JFrame implements ActionListener {
 		if (source.equals(itemTaiKhoan)) {
 			new ThongTinTaiKhoanNhanVien().setVisible(true);
 		} else if (source.equals(itemTroGiup)) {
-			SystemUtils.openFile("/Users/lethoa/Documents/giaykhamsuckhoe.pdf");
+			SystemUtils.openFile("C:/hd/BaoCaoHSK_Nhom18.docx");
 		} else if (source.equals(itemDangXuat)) {
 			SystemUtils.dangXuat(this);
 		}
@@ -212,16 +209,4 @@ public class TrangChuDangNhapNhanVien extends JFrame implements ActionListener {
 		}
 	}
 
-	private void thongTinTaiKhoan() {
-		new ThongTinTaiKhoanNhanVien().setVisible(true);
-	}
-
-	private void dangXuat() {
-		int choice = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Thông báo",
-				JOptionPane.YES_NO_OPTION);
-		if (choice == JOptionPane.YES_OPTION) {
-			this.setVisible(false);
-			new DangNhap().setVisible(true);
-		}
-	}
 }

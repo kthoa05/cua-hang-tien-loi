@@ -46,7 +46,6 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 	private JMenuItem itemCapNhatKH;
 	private JMenuItem itemTraCuuHD;
 	private JMenuItem itemThemHD;
-	private JMenuItem itemCapNhatHD;
 	private JMenuItem itemTraCuuNV;
 	private JMenuItem itemThemNV;
 	private JMenuItem itemCapNhatNV;
@@ -75,8 +74,8 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 
 	// giao dien
 	private void UIThemNhanVien() {
-		setTitle("Quản lý cửa hàng tiện lợi - Trang chủ");
-		setSize(1000, 750);
+		setTitle("Quản lý cửa hàng tiện lợi - Thêm nhân viên");
+		setSize(1000, 500);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -145,13 +144,10 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		menuHoaDon.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/invoice.png"));
 		itemTraCuuHD = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
 		itemThemHD = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatHD = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuHoaDon.add(itemTraCuuHD);
 		menuHoaDon.addSeparator();
 		menuHoaDon.add(itemThemHD);
-		menuHoaDon.addSeparator();
-		menuHoaDon.add(itemCapNhatHD);
 		menuBar.add(menuHoaDon);
 		menuBar.add(Box.createHorizontalStrut(25));
 
@@ -198,6 +194,7 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		// left of cen
 		JPanel pnLeftOfCen = new JPanel();
 		pnLeftOfCen.setLayout(new BorderLayout());
+		pnLeftOfCen.setPreferredSize(new Dimension(200, 100));
 
 		lblImage = new JLabel("Ảnh chưa chọn", JLabel.CENTER);
 		lblImage.setPreferredSize(new Dimension(100, 100));
@@ -211,117 +208,106 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 
 		// form input
 		JPanel pnFormOfCen = new JPanel();
-		pnFormOfCen.setLayout(new BoxLayout(pnFormOfCen, BoxLayout.Y_AXIS));
 		pnFormOfCen.setBorder(BorderFactory.createTitledBorder("Thông tin nhân viên"));
-
+		
+		JPanel pn = new JPanel();
+		pn.setLayout(new BoxLayout(pn, BoxLayout.Y_AXIS));
+		pnFormOfCen.add(pn);
 		// ma nv
 		JPanel pnMaNV = new JPanel();
-		pnMaNV.setLayout(new FlowLayout(FlowLayout.LEFT));
+		pnMaNV.setLayout(new BoxLayout(pnMaNV, BoxLayout.X_AXIS));
 
 		JLabel lblMaNV = StyleUtils.createLabel2("Mã nhân viên:", 100, 80);
-		txtMaNV = StyleUtils.createTextField(250, 80, 300, 30);
-
-		pnMaNV.add(lblMaNV);
-		pnMaNV.add(txtMaNV);
-
-		pnFormOfCen.add(pnMaNV);
-
-		// ho ten gioi tinh
-		JPanel pnHoTenGT = new JPanel();
-		pnHoTenGT.setLayout(new FlowLayout(FlowLayout.LEFT));
-
-		// ho ten
+		txtMaNV = new JTextField(25);
 		JLabel lblHoTen = StyleUtils.createLabel2("Họ tên:", 100, 130);
-		txtHoTen = StyleUtils.createTextField(250, 130, 300, 30);
+		txtHoTen = new JTextField(25);
+		
+		pnMaNV.add(lblHoTen);
+		pnMaNV.add(Box.createHorizontalStrut(50));
+		pnMaNV.add(txtHoTen);
+		pnMaNV.add(Box.createHorizontalStrut(10));
+		pnMaNV.add(lblMaNV);
+		pnMaNV.add(Box.createHorizontalStrut(10));
+		pnMaNV.add(txtMaNV);
+		pn.add(Box.createVerticalStrut(10));
+		
+		pn.add(pnMaNV);
 
-		// gioi tinh
+		JPanel pn1 = new JPanel();
+		pn1.setLayout(new BoxLayout(pn1, BoxLayout.X_AXIS));
 		JLabel lblGioiTinh = StyleUtils.createLabel2("Giới tính:", 100, 180);
 		cbboGt = new JComboBox<>();
 		for (String gt : nvController.getPhai()) {
 			cbboGt.addItem(gt);
 		}
-
-		// add ho ten gt vo pn
-		pnHoTenGT.add(lblHoTen);
-		pnHoTenGT.add(txtHoTen);
-		pnHoTenGT.add(lblGioiTinh);
-		pnHoTenGT.add(cbboGt);
-
-		pnFormOfCen.add(pnHoTenGT);
-
-		// ngay sinh
-		JPanel pnNgaySinh = new JPanel();
-		pnNgaySinh.setLayout(new FlowLayout(FlowLayout.LEFT));
-
+		cbboGt.setPreferredSize(new Dimension(252, 25));
 		JLabel lblNgaySinh = StyleUtils.createLabel2("Ngày sinh:", 100, 230);
-		txtNgaySinh = StyleUtils.createTextField(250, 230, 300, 30);
-
-		pnNgaySinh.add(lblNgaySinh);
-		pnNgaySinh.add(txtNgaySinh);
-
-		pnFormOfCen.add(pnNgaySinh);
-
-		// so dien thoai
-		JPanel pnSDT = new JPanel();
-		pnSDT.setLayout(new FlowLayout(FlowLayout.LEFT));
+		txtNgaySinh = new JTextField(25);
+		
+		pn1.add(lblGioiTinh);
+		pn1.add(Box.createHorizontalStrut(40));
+		pn1.add(cbboGt);
+		pn1.add(Box.createHorizontalStrut(10));
+		pn1.add(lblNgaySinh);
+		pn1.add(Box.createHorizontalStrut(36));
+		pn1.add(txtNgaySinh);
+		pn.add(Box.createVerticalStrut(10));
+		pn.add(pn1);
+		
+		JPanel pn2 = new JPanel();
+		pn2.setLayout(new BoxLayout(pn2, BoxLayout.X_AXIS));
 
 		JLabel lblSdt = StyleUtils.createLabel2("Số điện thoại:", 100, 280);
-		txtSdt = StyleUtils.createTextField(250, 280, 300, 30);
+		txtSdt = new JTextField(25);
 
-		pnSDT.add(lblSdt);
-		pnSDT.add(txtSdt);
-
-		pnFormOfCen.add(pnSDT);
-
-		// email
-		JPanel pnEmail = new JPanel();
-		pnEmail.setLayout(new FlowLayout(FlowLayout.LEFT));
 
 		JLabel lblEmail = StyleUtils.createLabel2("Email:", 100, 330);
-		txtEmail = StyleUtils.createTextField(250, 330, 300, 30);
+		txtEmail = new JTextField(25);
 
-		pnEmail.add(lblEmail);
-		pnEmail.add(txtEmail);
+		pn2.add(lblSdt);
+		pn2.add(Box.createHorizontalStrut(5));
+		pn2.add(txtSdt);
+		pn2.add(Box.createHorizontalStrut(10));
+		pn2.add(lblEmail);
+		pn2.add(Box.createHorizontalStrut(60));
+		pn.add(Box.createVerticalStrut(10));
+		pn2.add(txtEmail);
 
-		pnFormOfCen.add(pnEmail);
-
-		// cmnd
-		JPanel pnCmnd = new JPanel();
-		pnCmnd.setLayout(new FlowLayout(FlowLayout.LEFT));
+		pn.add(pn2);
+		
+		JPanel pn3 = new JPanel();
+		pn3.setLayout(new BoxLayout(pn3, BoxLayout.X_AXIS));
 
 		JLabel lblCmnd = StyleUtils.createLabel2("CCCD:", 100, 330);
-		txtCmnd = StyleUtils.createTextField(250, 330, 300, 30);
-
-		pnCmnd.add(lblCmnd);
-		pnCmnd.add(txtCmnd);
-
-		pnFormOfCen.add(pnCmnd);
-
-		// mat khau
-		JPanel pnMatKhau = new JPanel();
-		pnMatKhau.setLayout(new FlowLayout(FlowLayout.LEFT));
-
+		txtCmnd = new JTextField(25);
 		JLabel lblMatKhau = StyleUtils.createLabel2("Mật khẩu:", 100, 330);
-		txtMatKhau = StyleUtils.createTextField(250, 330, 300, 30);
-
-		pnMatKhau.add(lblMatKhau);
-		pnMatKhau.add(txtMatKhau);
-
-		pnFormOfCen.add(pnMatKhau);
-
-		pnCen.add(pnFormOfCen, BorderLayout.CENTER);
-
-		// btn
-		JPanel pnBtn = new JPanel();
-		pnBtn.setLayout(new FlowLayout(FlowLayout.LEFT));
-
+		txtMatKhau = new JTextField(25);
+		pn3.add(lblCmnd);
+		pn3.add(Box.createHorizontalStrut(60));
+		pn3.add(txtCmnd);
+		pn3.add(Box.createHorizontalStrut(10));
+		pn3.add(lblMatKhau);
+		pn3.add(Box.createHorizontalStrut(30));
+		pn3.add(txtMatKhau);
+		pn.add(Box.createVerticalStrut(10));
+		pn.add(pn3);
+		
+		JPanel pn4 = new JPanel();
+		pn4.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		btnLamMoi = new JButton("Làm mới", new ImageIcon("src/cua_hang_tien_loi/icon/lammoi.png"));
 		btnThem = new JButton("Thêm", new ImageIcon("src/cua_hang_tien_loi/icon/add.png"));
 
-		pnBtn.add(btnLamMoi);
-		pnBtn.add(btnThem);
+		pn4.add(btnLamMoi);
+		pn4.add(Box.createHorizontalStrut(10));
+		pn4.add(btnThem);
+		pn.add(Box.createVerticalStrut(10));
+		pn.add(pn4);
 
-		pnCen.add(pnBtn, BorderLayout.SOUTH);
+
+
+		pnCen.add(pnFormOfCen, BorderLayout.CENTER);
+
+		
 		pnMain.add(pnCen, BorderLayout.CENTER);
 
 		add(pnMain);
@@ -436,7 +422,6 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 			this.clearTxtField();
 		} else if (source.equals(btnThem)) {
 			this.themNhanVien();
-			this.clearTxtField();
 		}
 	}
 
@@ -485,5 +470,7 @@ public class ThemNhanVien extends JFrame implements ActionListener {
 		txtEmail.setText("");
 		txtCmnd.setText("");
 		txtMatKhau.setText("");
+		txtMaNV.setText("");
+		txtHoTen.requestFocus();
 	}
 }

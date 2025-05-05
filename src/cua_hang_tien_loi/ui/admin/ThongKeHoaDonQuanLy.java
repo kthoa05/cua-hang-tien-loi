@@ -42,7 +42,6 @@ public class ThongKeHoaDonQuanLy extends JFrame implements ActionListener {
 	private JMenuItem itemCapNhatKH;
 	private JMenuItem itemTraCuuHD;
 	private JMenuItem itemThemHD;
-	private JMenuItem itemCapNhatHD;
 	private JMenuItem itemTraCuuNV;
 	private JMenuItem itemThemNV;
 	private JMenuItem itemCapNhatNV;
@@ -65,7 +64,7 @@ public class ThongKeHoaDonQuanLy extends JFrame implements ActionListener {
 	// giao dien
 
 	private void initUIThemHoaDon() {
-		setTitle("Quản lý cửa hàng tiện lợi - Trang chủ");
+		setTitle("Quản lý cửa hàng tiện lợi - Thống kê hóa đơn");
 		setSize(1000, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -133,13 +132,10 @@ public class ThongKeHoaDonQuanLy extends JFrame implements ActionListener {
 		menuHoaDon.setIcon(new ImageIcon("src/cua_hang_tien_loi/icon/invoice.png"));
 		itemTraCuuHD = StyleUtils.createItemMenu("Tra cứu", "src/cua_hang_tien_loi/icon/search.png");
 		itemThemHD = StyleUtils.createItemMenu("Thêm", "src/cua_hang_tien_loi/icon/add.png");
-		itemCapNhatHD = StyleUtils.createItemMenu("Cập nhật", "src/cua_hang_tien_loi/icon/edit.png");
 
 		menuHoaDon.add(itemTraCuuHD);
 		menuHoaDon.addSeparator();
 		menuHoaDon.add(itemThemHD);
-		menuHoaDon.addSeparator();
-		menuHoaDon.add(itemCapNhatHD);
 		menuBar.add(menuHoaDon);
 		menuBar.add(Box.createHorizontalStrut(25));
 
@@ -197,11 +193,9 @@ public class ThongKeHoaDonQuanLy extends JFrame implements ActionListener {
 		pn1.setLayout(new BoxLayout(pn1, BoxLayout.X_AXIS));
 		JLabel lblNgay = new JLabel("Thời gian thống kê:");
 		cboNgay = new JComboBox<>();
-	for (int ngay : hdController.getNgay()) {
+		for (int ngay : hdController.getNgay()) {
 			cboNgay.addItem(ngay);
 		}
-
-
 
 		cboNgay.setPreferredSize(new Dimension(220, 25));
 		JLabel lblThang = new JLabel("Tháng:");
@@ -210,7 +204,6 @@ public class ThongKeHoaDonQuanLy extends JFrame implements ActionListener {
 			cboThang.addItem(thang);
 		}
 
-
 		cboThang.setPreferredSize(new Dimension(220, 25));
 		JLabel lblNam = new JLabel("Năm:");
 		cboNam = new JComboBox<>();
@@ -218,8 +211,6 @@ public class ThongKeHoaDonQuanLy extends JFrame implements ActionListener {
 			cboNam.addItem(nam);
 		}
 
-
-		
 		cboNam.setPreferredSize(new Dimension(220, 25));
 		pn1.add(lblNgay);
 		pn1.add(Box.createHorizontalStrut(10));
@@ -254,7 +245,7 @@ public class ThongKeHoaDonQuanLy extends JFrame implements ActionListener {
 		table = new JTable(modelTable);
 		JScrollPane scroll = new JScrollPane(table);
 
-		scroll.setPreferredSize(new Dimension(1000, 340));
+		scroll.setPreferredSize(new Dimension(990, 340));
 		pnSouth.add(scroll);
 
 		pnMain.add(pnSouth, BorderLayout.SOUTH);
@@ -368,41 +359,36 @@ public class ThongKeHoaDonQuanLy extends JFrame implements ActionListener {
 			this.clear();
 		} else if (source.equals(btnThongKe)) {
 			this.thongKe();
-			this.clear();
 		}
 	}
 
 	private void thongKe() {
-	    Object ngayObj = cboNgay.getSelectedItem();
-	    Object thangObj = cboThang.getSelectedItem();
-	    Object namObj = cboNam.getSelectedItem();
+		String ngay = cboNgay.getSelectedItem().toString();
+		String thang = cboThang.getSelectedItem().toString();
+		String nam = cboNam.getSelectedItem().toString();
 
-	    if (ngayObj == null || thangObj == null || namObj == null) {
-	        // Hiển thị thông báo lỗi hoặc xử lý khi không có mục nào được chọn
-	        JOptionPane.showMessageDialog(this, "Vui lòng chọn đầy đủ ngày, tháng và năm.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-	        return;
-	    }
+		int ngayInt = Integer.parseInt(ngay);
+		int thangInt = Integer.parseInt(thang);
+		int namInt = Integer.parseInt(nam);
 
-	    String ngay = ngayObj.toString();
-	    String thang = thangObj.toString();
-	    String nam = namObj.toString();
+//		"Mã HD", "Ngày lập HD", "Số lượng", "Mã NV", "Mã SP", "Đơn giá";
+		List<Object[]> ketQuaThongKe = hdController.thongKeHoaDon(ngayInt, thangInt, namInt);
 
-	    int ngayInt = Integer.parseInt(ngay);
-	    int thangInt = Integer.parseInt(thang);
-	    int namInt = Integer.parseInt(nam);
+//		System.out.println("Số dòng tìm được: " + ketQuaThongKe.size());
 
-	    List<Object[]> ketQuaThongKe = hdController.thongKeHoaDon(ngayInt, thangInt, namInt);
-	    modelTable.setRowCount(0);
-	    for (Object[] row : ketQuaThongKe) {
-	        modelTable.addRow(row);
-	    }
+		modelTable.setRowCount(0);
+
+		// load du lieu len table
+		for (Object[] row : ketQuaThongKe) {
+			modelTable.addRow(row);
+		}
 	}
-
 
 	private void clear() {
 		cboNgay.setSelectedIndex(0);
 		cboThang.setSelectedIndex(0);
 		cboNam.setSelectedIndex(0);
+		modelTable.setRowCount(0);
 	}
-	
+
 }

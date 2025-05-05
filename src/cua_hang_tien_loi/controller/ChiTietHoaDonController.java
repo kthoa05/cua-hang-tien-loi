@@ -7,6 +7,11 @@ public class ChiTietHoaDonController {
 
 	private DAO_ChiTietHoaDon daoCTHD;
 
+	public ChiTietHoaDonController() {
+		super();
+		this.daoCTHD = new DAO_ChiTietHoaDon();
+	}
+
 	// insert hd
 	public boolean themCTHD(ChiTietHoaDon cthd) {
 		return daoCTHD.addChiTietHoaDon(cthd);
